@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.table-main {
+    @apply min-w-full border divide-y divide-gray-200 text-gray-600 rounded-lg overflow-hidden shadow-sm;
+}
+
+.thead-main {
+    @apply rounded-t-lg text-gray-700 bg-gray-200;
+}
+
+.tr-main {
+    @apply text-left dark:border-gray-500;
+}
+
+.tbody-main tr:nth-child(even) td {
+    @apply bg-gray-50 border-gray-200;
+}
+
+.tbody-main tr:nth-child(odd) td {
+    @apply bg-white border-gray-200;
+}
+
+.btn-biru {
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-blue-500  hover:bg-blue-600 hover:shadow-md transition duration-200 ease-in-out;
+}
+
+.btn-cyan {
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-cyan-500 hover:bg-cyan-600 hover:shadow-md transition duration-200 ease-in-out;
+}
+
+.btn-hijau {
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-green-500 hover:bg-green-600 hover:shadow-md transition duration-200 ease-in-out;
+}
+
+.btn-kuning {
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-yellow-500 hover:bg-yellow-600 hover:shadow-md transition duration-200 ease-in-out;
+}
+
+.btn-orange {
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-orange-500 hover:bg-orange-600 hover:shadow-md transition duration-200 ease-in-out;
+}
+
+.btn-merah {
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-red-500 hover:bg-red-600 hover:shadow-md transition duration-200 ease-in-out;
+}
+
+.paginate_button {
+    @apply rounded-md hover:bg-gray-100  !important;
+}
+
+.paginate_button.current {
+    @apply bg-gray-200 rounded-md !important;
+}
