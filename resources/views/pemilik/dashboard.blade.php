@@ -51,7 +51,7 @@
                                     </td>
                                     <td class="py-3 px-4 text-sm text-gray-600">{{ $barang->nama_barang }}</td>
                                     <td class="py-3 px-4 text-sm text-gray-600">
-                                        {{ $barang->kategori->nama_kategori ?? '-' }}</td>
+                                        {{ $barang->kategori->nama ?? '-' }}</td>
                                     <td class="py-3 px-4 text-sm text-gray-600">{{ $barang->stok }}</td>
                                     <td class="py-3 px-4 text-sm text-gray-600">Rp
                                         {{ number_format($barang->harga_beli, 0, ',', '.') }}</td>

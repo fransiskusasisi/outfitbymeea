@@ -12,9 +12,8 @@
 
         <!-- Tombol Tambah -->
         <div class="flex justify-end mb-4">
-            <a href="{{ route('kategori.create') }}"
-                class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg text-sm font-semibold shadow transition">
-                + Tambah Kategori
+            <a href="{{ route('kategori.create') }}" class="btn-ungu">
+                @include('icons.add-icon') Tambah Kategori
             </a>
         </div>
 
@@ -33,9 +32,22 @@
                 </table>
             </div>
         </div>
-
     </div>
 @endsection
+
+@if (session('berhasil'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                text: "{{ session('berhasil') }}",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        });
+    </script>
+@endif
 
 @push('scripts')
     <script>

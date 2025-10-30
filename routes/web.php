@@ -6,12 +6,13 @@ use Illuminate\Support\Facades\Route;
 // 🧭 CONTROLLER IMPORTS
 // =============================
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Master\BarangkuController;
+// use App\Http\Controllers\Master\BarangkuController;
 use App\Http\Controllers\Master\KategoriController;
 use App\Http\Controllers\Master\JenisBarangController;
 use App\Http\Controllers\Transaksi\BarangMasukController;
 use App\Http\Controllers\Transaksi\BarangKeluarController;
 use App\Http\Controllers\Laporan\LaporanController;
+use App\Http\Controllers\Master\BarangController;
 use App\Http\Controllers\Pemilik\PemilikController; // ← TAMBAH INI
 
 /*
@@ -28,7 +29,7 @@ use App\Http\Controllers\Pemilik\PemilikController; // ← TAMBAH INI
 
 // Halaman awal → redirect ke login
 Route::get('/', fn() => redirect('/login'));
-Route::resource('barang', BarangkuController::class);
+// Route::resource('barang', BarangkuController::class);
 
 // Login & Logout
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -47,14 +48,15 @@ Route::middleware(['role:pemilik'])->group(function () {
 
     // ---------- Data Master ----------
     // Barang
-    Route::prefix('pemilik/barang')->group(function () {
-        Route::get('/', [BarangkuController::class, 'index'])->name('barang.index');
+    Route::prefix('pemilik')->group(function () {
+        // Route::get('/', [BarangkuController::class, 'index'])->name('barang.index');
         // Route::get('/create', [BarangCrudController::class, 'create'])->name('barang.create');
         // Route::post('/', [BarangCrudController::class, 'store'])->name('barang.store');
         // Route::get('/{id}/edit', [BarangCrudController::class, 'edit'])->name('barang.edit');
         // Route::put('/{id}', [BarangCrudController::class, 'update'])->name('barang.update');
         // Route::delete('/{id}', [BarangCrudController::class, 'destroy'])->name('barang.destroy');
-        Route::resource('barangku', BarangkuController::class);
+        // Route::resource('barangku', BarangkuController::class);
+        Route::resource('barang', BarangController::class);
     });
 
     // Kategori

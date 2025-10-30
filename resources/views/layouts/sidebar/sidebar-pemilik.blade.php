@@ -15,8 +15,7 @@
         <!-- Dashboard -->
         <a href="{{ route('pemilik.dashboard') }}"
             class="sidebar-menu block px-4 py-2 rounded hover:bg-purple-600 transition-colors">
-            <i class="fa fa-home mr-2"></i> Dashboard abcdefghij
-
+            <i class="fa fa-home mr-2"></i> Dashboard
         </a>
 
         <!-- Data Master -->
