@@ -23,39 +23,39 @@
 }
 
 .btn-biru {
-    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-blue-500  hover:bg-blue-600 hover:shadow-md transition duration-200 ease-in-out;
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-blue-500  hover:bg-blue-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
 }
 
 .btn-ungu {
-    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-purple-500  hover:bg-purple-600 hover:shadow-md transition duration-200 ease-in-out;
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-purple-500  hover:bg-purple-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
 }
 
 .btn-cyan {
-    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-cyan-500 hover:bg-cyan-600 hover:shadow-md transition duration-200 ease-in-out;
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-cyan-500 hover:bg-cyan-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
 }
 
 .btn-hijau {
-    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-green-500 hover:bg-green-600 hover:shadow-md transition duration-200 ease-in-out;
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-green-500 hover:bg-green-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
 }
 
 .btn-kuning {
-    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-amber-500 hover:bg-amber-600 hover:shadow-md transition duration-200 ease-in-out;
-}
-
-.btn-edit {
-    @apply text-amber-500 px-4 py-2 rounded-full transition-all duration-300 hover:bg-yellow-100 hover:shadow-sm;
-}
-
-.btn-hapus {
-    @apply text-rose-600 px-4 py-2 rounded-full transition-all duration-300 hover:bg-rose-100 hover:shadow-sm;
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-amber-500 hover:bg-amber-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
 }
 
 .btn-orange {
-    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-orange-500 hover:bg-orange-600 hover:shadow-md transition duration-200 ease-in-out;
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-orange-500 hover:bg-orange-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
 }
 
 .btn-merah {
-    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-red-500 hover:bg-red-600 hover:shadow-md transition duration-200 ease-in-out;
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-pink-500 hover:bg-pink-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
+}
+
+.btn-indigo {
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-indigo-500 hover:bg-indigo-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
+}
+
+.btn-cetak {
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-red-500 hover:bg-red-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
 }
 
 .paginate_button {
@@ -67,13 +67,13 @@
 }
 
 .form-input {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600;
+    @apply w-full px-4 py-2 text-sm border border-gray-300 text-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600;
 }
 
 .form-rupiah {
-    @apply text-gray-700  border border-r-0 border-gray-300 rounded-tl-lg rounded-bl-lg px-2 py-2 bg-gray-100;
+    @apply text-gray-700 text-sm border border-r-0 border-gray-300 rounded-tl-lg rounded-bl-lg px-2 py-2 bg-gray-100;
 }
 
 .form-input-harga {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-tr-lg rounded-br-lg focus:outline-none focus:ring-2 focus:ring-purple-600;
+    @apply w-full px-4 py-2 text-sm border border-gray-300 rounded-tr-lg rounded-br-lg focus:outline-none focus:ring-2 focus:ring-purple-600;
 }

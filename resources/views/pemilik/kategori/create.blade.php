@@ -24,7 +24,7 @@
                     </div>
                     <div class="flex justify-end">
                         <button type="submit" class="btn-ungu">
-                            Simpan Kategori
+                            @include('icons.save-icon')Simpan Kategori
                         </button>
                     </div>
                 </form>

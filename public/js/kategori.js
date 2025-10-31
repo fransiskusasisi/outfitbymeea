@@ -39,17 +39,6 @@ $(function () {
     });
 });
 
-function kategoriBerhasil(message) {
-    if (message) {
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            text: message,
-            showConfirmButton: false,
-            timer: 1500,
-        });
-    }
-}
 
 window.deleteKategori = function (id) {
     Swal.fire({

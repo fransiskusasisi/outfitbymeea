@@ -56,3 +56,19 @@ $(function () {
         },
     });
 });
+
+window.deleteBarang = function (id) {
+    Swal.fire({
+        text: "Apakah kamu yakin?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3B82F6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Hapus",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById("delete-form-" + id).submit();
+        }
+    });
+};

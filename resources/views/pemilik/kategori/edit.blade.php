@@ -24,8 +24,8 @@
                             placeholder="Masukkan nama kategori" value="{{ $kategori->nama }}">
                     </div>
                     <div class="flex justify-end">
-                        <button type="submit" class="btn-ungu">
-                            Update Kategori
+                        <button type="submit" class="btn-indigo">
+                            @include('icons.update-icon')Update Kategori
                         </button>
                     </div>
                 </form>

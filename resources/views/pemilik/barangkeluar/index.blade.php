@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Data Barang Masuk')
+@section('title', 'Data Barang Keluar')
 @section('content')
     <div class="p-8 space-y-6 ">
         <!-- Judul Halaman -->
@@ -10,9 +10,8 @@
 
         <!-- Tombol Tambah -->
         <div class="flex justify-end mb-4">
-            <a href="{{ route('kategori.create') }}"
-                class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg text-sm font-semibold shadow transition">
-                + Tambah Barang Keluar
+            <a href="{{ route('barangkeluar.create') }}" class="btn-ungu">
+                @include('icons.add-icon')Tambah Barang Keluar
             </a>
         </div>
 
@@ -37,6 +36,20 @@
 
     </div>
 @endsection
+
+@if (session('berhasil'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                text: "{{ session('berhasil') }}",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        });
+    </script>
+@endif
 
 @push('scripts')
     <script>

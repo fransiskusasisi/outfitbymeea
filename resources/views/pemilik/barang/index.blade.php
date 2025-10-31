@@ -10,9 +10,8 @@
 
         <!-- Tombol Tambah -->
         <div class="flex justify-end mb-4">
-            <a href="{{ route('barang.create') }}"
-                class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg text-sm font-semibold shadow transition">
-                + Tambah Barang
+            <a href="{{ route('barang.create') }}" class="btn-ungu">
+                @include('icons.add-icon')Tambah Barang
             </a>
         </div>
 
@@ -40,6 +39,20 @@
 
     </div>
 @endsection
+
+@if (session('berhasil'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                text: "{{ session('berhasil') }}",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        });
+    </script>
+@endif
 
 @push('scripts')
     <script>

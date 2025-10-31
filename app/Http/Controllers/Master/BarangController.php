@@ -26,6 +26,9 @@ class BarangController extends Controller
                 ->editColumn('kategori_id', function ($row) {
                     return $row->kategori->nama;
                 })
+                ->editColumn('kondisi', function ($row) {
+                    return ucfirst($row->kondisi);
+                })
                 ->editColumn('harga_beli', function ($row) {
                     return formatRupiah($row->harga_beli);
                 })
@@ -35,7 +38,12 @@ class BarangController extends Controller
                 ->addColumn('action', function ($row) {
                     $btnEdit = '<div><a href="' . route('barang.edit', $row->barang_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
 
-                    $btnHapus = '<a href="#" class="btn-merah">Hapus</a>';
+                    $btnHapus = '<div><form id="delete-form-' . $row->barang_id . '" action="' . route('barang.destroy', $row->barang_id) . '" method="POST" style="display:inline;">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="button" onclick="deleteBarang(' . $row->barang_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</span>
+                    </button>
+                    </form></div>';
                     return  '<div class="flex space-x-2 justify-center">' .  $btnEdit . $btnHapus . '</div>';
                 })
                 ->rawColumns(['action'])
@@ -65,7 +73,31 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            'nama_barang' => 'required|string|max:255',
+            'kategori_id' => 'required|exists:kategori,kategori_id',
+            'ukuran' => 'required|string|max:50',
+            'harga_beli' => 'required|numeric|min:0',
+            'harga_jual' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+        ]);
+
+        $simpan = Barang::create([
+            'nama_barang' => $request->nama_barang,
+            'kategori_id' => $request->kategori_id,
+            'ukuran' => $request->ukuran,
+            'harga_beli' => $request->harga_beli,
+            'harga_jual' => $request->harga_jual,
+            'stok' => $request->stok,
+        ]);
+
+        if ($simpan) {
+            session()->flash('berhasil', 'Barang berhasil ditambahkan!');
+            return redirect()->route('barang.index');
+        } else {
+            return redirect()->back()->with('error', 'Gagal menambahkan barang!');
+        }
     }
 
     /**
@@ -87,7 +119,9 @@ class BarangController extends Controller
      */
     public function edit($id)
     {
-        //
+        $barang = Barang::findOrFail($id);
+        $kategori = Kategori::all();
+        return view('pemilik.barang.edit', compact('barang', 'kategori'));
     }
 
     /**
@@ -99,7 +133,31 @@ class BarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            'nama_barang' => 'required|string|max:255',
+            'kategori_id' => 'required|exists:kategori,kategori_id',
+            'ukuran' => 'required|string|max:50',
+            'harga_beli' => 'required|numeric|min:0',
+            'harga_jual' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+        ]);
+        $barang = Barang::findOrFail($id);
+        $update = $barang->update([
+            'nama_barang' => $request->nama_barang,
+            'kategori_id' => $request->kategori_id,
+            'ukuran' => $request->ukuran,
+            'harga_beli' => $request->harga_beli,
+            'harga_jual' => $request->harga_jual,
+            'stok' => $request->stok,
+        ]);
+
+        if ($update) {
+            session()->flash('berhasil', 'Barang berhasil diperbarui!');
+            return redirect()->route('barang.index');
+        } else {
+            return redirect()->back();
+        };
     }
 
     /**
@@ -110,6 +168,14 @@ class BarangController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $barang = Barang::findOrFail($id);
+        $hapus = $barang->delete();
+
+        if ($hapus) {
+            session()->flash('berhasil', 'Barang berhasil dihapus!');
+            return redirect()->route('barang.index');
+        } else {
+            return redirect()->back();
+        }
     }
 }

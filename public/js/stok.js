@@ -12,24 +12,20 @@ $(function () {
                 searchable: false,
             },
             {
-                data: "barang_id",
-                name: "barang_id",
+                data: "nama_barang",
+                name: "nama_barang",
             },
             {
-                data: "jumlah",
-                data: "jumlah",
+                data: "kategori_id",
+                data: "kategori_id",
             },
             {
-                data: "tanggal",
-                name: "tanggal",
+                data: "stok",
+                name: "stok",
             },
             {
-                data: "user_id",
-                name: "user_id",
-            },
-            {
-                data: "action",
-                name: "action",
+                data: "harga_jual",
+                name: "harga_jual",
             },
         ],
         language: {
@@ -44,19 +40,3 @@ $(function () {
         },
     });
 });
-
-window.deleteBarangMasuk = function (id) {
-    Swal.fire({
-        text: "Apakah kamu yakin?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3B82F6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Hapus",
-        cancelButtonText: "Batal",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById("delete-form-" + id).submit();
-        }
-    });
-};

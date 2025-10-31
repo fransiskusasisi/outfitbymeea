@@ -85,6 +85,9 @@ Route::middleware(['role:pemilik'])->group(function () {
         Route::get('/', [BarangMasukController::class, 'index'])->name('barangmasuk.index');
         Route::get('/create', [BarangMasukController::class, 'create'])->name('barangmasuk.create');
         Route::post('/', [BarangMasukController::class, 'store'])->name('barangmasuk.store');
+        Route::get('/{id}/edit', [BarangMasukController::class, 'edit'])->name('barangmasuk.edit');
+        Route::put('/{id}', [BarangMasukController::class, 'update'])->name('barangmasuk.update');
+        Route::delete('/{id}', [BarangMasukController::class, 'destroy'])->name('barangmasuk.destroy');
     });
 
     // Barang Keluar
@@ -92,6 +95,9 @@ Route::middleware(['role:pemilik'])->group(function () {
         Route::get('/', [BarangKeluarController::class, 'index'])->name('barangkeluar.index');
         Route::get('/create', [BarangKeluarController::class, 'create'])->name('barangkeluar.create');
         Route::post('/', [BarangKeluarController::class, 'store'])->name('barangkeluar.store');
+        Route::get('/{id}/edit', [BarangKeluarController::class, 'edit'])->name('barangkeluar.edit');
+        Route::put('/{id}', [BarangKeluarController::class, 'update'])->name('barangkeluar.update');
+        Route::delete('/{id}', [BarangKeluarController::class, 'destroy'])->name('barangkeluar.destroy');
     });
 
     // ---------- Laporan ----------
