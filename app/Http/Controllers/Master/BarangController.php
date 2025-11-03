@@ -18,8 +18,6 @@ class BarangController extends Controller
      */
     public function index(Request $request)
     {
-        $role = Auth::user()->role;
-
         if ($request->ajax()) {
             $data = DataTables::of(Barang::query()->orderBy('barang_id', 'desc'))
                 ->addIndexColumn()
@@ -39,16 +37,27 @@ class BarangController extends Controller
                     return formatRupiah($row->harga_jual);
                 });
 
-            if ($role === 'pemilik' || $role === 'kasir') {
+            if (role() === 'pemilik') {
                 $data->addColumn('action', function ($row) {
-                    $btnEdit = '<div><a href="' . route('barang.edit', $row->barang_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+                    $btnEdit = '<div><a href="' . route('pemilik.barang.edit', $row->barang_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+                    $btnHapus = '<div><form id="delete-form-' . $row->barang_id . '" action="' . route('pemilik.barang.destroy', $row->barang_id) . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . '
+                        ' . method_field('DELETE') . '
+                        <button type="button" onclick="deleteBarang(' . $row->barang_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</button>
+                        </form></div>';
+                    return '<div class="flex space-x-2 justify-center">' . $btnEdit . $btnHapus . '</div>';
+                });
+                $data->rawColumns(['action']);
+            }
 
-                    $btnHapus = '<div><form id="delete-form-' . $row->barang_id . '" action="' . route('barang.destroy', $row->barang_id) . '" method="POST" style="display:inline;">
-                    ' . csrf_field() . '
-                    ' . method_field('DELETE') . '
-                    <button type="button" onclick="deleteBarang(' . $row->barang_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</button>
-                    </form></div>';
-
+            if (role() === 'petugas_gudang') {
+                $data->addColumn('action', function ($row) {
+                    $btnEdit = '<div><a href="' . route('gudang.barang.edit', $row->barang_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+                    $btnHapus = '<div><form id="delete-form-' . $row->barang_id . '" action="' . route('gudang.barang.destroy', $row->barang_id) . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . '
+                        ' . method_field('DELETE') . '
+                        <button type="button" onclick="deleteBarang(' . $row->barang_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</button>
+                        </form></div>';
                     return '<div class="flex space-x-2 justify-center">' . $btnEdit . $btnHapus . '</div>';
                 });
                 $data->rawColumns(['action']);
@@ -56,7 +65,6 @@ class BarangController extends Controller
 
             return $data->toJson();
         }
-
         return view('pages.barang.index');
     }
 

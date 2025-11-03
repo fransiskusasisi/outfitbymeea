@@ -1,26 +1,30 @@
 $(function () {
+    const columns = [
+        {
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            className: "text-center",
+            orderable: false,
+            searchable: false,
+        },
+        {
+            data: "nama",
+            name: "nama",
+        },
+    ];
+
+    if (userRole !== "kasir") {
+        columns.push({
+            data: "action",
+            name: "action",
+        });
+    }
+
     $("#my-table").DataTable({
         processing: true,
         serverSide: true,
         ajax: indexUrl,
-        columns: [
-            {
-                data: "DT_RowIndex",
-                name: "DT_RowIndex",
-                className: "text-center",
-                orderable: false,
-                searchable: false,
-            },
-            {
-                data: "nama",
-                name: "nama",
-            },
-            {
-                data: "action",
-                name: "action",
-                className: "text-center space-x-2 flex justify-center",
-            },
-        ],
+        columns: columns,
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Cari kategori...",
@@ -31,14 +35,8 @@ $(function () {
                 next: "Berikutnya",
             },
         },
-        createdRow: function (row, data, dataIndex) {
-            // Reapply Tailwind styles if needed
-            $(row).addClass("border-b border-gray-200 text-sm text-gray-700");
-        },
-        stripeClasses: ["bg-white", "bg-gray-50"],
     });
 });
-
 
 window.deleteKategori = function (id) {
     Swal.fire({

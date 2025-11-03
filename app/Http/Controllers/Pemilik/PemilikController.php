@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Pemilik;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
+use App\Models\BarangKeluar;
 use App\Models\Barangku;
+use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 
 class PemilikController extends Controller
@@ -14,13 +16,16 @@ class PemilikController extends Controller
      */
     public function dashboard(Request $request)
     {
-        // Ambil semua data barang beserta kategori
-        $query = Barang::with('kategori');
+        // Ambil hanya 5 data barang beserta kategori
+        $stok = Barang::with('kategori')
+            ->latest('created_at')
+            ->take(5)
+            ->get();
 
-        // Urutkan berdasarkan 'created_at' (tanggal dibuat)
-        $barangs = $query->latest('created_at')->get();
+        $totalBarangMasuk = BarangMasuk::count();
+        $totalBarangKeluar = BarangKeluar::count();
 
         // Mengirim data ke view
-        return view('pages.dashboard', compact('barangs'));
+        return view('dashboard.pemilik', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar'));
     }
 }

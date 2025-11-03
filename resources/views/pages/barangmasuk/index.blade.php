@@ -9,11 +9,17 @@
         </div>
 
         <!-- Tombol Tambah -->
-        <div class="flex justify-end mb-4">
-            <a href="{{ route('barangmasuk.create') }}" class="btn-ungu">
-                @include('icons.add-icon')Tambah Barang Masuk
-            </a>
-        </div>
+        @if (role() !== 'kasir')
+            <div class="flex justify-end mb-4">
+                @if (role() === 'pemilik')
+                    <a href="{{ route('pemilik.barangmasuk.create') }}" class="btn-ungu">
+                    @elseif (role() === 'gudang')
+                        <a href="{{ route('gudang.barangmasuk.create') }}" class="btn-ungu">
+                @endif
+                @include('icons.add-icon')Tambah Barang
+                </a>
+            </div>
+        @endif
 
         <!-- Tabel Data -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden">
@@ -53,7 +59,13 @@
 
 @push('scripts')
     <script>
-        const indexUrl = "{{ route('barangmasuk.index') }}";
+        @if (role() === 'pemilik')
+            const indexUrl = "{{ route('pemilik.barangmasuk.index') }}";
+        @elseif (role() === 'petugas_gudang')
+            const indexUrl = "{{ route('gudang.barangmasuk.index') }}";
+        @elseif (role() === 'kasir')
+            const indexUrl = "{{ route('kasir.barangmasuk.index') }}";
+        @endif
     </script>
     <script src="{{ asset('js/barang-masuk.js') }}"></script>
 @endpush

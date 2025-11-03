@@ -14,19 +14,23 @@
         <!-- Tabel Data -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden">
             <div class="w-1/2 mx-auto p-6 overflow-x-auto">
-                <form action="{{ route('kategori.store') }}" method="POST">
-                    @csrf
-                    <div class="mb-4">
-                        <label for="nama" class="block text-gray-700 font-semibold mb-2">Nama Kategori</label>
-                        <input type="text" name="nama" id="nama" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
-                            placeholder="Masukkan nama kategori">
-                    </div>
-                    <div class="flex justify-end">
-                        <button type="submit" class="btn-ungu">
-                            @include('icons.save-icon')Simpan Kategori
-                        </button>
-                    </div>
+                @if (Auth::user()->role === 'pemilik')
+                    <form action="{{ route('pemilik.kategori.store') }}" method="POST">
+                    @elseif(Auth::user()->role === 'petugas_gudang')
+                        <form action="{{ route('gudang.kategori.store') }}" method="POST">
+                @endif
+                @csrf
+                <div class="mb-4">
+                    <label for="nama" class="block text-gray-700 font-semibold mb-2">Nama Kategori</label>
+                    <input type="text" name="nama" id="nama" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+                        placeholder="Masukkan nama kategori">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="btn-ungu">
+                        @include('icons.save-icon')Simpan Kategori
+                    </button>
+                </div>
                 </form>
                 {{-- <table id="my-table" class="table-main">
                     <thead class="thead-main">
@@ -46,7 +50,13 @@
 
 @push('scripts')
     <script>
-        const indexUrl = "{{ route('kategori.index') }}";
+        @if (role() === 'pemilik')
+            const indexUrl = "{{ route('pemilik.kategori.index') }}";
+        @elseif (role() === 'petugas_gudang')
+            const indexUrl = "{{ route('gudang.kategori.index') }}";
+        @elseif (role() === 'kasir')
+            const indexUrl = "{{ route('kasir.kategori.index') }}";
+        @endif
     </script>
     <script src="{{ asset('js/kategori.js') }}"></script>
 @endpush

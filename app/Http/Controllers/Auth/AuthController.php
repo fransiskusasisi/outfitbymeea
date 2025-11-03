@@ -31,11 +31,11 @@ class AuthController extends Controller
 
             // Redirect sesuai role
             if ($user->role === 'pemilik') {
-                return redirect()->route('pemilik.dashboard');
+                return redirect()->route('pemilik.pemilik.dashboard');
             } elseif ($user->role === 'kasir') {
                 return redirect()->route('kasir.dashboard');
             } elseif ($user->role === 'petugas_gudang') {
-                return redirect()->route('gudang.dashboard');
+                return redirect()->route('gudang.gudang.dashboard');
             }
 
             return redirect()->route('login')->withErrors(['login' => 'Role tidak dikenali']);

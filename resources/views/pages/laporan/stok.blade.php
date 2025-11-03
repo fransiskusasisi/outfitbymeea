@@ -11,7 +11,7 @@
             </div>
 
             {{-- Tombol Cetak PDF --}}
-            <a href="{{ route('laporan.stok.cetak') }}" target="_blank" class="btn-cetak">
+            <a href="{{ route('pemilik.laporan.stok.cetak') }}" target="_blank" class="btn-cetak">
                 @include('icons.print-icon')Cetak PDF
             </a>
         </div>
@@ -36,7 +36,7 @@
 @endsection
 @push('scripts')
     <script>
-        const indexUrl = "{{ route('laporan.stok') }}";
+        const indexUrl = "{{ route('pemilik.laporan.stok') }}";
     </script>
     <script src="{{ asset('js/stok.js') }}"></script>
 @endpush

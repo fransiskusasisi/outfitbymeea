@@ -13,7 +13,7 @@
     <!-- Menu Utama -->
     <nav class="space-y-1">
         <!-- Dashboard -->
-        <a href="{{ route('pemilik.dashboard') }}"
+        <a href="{{ route('pemilik.pemilik.dashboard') }}"
             class="sidebar-menu block px-4 py-2 rounded hover:bg-purple-600 transition-colors">
             <i class="fa fa-home mr-2"></i> Dashboard
         </a>
@@ -28,7 +28,7 @@
             </svg>
         </button>
         <div id="data-master" class="submenu pl-6">
-            <a href="{{ route('kategori.index') }}"
+            <a href="{{ route('pemilik.kategori.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Kategori</a>
             <a href="{{ route('pemilik.barang.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Barang</a>
@@ -44,9 +44,9 @@
             </svg>
         </button>
         <div id="stok-barang" class="submenu pl-6">
-            <a href="{{ route('barangmasuk.index') }}"
+            <a href="{{ route('pemilik.barangmasuk.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Barang Masuk</a>
-            <a href="{{ route('barangkeluar.index') }}"
+            <a href="{{ route('pemilik.barangkeluar.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Barang Keluar</a>
         </div>
 
@@ -60,7 +60,8 @@
             </svg>
         </button>
         <div id="laporan" class="submenu pl-6">
-            <a href="{{ route('laporan.stok') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Laporan
+            <a href="{{ route('pemilik.laporan.stok') }}"
+                class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Laporan
                 Stok</a>
         </div>
     </nav>

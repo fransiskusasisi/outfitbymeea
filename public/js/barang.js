@@ -37,7 +37,7 @@ $(function () {
         },
     ];
 
-    if (userRole !== "petugas_gudang") {
+    if (userRole !== "kasir") {
         columns.push({
             data: "action",
             name: "action",

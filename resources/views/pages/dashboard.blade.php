@@ -13,8 +13,32 @@
             <p class="text-gray-500 text-sm mt-1">Selamat datang kembali, semoga harimu menyenangkan ✨</p>
         </div>
 
+        {{-- isi dashboard --}}
+        <div class="flex gap-4">
+            <div class="w-1/2 bg-gradient-to-r from-hijautosca to-emerald-300 rounded-lg shadow-md p-6 text-white">
+                {{-- <div class="w-1/2 bg-hijautosca rounded-lg shadow-md p-6 text-white"> --}}
+                <p class="font-bold mb-2">Total Barang Masuk</p>
+                <p class="text-4xl font-bold">124</p>
+                <div class="flex justify-end">
+                    <p class="italic text-sm font-bold">Unit</p>
+                </div>
+            </div>
+            <div class="w-1/2 bg-gradient-to-r from-merahorange to-orange-300 rounded-lg shadow-md p-6 text-white">
+                {{-- <div class="w-1/2 bg-merahorange rounded-lg shadow-md p-6 text-white"> --}}
+                <p class="font-bold mb-2">Total Barang Keluar</p>
+                <p class="text-4xl font-bold">128</p>
+                <div class="flex justify-end">
+                    <p class="italic text-sm font-bold">Unit</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md w-full">
+
+        </div>
+
         <!-- Laporan Stok -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        {{-- <div class="bg-white rounded-xl shadow-md overflow-hidden">
             <div class="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-4">
                 <h3 class="text-lg font-bold text-white">Laporan Stok Terkini</h3>
                 <p class="text-purple-100 text-sm">Data stok barang terbaru</p>
@@ -67,7 +91,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 @endsection

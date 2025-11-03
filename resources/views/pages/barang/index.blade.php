@@ -9,10 +9,14 @@
         </div>
 
         <!-- Tombol Tambah -->
-        @if (Auth::user()->role !== 'petugas_gudang')
+        @if (role() !== 'kasir')
             <div class="flex justify-end mb-4">
-                <a href="{{ route('barang.create') }}" class="btn-ungu">
-                    @include('icons.add-icon')Tambah Barang
+                @if (role() === 'pemilik')
+                    <a href="{{ route('pemilik.barang.create') }}" class="btn-ungu">
+                    @elseif (role() === 'gudang')
+                        <a href="{{ route('gudang.barang.create') }}" class="btn-ungu">
+                @endif
+                @include('icons.add-icon')Tambah Barang
                 </a>
             </div>
         @endif
@@ -31,7 +35,7 @@
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
                             <th>Stok</th>
-                            @if (Auth::user()->role !== 'petugas_gudang')
+                            @if (Auth::user()->role !== 'kasir')
                                 <th class="text-center">Aksi</th>
                             @endif
                         </tr>
@@ -60,12 +64,13 @@
 
 @push('scripts')
     <script>
-        @if (Auth::user()->role === 'pemilik')
+        @if (role() === 'pemilik')
             const indexUrl = "{{ route('pemilik.barang.index') }}";
-        @elseif (Auth::user()->role === 'petugas_gudang')
+        @elseif (role() === 'petugas_gudang')
             const indexUrl = "{{ route('gudang.barang.index') }}";
+        @elseif (role() === 'kasir')
+            const indexUrl = "{{ route('kasir.barang.index') }}";
         @endif
-
         const userRole = "{{ Auth::user()->role }}"
     </script>
     <script src="{{ asset('js/barang.js') }}"></script>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 if (!function_exists('formatTanggal')) {
   function formatTanggal($tanggal)
@@ -34,5 +35,12 @@ if (!function_exists('iconHapus')) {
   function iconHapus()
   {
     return view('icons.delete-icon')->render();
+  }
+}
+
+if (!function_exists('role')) {
+  function role()
+  {
+    return Auth::check() ? Auth::user()->role : null;
   }
 }

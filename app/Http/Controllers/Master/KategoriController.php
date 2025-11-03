@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kategori;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class KategoriController extends Controller
@@ -15,33 +16,51 @@ class KategoriController extends Controller
     // public function index()
     // {
     //     $kategoris = Kategori::all();
-    //     return view('pemilik.kategori.index', compact('kategoris'));
+    //     return view('pages.kategori.index', compact('kategoris'));
     // }
 
     public function index(Request $request)
     {
+        $role = Auth::user()->role;
         if ($request->ajax()) {
-            return DataTables::of(Kategori::query()->orderBy('kategori_id', 'desc'))
+            $data = DataTables::of(Kategori::query()->orderBy('kategori_id', 'desc'))
                 ->addIndexColumn()
                 ->editColumn('kategori_id', function ($row) {
                     return $row->kategori_id;
-                })
-                ->addColumn('action', function ($row) {
-                    $btnEdit = '<div><a href="' . route('kategori.edit', $row->kategori_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+                });
 
-                    $btnHapus = '<div><form id="delete-form-' . $row->kategori_id . '" action="' . route('kategori.destroy', $row->kategori_id) . '" method="POST" style="display:inline;">
+            if ($role === 'pemilik') {
+                $data->addColumn('action', function ($row) {
+                    $btnEdit = '<div><a href="' . route('pemilik.kategori.edit', $row->kategori_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+
+                    $btnHapus = '<div><form id="delete-form-' . $row->kategori_id . '" action="' . route('pemilik.kategori.destroy', $row->kategori_id) . '" method="POST" style="display:inline;">
                     ' . csrf_field() . '
                     ' . method_field('DELETE') . '
                     <button type="button" onclick="deleteKategori(' . $row->kategori_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</span>
                     </button>
                     </form></div>';
-                    return $btnEdit . $btnHapus;
-                })
-                ->rawColumns(['action'])
-                ->toJson();
-            // ->make(true);
+                    return '<div class="flex space-x-2 justify-center">' . $btnEdit . $btnHapus . '</div>';
+                });
+                $data->rawColumns(['action']);
+            }
+
+            if ($role === 'petugas_gudang') {
+                $data->addColumn('action', function ($row) {
+                    $btnEdit = '<div><a href="' . route('gudang.kategori.edit', $row->kategori_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+
+                    $btnHapus = '<div><form id="delete-form-' . $row->kategori_id . '" action="' . route('gudang.kategori.destroy', $row->kategori_id) . '" method="POST" style="display:inline;">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="button" onclick="deleteKategori(' . $row->kategori_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</span>
+                    </button>
+                    </form></div>';
+                    return '<div class="flex space-x-2 justify-center">' . $btnEdit . $btnHapus . '</div>';
+                });
+                $data->rawColumns(['action']);
+            }
+            return $data->toJson();
         }
-        return view('pemilik.kategori.index');
+        return view('pages.kategori.index');
     }
 
     /**
@@ -49,7 +68,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        return view('pemilik.kategori.create');
+        return view('pages.kategori.create');
     }
 
     /**
@@ -67,7 +86,12 @@ class KategoriController extends Controller
 
         if ($simpan) {
             session()->flash('berhasil', 'Kategori berhasil ditambahkan!');
-            return redirect()->route('kategori.index');
+            return redirect()->route('pemilik.kategori.index');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.kategori.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.kategori.index');
+            }
         } else {
             return redirect()->back()->with('error', 'Gagal menambahkan kategori!');
         }
@@ -79,7 +103,7 @@ class KategoriController extends Controller
     public function edit($id)
     {
         $kategori = Kategori::findOrFail($id);
-        return view('pemilik.kategori.edit', compact('kategori'));
+        return view('pages.kategori.edit', compact('kategori'));
     }
 
     /**
@@ -98,7 +122,11 @@ class KategoriController extends Controller
 
         if ($update) {
             session()->flash('berhasil', 'Kategori berhasil diperbarui!');
-            return redirect()->route('kategori.index');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.kategori.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.kategori.index');
+            }
         } else {
             return redirect()->back();
         }
@@ -114,7 +142,11 @@ class KategoriController extends Controller
 
         if ($hapus) {
             session()->flash('berhasil', 'Kategori berhasil dihapus!');
-            return redirect()->route('kategori.index');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.kategori.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.kategori.index');
+            }
         } else {
             return redirect()->back();
         }

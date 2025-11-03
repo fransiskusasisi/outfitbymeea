@@ -50,6 +50,10 @@
     @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-pink-500 hover:bg-pink-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
 }
 
+.btn-logout {
+    @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-rose-500 hover:bg-rose-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
+}
+
 .btn-indigo {
     @apply font-bold flex justify-center items-center text-sm gap-1 px-3 py-1 text-white rounded-lg bg-indigo-500 hover:bg-indigo-600 hover:shadow-md transition duration-200 ease-in-out hover:-translate-y-1;
 }

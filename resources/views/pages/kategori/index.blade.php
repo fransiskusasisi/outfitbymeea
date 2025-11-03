@@ -11,11 +11,17 @@
         </div>
 
         <!-- Tombol Tambah -->
-        <div class="flex justify-end mb-4">
-            <a href="{{ route('kategori.create') }}" class="btn-ungu">
-                @include('icons.add-icon') Tambah Kategori
-            </a>
-        </div>
+        @if (Auth::user()->role !== 'kasir')
+            <div class="flex justify-end mb-4">
+                @if (Auth::user()->role === 'pemilik')
+                    <a href="{{ route('pemilik.kategori.create') }}" class="btn-ungu">
+                    @elseif (Auth::user()->role === 'gudang')
+                        <a href="{{ route('gudang.kategori.create') }}" class="btn-ungu">
+                @endif
+                @include('icons.add-icon')Tambah Kategori
+                </a>
+            </div>
+        @endif
 
         <!-- Tabel Data -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden">
@@ -25,7 +31,9 @@
                         <tr class="tr-main">
                             <th class="text-center">No</th>
                             <th>Nama Kategori</th>
-                            <th class="text-center">Aksi</th>
+                            @if (Auth::user()->role !== 'kasir')
+                                <th class="text-center">Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody class="tbody-main"></tbody>
@@ -51,47 +59,14 @@
 
 @push('scripts')
     <script>
-        const indexUrl = "{{ route('kategori.index') }}";
+        @if (role() === 'pemilik')
+            const indexUrl = "{{ route('pemilik.kategori.index') }}";
+        @elseif (role() === 'petugas_gudang')
+            const indexUrl = "{{ route('gudang.kategori.index') }}";
+        @elseif (role() === 'kasir')
+            const indexUrl = "{{ route('kasir.kategori.index') }}";
+        @endif
+        const userRole = "{{ Auth::user()->role }}"
     </script>
     <script src="{{ asset('js/kategori.js') }}"></script>
 @endpush
-
-
-{{-- <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-gray-100 border-b-2 border-gray-200">
-                            <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700 w-16">No</th>
-                            <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Nama Kategori</th>
-                            <th class="text-center py-3 px-4 text-sm font-semibold text-gray-700 w-40">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($kategoris as $index => $kategori)
-                            <tr class="border-b hover:bg-gray-50">
-                                <td class="py-3 px-4 text-sm text-gray-600">{{ $index + 1 }}</td>
-                                <td class="py-3 px-4 text-sm text-gray-600">{{ $kategori->nama }}</td>
-                                <td class="py-3 px-4 text-center">
-                                    <div class="flex justify-center space-x-2">
-                                        <a href="{{ route('kategori.edit', $kategori->kategori_id) }}"
-                                            class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded text-sm font-medium transition">
-                                            Edit
-                                        </a>
-                                        <form action="{{ route('kategori.destroy', $kategori->kategori_id) }}"
-                                            method="POST" onsubmit="return confirm('Yakin ingin menghapus kategori ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium transition">
-                                                Hapus
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3" class="text-center py-4 text-gray-500">Belum ada data kategori.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table> --}}

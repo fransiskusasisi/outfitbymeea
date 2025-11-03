@@ -13,7 +13,7 @@ class LaporanController extends Controller
     // public function stok()
     // {
     //     $barangs = Barang::with('kategori')->get();
-    //     return view('pemilik.laporan.stok', compact('barangs'));
+    //     return view('pages.laporan.stok', compact('barangs'));
     // }
     public function stok(Request $request)
     {
@@ -32,14 +32,14 @@ class LaporanController extends Controller
                 ->toJson();
             // ->make(true);
         }
-        return view('pemilik.laporan.stok');
+        return view('pages.laporan.stok');
     }
 
     public function cetakStok()
     {
         $barangs = Barang::with('kategori')->get();
 
-        $pdf = Pdf::loadView('pemilik.laporan.cetak-stok', compact('barangs'))
+        $pdf = Pdf::loadView('pages.laporan.cetak-stok', compact('barangs'))
             ->setPaper('a4', 'portrait');
 
         return $pdf->stream('laporan-stok.pdf');
