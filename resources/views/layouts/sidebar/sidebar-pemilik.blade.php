@@ -30,7 +30,8 @@
         <div id="data-master" class="submenu pl-6">
             <a href="{{ route('kategori.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Kategori</a>
-            <a href="{{ route('barang.index') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Barang</a>
+            <a href="{{ route('pemilik.barang.index') }}"
+                class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Barang</a>
         </div>
 
         <!-- Stok Barang -->

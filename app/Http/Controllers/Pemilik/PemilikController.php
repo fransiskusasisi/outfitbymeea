@@ -21,6 +21,6 @@ class PemilikController extends Controller
         $barangs = $query->latest('created_at')->get();
 
         // Mengirim data ke view
-        return view('pemilik.dashboard', compact('barangs'));
+        return view('pages.dashboard', compact('barangs'));
     }
 }

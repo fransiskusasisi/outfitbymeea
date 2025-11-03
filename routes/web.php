@@ -41,23 +41,22 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // 🧑‍💼 PEMILIK (Role: pemilik)
 // =============================
 Route::middleware(['role:pemilik'])->group(function () {
-
+    Route::prefix('pemilik/barang')->group(function () {
+        Route::get('/', [BarangController::class, 'index'])->name('pemilik.barang.index');
+        Route::get('/create', [BarangController::class, 'create'])->name('pemilik.barang.create');
+        // Route::post('/', [BarangCrudController::class, 'store'])->name('barang.store');
+        // Route::get('/{id}/edit', [BarangCrudController::class, 'edit'])->name('barang.edit');
+        // Route::put('/{id}', [BarangCrudController::class, 'update'])->name('barang.update');
+        // Route::delete('/{id}', [BarangCrudController::class, 'destroy'])->name('barang.destroy');
+        // Route::resource('barangku', BarangkuController::class);
+        // Route::resource('barang', BarangController::class);
+    });
     // ---------- Dashboard ----------
     Route::get('/pemilik/dashboard', [PemilikController::class, 'dashboard'])
         ->name('pemilik.dashboard');
 
     // ---------- Data Master ----------
     // Barang
-    Route::prefix('pemilik')->group(function () {
-        // Route::get('/', [BarangkuController::class, 'index'])->name('barang.index');
-        // Route::get('/create', [BarangCrudController::class, 'create'])->name('barang.create');
-        // Route::post('/', [BarangCrudController::class, 'store'])->name('barang.store');
-        // Route::get('/{id}/edit', [BarangCrudController::class, 'edit'])->name('barang.edit');
-        // Route::put('/{id}', [BarangCrudController::class, 'update'])->name('barang.update');
-        // Route::delete('/{id}', [BarangCrudController::class, 'destroy'])->name('barang.destroy');
-        // Route::resource('barangku', BarangkuController::class);
-        Route::resource('barang', BarangController::class);
-    });
 
     // Kategori
     Route::prefix('pemilik/kategori')->group(function () {
@@ -122,5 +121,16 @@ Route::middleware(['role:kasir'])->group(function () {
 // =============================
 Route::middleware(['role:petugas_gudang'])->group(function () {
     Route::view('/gudang/dashboard', 'dashboard.gudang')->name('gudang.dashboard');
-    // Tambah route gudang lain di sini
+
+    Route::prefix('gudang/barang')->group(function () {
+        Route::resource('barang', BarangController::class);
+        Route::get('/', [BarangController::class, 'index'])->name('gudang.barang.index');
+    });
 });
+
+
+// Route::middleware(['role:pemilik|kasir|petugas_gudang'])->group(function () {
+//     Route::prefix('barang')->group(function () {
+//         Route::get('/', [BarangController::class, 'index'])->name('barang.index');
+//     });
+// });

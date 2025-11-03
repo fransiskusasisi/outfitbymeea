@@ -1,49 +1,54 @@
 $(function () {
+    const columns = [
+        {
+            data: "DT_RowIndex",
+            name: "DT_RowIndex",
+            className: "text-center",
+            orderable: false,
+            searchable: false,
+        },
+        {
+            data: "nama_barang",
+            name: "nama_barang",
+        },
+        {
+            data: "kategori_id",
+            data: "kategori_id",
+        },
+        {
+            data: "ukuran",
+            name: "ukuran",
+        },
+        {
+            data: "kondisi",
+            name: "kondisi",
+        },
+        {
+            data: "harga_beli",
+            name: "harga_beli",
+        },
+        {
+            data: "harga_jual",
+            name: "harga_jual",
+        },
+        {
+            data: "stok",
+            name: "stok",
+        },
+    ];
+
+    if (userRole !== "petugas_gudang") {
+        columns.push({
+            data: "action",
+            name: "action",
+        });
+    }
+
     $("#my-table").DataTable({
         processing: true,
         serverSide: true,
         ajax: indexUrl,
-        columns: [
-            {
-                data: "DT_RowIndex",
-                name: "DT_RowIndex",
-                className: "text-center",
-                orderable: false,
-                searchable: false,
-            },
-            {
-                data: "nama_barang",
-                name: "nama_barang",
-            },
-            {
-                data: "kategori_id",
-                data: "kategori_id",
-            },
-            {
-                data: "ukuran",
-                name: "ukuran",
-            },
-            {
-                data: "kondisi",
-                name: "kondisi",
-            },
-            {
-                data: "harga_beli",
-                name: "harga_beli",
-            },
-            {
-                data: "harga_jual",
-                name: "harga_jual",
-            },
-            {
-                data: "stok",
-                name: "stok",
-            },
-            {
-                data: "action",
-                name: "action",
-            },
-        ],
+        columns: columns,
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Cari barang...",

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class BarangController extends Controller
@@ -17,8 +18,10 @@ class BarangController extends Controller
      */
     public function index(Request $request)
     {
+        $role = Auth::user()->role;
+
         if ($request->ajax()) {
-            return DataTables::of(Barang::query()->orderBy('barang_id', 'desc'))
+            $data = DataTables::of(Barang::query()->orderBy('barang_id', 'desc'))
                 ->addIndexColumn()
                 ->editColumn('barang_id', function ($row) {
                     return 'BRG-' . $row->barang_id;
@@ -34,24 +37,29 @@ class BarangController extends Controller
                 })
                 ->editColumn('harga_jual', function ($row) {
                     return formatRupiah($row->harga_jual);
-                })
-                ->addColumn('action', function ($row) {
+                });
+
+            if ($role === 'pemilik' || $role === 'kasir') {
+                $data->addColumn('action', function ($row) {
                     $btnEdit = '<div><a href="' . route('barang.edit', $row->barang_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
 
                     $btnHapus = '<div><form id="delete-form-' . $row->barang_id . '" action="' . route('barang.destroy', $row->barang_id) . '" method="POST" style="display:inline;">
                     ' . csrf_field() . '
                     ' . method_field('DELETE') . '
-                    <button type="button" onclick="deleteBarang(' . $row->barang_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</span>
-                    </button>
+                    <button type="button" onclick="deleteBarang(' . $row->barang_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</button>
                     </form></div>';
-                    return  '<div class="flex space-x-2 justify-center">' .  $btnEdit . $btnHapus . '</div>';
-                })
-                ->rawColumns(['action'])
-                ->toJson();
-            // ->make(true);
+
+                    return '<div class="flex space-x-2 justify-center">' . $btnEdit . $btnHapus . '</div>';
+                });
+                $data->rawColumns(['action']);
+            }
+
+            return $data->toJson();
         }
-        return view('pemilik.barang.index');
+
+        return view('pages.barang.index');
     }
+
 
 
     /**
@@ -62,7 +70,7 @@ class BarangController extends Controller
     public function create()
     {
         $kategori = Kategori::all();
-        return view('pemilik.barang.create', compact('kategori'));
+        return view('pages.barang.create', compact('kategori'));
     }
 
     /**
@@ -121,7 +129,7 @@ class BarangController extends Controller
     {
         $barang = Barang::findOrFail($id);
         $kategori = Kategori::all();
-        return view('pemilik.barang.edit', compact('barang', 'kategori'));
+        return view('pages.barang.edit', compact('barang', 'kategori'));
     }
 
     /**
