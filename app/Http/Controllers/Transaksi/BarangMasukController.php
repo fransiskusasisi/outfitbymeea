@@ -57,6 +57,14 @@ class BarangMasukController extends Controller
                 $data->rawColumns(['action']);
             };
 
+            if (role() === 'kasir') {
+                $data->addColumn('action', function ($row) {
+                    $btnEdit = '<div><a href="' . route('kasir.barangmasuk.edit', $row->masuk_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+                    return  '<div class="flex space-x-2 justify-center">' .  $btnEdit .  '</div>';
+                });
+                $data->rawColumns(['action']);
+            };
+
             return $data->toJson();
         }
         return view('pages.barangmasuk.index');
@@ -64,7 +72,7 @@ class BarangMasukController extends Controller
 
     public function create()
     {
-        $barang = Barang::all();
+        $barang = Barang::orderBy('nama_barang', 'asc')->get();
         return view('pages.barangmasuk.create', compact('barang'));
     }
 
@@ -75,6 +83,10 @@ class BarangMasukController extends Controller
             'jumlah' => 'required|integer|min:1',
             'tanggal' => 'required|date',
         ]);
+
+        $updateBarang = Barang::find($request->barang_id);
+        $updateBarang->stok += $request->jumlah;
+        $updateBarang->save();
 
         $user = Auth::user()->user_id;
         $simpan = BarangMasuk::create([
@@ -90,6 +102,8 @@ class BarangMasukController extends Controller
                 return redirect()->route('pemilik.barangmasuk.index');
             } elseif (role() === 'petugas_gudang') {
                 return redirect()->route('gudang.barangmasuk.index');
+            } elseif (role() === 'kasir') {
+                return redirect()->route('kasir.barangmasuk.index');
             }
         } else {
             return redirect()->back()->with('error', 'Gagal menambahkan barang!');
@@ -124,6 +138,8 @@ class BarangMasukController extends Controller
                 return redirect()->route('pemilik.barangmasuk.index');
             } elseif (role() === 'petugas_gudang') {
                 return redirect()->route('gudang.barangmasuk.index');
+            } elseif (role() === 'kasir') {
+                return redirect()->route('kasir.barangmasuk.index');
             }
         } else {
             return redirect()->back();
@@ -141,6 +157,8 @@ class BarangMasukController extends Controller
                 return redirect()->route('pemilik.barangmasuk.index');
             } elseif (role() === 'petugas_gudang') {
                 return redirect()->route('gudang.barangmasuk.index');
+            } elseif (role() === 'kasir') {
+                return redirect()->route('kasir.barangmasuk.index');
             }
         } else {
             return redirect()->back();

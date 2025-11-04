@@ -43,10 +43,20 @@ window.deleteKategori = function (id) {
         text: "Apakah kamu yakin?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3B82F6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Hapus",
-        cancelButtonText: "Batal",
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#f59e0b",
+        confirmButtonText: `<div class="flex items-center">
+            <span class="inline-block">${iconOke}</span>
+            <span>Hapus</span>
+        </div>`,
+        cancelButtonText: `<div class="flex items-center">
+            <span class="inline-block">${iconBatal}</span>
+            <span>Batal</span>
+        </div>`,
+        customClass: {
+            confirmButton: "btn-merah",
+            cancelButton: "btn-ungu",
+        },
     }).then((result) => {
         if (result.isConfirmed) {
             document.getElementById("delete-form-" + id).submit();

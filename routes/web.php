@@ -48,7 +48,7 @@ Route::middleware(['role:pemilik'])->group(function () {
         Route::resource('barang', BarangController::class);
         Route::resource('kategori', KategoriController::class);
         Route::resource('barangmasuk', BarangMasukController::class);
-        Route::resource('barangkeluar', BarangMasukController::class);
+        Route::resource('barangkeluar', BarangKeluarController::class);
         Route::get('/laporan/stok', [LaporanController::class, 'stok'])->name('laporan.stok');
         Route::get('/laporan/stok/cetak', [LaporanController::class, 'cetakStok'])->name('laporan.stok.cetak');
     });
@@ -146,12 +146,13 @@ Route::middleware(['role:pemilik'])->group(function () {
 
 // Role: Petugas Gudang
 Route::middleware(['role:petugas_gudang'])->group(function () {
-    Route::view('/gudang/dashboard', 'dashboard.gudang')->name('gudang.dashboard');
+    // Route::view('/gudang/dashboard', 'dashboard.gudang')->name('gudang.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('gudang.dashboard');
     Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::resource('barang', BarangController::class);
         Route::resource('kategori', KategoriController::class);
         Route::resource('barangmasuk', BarangMasukController::class);
-        Route::resource('barangkeluar', BarangMasukController::class);
+        Route::resource('barangkeluar', BarangKeluarController::class);
     });
 });
 
@@ -162,7 +163,7 @@ Route::middleware(['role:kasir'])->group(function () {
         Route::resource('barang', BarangController::class);
         Route::resource('kategori', KategoriController::class);
         Route::resource('barangmasuk', BarangMasukController::class);
-        Route::resource('barangkeluar', BarangMasukController::class);
+        Route::resource('barangkeluar', BarangKeluarController::class);
     });
 });
 

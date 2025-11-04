@@ -16,7 +16,7 @@
         {{-- isi dashboard --}}
         <div class="flex gap-4">
             <div
-                class="w-1/2 bg-gradient-to-r from-hijautosca to-emerald-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
+                class="w-1/3 bg-gradient-to-r from-hijautosca to-emerald-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
                 {{-- <div class="w-1/2 bg-hijautosca rounded-lg shadow-md p-6 text-white"> --}}
                 <div class="w-20 h-20 flex justify-center items-center">
                     @include('icons.barangmasuk-icon')
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div
-                class="w-1/2 bg-gradient-to-r from-merahorange to-orange-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
+                class="w-1/3 bg-gradient-to-r from-merahorange to-orange-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
                 {{-- <div class="w-1/2 bg-merahorange rounded-lg shadow-md p-6 text-white"> --}}
                 <div class="w-20 h-20 flex justify-center items-center">
                     @include('icons.barangkeluar-icon')
@@ -41,6 +41,22 @@
                     <div class="items-center flex-grow">
                         <p class="font-bold mb-2">Total Barang Keluar</p>
                         <p class="text-4xl font-bold ">{{ $totalBarangKeluar }}</p>
+                    </div>
+                    <div class="flex justify-end items-end">
+                        <p class="italic text-sm font-bold">Unit</p>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="w-1/3 bg-gradient-to-r from-birumuda to-cyan-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
+                {{-- <div class="w-1/2 bg-merahorange rounded-lg shadow-md p-6 text-white"> --}}
+                <div class="w-20 h-20 flex justify-center items-center">
+                    @include('icons.barang-icon')
+                </div>
+                <div class="w-full flex">
+                    <div class="items-center flex-grow">
+                        <p class="font-bold mb-2">Total Barang Tersedia</p>
+                        <p class="text-4xl font-bold ">{{ $totalBarang }}</p>
                     </div>
                     <div class="flex justify-end items-end">
                         <p class="italic text-sm font-bold">Unit</p>

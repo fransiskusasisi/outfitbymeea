@@ -13,7 +13,7 @@
             <div class="flex justify-end mb-4">
                 @if (role() === 'pemilik')
                     <a href="{{ route('pemilik.barangmasuk.create') }}" class="btn-ungu">
-                    @elseif (role() === 'gudang')
+                    @elseif (role() === 'petugas_gudang')
                         <a href="{{ route('gudang.barangmasuk.create') }}" class="btn-ungu">
                 @endif
                 @include('icons.add-icon')Tambah Barang
@@ -66,6 +66,18 @@
         @elseif (role() === 'kasir')
             const indexUrl = "{{ route('kasir.barangmasuk.index') }}";
         @endif
+        const userRole = "{{ Auth::user()->role }}"
+        const iconOke = `{!! view('icons.centang-icon')->render() !!}`;
+        const iconBatal = `{!! view('icons.batal-icon')->render() !!}`;
     </script>
     <script src="{{ asset('js/barang-masuk.js') }}"></script>
 @endpush
+
+{{-- Sembunyikan icon di halaman, tapi bisa diakses via JS --}}
+{{-- <div id="ok-icon-template" style="display: none;">
+    @include('icons.ok-icon')
+</div>
+
+<div id="batal-icon-template" style="display: none;">
+    @include('icons.batal-icon')
+</div> --}}

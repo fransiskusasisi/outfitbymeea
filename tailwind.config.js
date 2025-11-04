@@ -8,7 +8,7 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                birumuda: "#f59e0b",
+                birumuda: "#7091F5",
                 merahmuda: "#ec4899",
                 hijautosca: "#10A19D",
                 merahorange: "#FF7000",

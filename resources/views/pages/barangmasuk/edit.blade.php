@@ -17,6 +17,8 @@
                     <form action="{{ route('pemilik.barangmasuk.update', $barangmasuk->masuk_id) }}" method="POST">
                     @elseif(role() === 'petugas_gudang')
                         <form action="{{ route('gudang.barangmasuk.update', $barangmasuk->masuk_id) }}" method="POST">
+                        @elseif(role() === 'kasir')
+                            <form action="{{ route('kasir.barangmasuk.update', $barangmasuk->masuk_id) }}" method="POST">
                 @endif
                 @method('PUT')
                 @csrf

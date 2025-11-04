@@ -35,7 +35,7 @@ class AuthController extends Controller
             } elseif ($user->role === 'kasir') {
                 return redirect()->route('kasir.dashboard');
             } elseif ($user->role === 'petugas_gudang') {
-                return redirect()->route('gudang.gudang.dashboard');
+                return redirect()->route('gudang.dashboard');
             }
 
             return redirect()->route('login')->withErrors(['login' => 'Role tidak dikenali']);

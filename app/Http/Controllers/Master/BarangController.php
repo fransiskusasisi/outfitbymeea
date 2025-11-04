@@ -110,7 +110,11 @@ class BarangController extends Controller
 
         if ($simpan) {
             session()->flash('berhasil', 'Barang berhasil ditambahkan!');
-            return redirect()->route('barang.index');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.barang.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.barang.index');
+            }
         } else {
             return redirect()->back()->with('error', 'Gagal menambahkan barang!');
         }
@@ -170,7 +174,11 @@ class BarangController extends Controller
 
         if ($update) {
             session()->flash('berhasil', 'Barang berhasil diperbarui!');
-            return redirect()->route('barang.index');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.barang.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.barang.index');
+            }
         } else {
             return redirect()->back();
         };
@@ -189,7 +197,11 @@ class BarangController extends Controller
 
         if ($hapus) {
             session()->flash('berhasil', 'Barang berhasil dihapus!');
-            return redirect()->route('barang.index');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.barang.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.barang.index');
+            }
         } else {
             return redirect()->back();
         }

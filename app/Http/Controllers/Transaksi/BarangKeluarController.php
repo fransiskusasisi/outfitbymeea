@@ -14,7 +14,7 @@ class BarangKeluarController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(BarangKeluar::query()->orderBy('keluar_id', 'desc'))
+            $data = DataTables::of(BarangKeluar::query()->orderBy('keluar_id', 'desc'))
                 ->addIndexColumn()
                 ->editColumn('keluar_id', function ($row) {
                     return $row->barang_id;
@@ -27,28 +27,53 @@ class BarangKeluarController extends Controller
                 })
                 ->editColumn('user_id', function ($row) {
                     return $row->user->nama;
-                })
-                ->addColumn('action', function ($row) {
-                    $btnEdit = '<div><a href="' . route('barangkeluar.edit', $row->keluar_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
-                    $btnHapus = '<div><form id="delete-form-' . $row->keluar_id . '" action="' . route('barangkeluar.destroy', $row->keluar_id) . '" method="POST" style="display:inline;">
+                });
+
+            if (role() === 'pemilik') {
+                $data->addColumn('action', function ($row) {
+                    $btnEdit = '<div><a href="' . route('pemilik.barangkeluar.edit', $row->keluar_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+                    $btnHapus = '<div><form id="delete-form-' . $row->keluar_id . '" action="' . route('pemilik.barangkeluar.destroy', $row->keluar_id) . '" method="POST" style="display:inline;">
                     ' . csrf_field() . '
                     ' . method_field('DELETE') . '
                     <button type="button" onclick="deleteBarangKeluar(' . $row->keluar_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</span>
                     </button>
                     </form></div>';
                     return  '<div class="flex space-x-2 justify-center">' .  $btnEdit . $btnHapus . '</div>';
-                })
-                ->rawColumns(['action'])
-                ->toJson();
-            // ->make(true);
+                });
+                $data->rawColumns(['action']);
+            };
+
+            if (role() === 'petugas_gudang') {
+                $data->addColumn('action', function ($row) {
+                    $btnEdit = '<div><a href="' . route('gudang.barangkeluar.edit', $row->keluar_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+                    $btnHapus = '<div><form id="delete-form-' . $row->keluar_id . '" action="' . route('gudang.barangkeluar.destroy', $row->keluar_id) . '" method="POST" style="display:inline;">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="button" onclick="deleteBarangKeluar(' . $row->keluar_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</span>
+                    </button>
+                    </form></div>';
+                    return  '<div class="flex space-x-2 justify-center">' .  $btnEdit . $btnHapus . '</div>';
+                });
+                $data->rawColumns(['action']);
+            };
+
+            if (role() === 'kasir') {
+                $data->addColumn('action', function ($row) {
+                    $btnEdit = '<div><a href="' . route('kasir.barangkeluar.edit', $row->keluar_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+                    return  '<div class="flex space-x-2 justify-center">' .  $btnEdit .  '</div>';
+                });
+                $data->rawColumns(['action']);
+            };
+
+            return $data->toJson();
         }
-        return view('pemilik.barangkeluar.index');
+        return view('pages.barangkeluar.index');
     }
 
     public function create()
     {
         $barang = Barang::orderBy('nama_barang', 'asc')->get();
-        return view('pemilik.barangkeluar.create', compact('barang'));
+        return view('pages.barangkeluar.create', compact('barang'));
     }
 
     public function store(Request $request)
@@ -58,6 +83,15 @@ class BarangKeluarController extends Controller
             'jumlah' => 'required|integer|min:1',
             'tanggal' => 'required|date',
         ]);
+
+        $updateBarang = Barang::find($request->barang_id);
+        $stokBarang = $updateBarang->stok;
+        if ($stokBarang - $request->jumlah < 0) {
+            session()->flash('gagal', 'Stok barang tidak cukup!, Sisa stok: ' . $stokBarang);
+            return redirect()->back();
+        }
+        $updateBarang->stok -= $request->jumlah;
+        $updateBarang->save();
 
         $user = Auth::user()->user_id;
         $simpan = BarangKeluar::create([
@@ -69,7 +103,13 @@ class BarangKeluarController extends Controller
 
         if ($simpan) {
             session()->flash('berhasil', 'Barang keluar berhasil ditambahkan!');
-            return redirect()->route('barangkeluar.index');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.barangkeluar.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.barangkeluar.index');
+            } elseif (role() === 'kasir') {
+                return redirect()->route('kasir.barangkeluar.index');
+            }
         } else {
             return redirect()->back();
         }
@@ -79,7 +119,7 @@ class BarangKeluarController extends Controller
     {
         $barangkeluar = BarangKeluar::findOrFail($id);
         $barang = Barang::all();
-        return view('pemilik.barangkeluar.edit', compact('barangkeluar', 'barang'));
+        return view('pages.barangkeluar.edit', compact('barangkeluar', 'barang'));
     }
 
     public function update(Request $request, $id)
@@ -99,7 +139,13 @@ class BarangKeluarController extends Controller
 
         if ($update) {
             session()->flash('berhasil', 'Barang keluar berhasil diperbarui!');
-            return redirect()->route('barangkeluar.index');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.barangkeluar.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.barangkeluar.index');
+            } elseif (role() === 'kasir') {
+                return redirect()->route('kasir.barangkeluar.index');
+            }
         } else {
             return redirect()->back();
         }
@@ -112,7 +158,13 @@ class BarangKeluarController extends Controller
 
         if ($hapus) {
             session()->flash('berhasil', 'Barang keluar berhasil dihapus!');
-            return redirect()->route('barangkeluar.index');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.barangkeluar.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.barangkeluar.index');
+            } elseif (role() === 'kasir') {
+                return redirect()->route('kasir.barangkeluar.index');
+            }
         } else {
             return redirect()->back();
         }

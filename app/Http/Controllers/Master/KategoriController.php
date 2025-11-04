@@ -86,7 +86,6 @@ class KategoriController extends Controller
 
         if ($simpan) {
             session()->flash('berhasil', 'Kategori berhasil ditambahkan!');
-            return redirect()->route('pemilik.kategori.index');
             if (role() === 'pemilik') {
                 return redirect()->route('pemilik.kategori.index');
             } elseif (role() === 'petugas_gudang') {

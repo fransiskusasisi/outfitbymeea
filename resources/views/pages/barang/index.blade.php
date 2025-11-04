@@ -13,7 +13,7 @@
             <div class="flex justify-end mb-4">
                 @if (role() === 'pemilik')
                     <a href="{{ route('pemilik.barang.create') }}" class="btn-ungu">
-                    @elseif (role() === 'gudang')
+                    @elseif (role() === 'petugas_gudang')
                         <a href="{{ route('gudang.barang.create') }}" class="btn-ungu">
                 @endif
                 @include('icons.add-icon')Tambah Barang
@@ -35,7 +35,7 @@
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
                             <th>Stok</th>
-                            @if (Auth::user()->role !== 'kasir')
+                            @if (role() !== 'kasir')
                                 <th class="text-center">Aksi</th>
                             @endif
                         </tr>
@@ -72,6 +72,8 @@
             const indexUrl = "{{ route('kasir.barang.index') }}";
         @endif
         const userRole = "{{ Auth::user()->role }}"
+        const iconOke = `{!! view('icons.centang-icon')->render() !!}`;
+        const iconBatal = `{!! view('icons.batal-icon')->render() !!}`;
     </script>
     <script src="{{ asset('js/barang.js') }}"></script>
 @endpush

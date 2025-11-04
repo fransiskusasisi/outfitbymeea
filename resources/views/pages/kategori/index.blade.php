@@ -11,11 +11,11 @@
         </div>
 
         <!-- Tombol Tambah -->
-        @if (Auth::user()->role !== 'kasir')
+        @if (role() !== 'kasir')
             <div class="flex justify-end mb-4">
-                @if (Auth::user()->role === 'pemilik')
+                @if (role() === 'pemilik')
                     <a href="{{ route('pemilik.kategori.create') }}" class="btn-ungu">
-                    @elseif (Auth::user()->role === 'gudang')
+                    @elseif (role() === 'petugas_gudang')
                         <a href="{{ route('gudang.kategori.create') }}" class="btn-ungu">
                 @endif
                 @include('icons.add-icon')Tambah Kategori
@@ -31,7 +31,7 @@
                         <tr class="tr-main">
                             <th class="text-center">No</th>
                             <th>Nama Kategori</th>
-                            @if (Auth::user()->role !== 'kasir')
+                            @if (role() !== 'kasir')
                                 <th class="text-center">Aksi</th>
                             @endif
                         </tr>
@@ -67,6 +67,8 @@
             const indexUrl = "{{ route('kasir.kategori.index') }}";
         @endif
         const userRole = "{{ Auth::user()->role }}"
+        const iconOke = `{!! view('icons.centang-icon')->render() !!}`;
+        const iconBatal = `{!! view('icons.batal-icon')->render() !!}`;
     </script>
     <script src="{{ asset('js/kategori.js') }}"></script>
 @endpush

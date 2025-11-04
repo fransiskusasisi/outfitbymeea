@@ -19,13 +19,14 @@ class DashboardController extends Controller
 
         $totalBarangMasuk = BarangMasuk::count();
         $totalBarangKeluar = BarangKeluar::count();
+        $totalBarang = Barang::count();
 
         if (role() === 'pemilik') {
-            return view('dashboard.pemilik', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar'));
+            return view('dashboard.pemilik', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang'));
         } elseif (role() === 'petugas_gudang') {
-            return view('dashboard.gudang', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar'));
+            return view('dashboard.gudang', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang'));
         } elseif (role() === 'kasir') {
-            return view('dashboard.kasir', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar'));
+            return view('dashboard.kasir', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang'));
         }
     }
 }

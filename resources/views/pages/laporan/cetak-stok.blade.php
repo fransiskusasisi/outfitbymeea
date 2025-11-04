@@ -50,7 +50,7 @@
         <tbody>
             @foreach ($barangs as $key => $barang)
                 <tr>
-                    <td>{{ $key + 1 }}</td>
+                    <td style="text-align: center;">{{ $key + 1 }}</td>
                     <td>{{ $barang->nama_barang }}</td>
                     <td>{{ $barang->kategori->nama ?? '-' }}</td>
                     <td style="text-align: center;">{{ $barang->stok }}</td>
