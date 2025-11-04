@@ -23,11 +23,14 @@ $(function () {
             data: "user_id",
             name: "user_id",
         },
-        {
+    ];
+
+    if (userRole !== "kasir") {
+        columns.push({
             data: "action",
             name: "action",
-        },
-    ];
+        });
+    }
 
     $("#my-table").DataTable({
         processing: true,

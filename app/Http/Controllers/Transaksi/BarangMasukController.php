@@ -57,13 +57,13 @@ class BarangMasukController extends Controller
                 $data->rawColumns(['action']);
             };
 
-            if (role() === 'kasir') {
-                $data->addColumn('action', function ($row) {
-                    $btnEdit = '<div><a href="' . route('kasir.barangmasuk.edit', $row->masuk_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
-                    return  '<div class="flex space-x-2 justify-center">' .  $btnEdit .  '</div>';
-                });
-                $data->rawColumns(['action']);
-            };
+            // if (role() === 'kasir') {
+            //     $data->addColumn('action', function ($row) {
+            //         $btnEdit = '<div><a href="' . route('kasir.barangmasuk.edit', $row->masuk_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+            //         return  '<div class="flex space-x-2 justify-center">' .  $btnEdit .  '</div>';
+            //     });
+            //     $data->rawColumns(['action']);
+            // };
 
             return $data->toJson();
         }

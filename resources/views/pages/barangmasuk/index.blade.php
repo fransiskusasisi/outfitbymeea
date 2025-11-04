@@ -32,7 +32,9 @@
                             <th>Jumlah</th>
                             <th>Tanggal</th>
                             <th>Nama User</th>
-                            <th class="text-center">Aksi</th>
+                            @if (role() !== 'kasir')
+                                <th class="text-center">Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody class="tbody-main"></tbody>

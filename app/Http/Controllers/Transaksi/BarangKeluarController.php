@@ -60,7 +60,15 @@ class BarangKeluarController extends Controller
             if (role() === 'kasir') {
                 $data->addColumn('action', function ($row) {
                     $btnEdit = '<div><a href="' . route('kasir.barangkeluar.edit', $row->keluar_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
-                    return  '<div class="flex space-x-2 justify-center">' .  $btnEdit .  '</div>';
+
+                    $btnHapus = '<div><form id="delete-form-' . $row->keluar_id . '" action="' . route('kasir.barangkeluar.destroy', $row->keluar_id) . '" method="POST" style="display:inline;">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="button" onclick="deleteBarangKeluar(' . $row->keluar_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</span>
+                    </button>
+                    </form></div>';
+
+                    return  '<div class="flex space-x-2 justify-center">' .  $btnEdit . $btnHapus . '</div>';
                 });
                 $data->rawColumns(['action']);
             };
