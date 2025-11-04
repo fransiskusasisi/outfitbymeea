@@ -5,21 +5,23 @@
         <!-- Judul Halaman -->
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-gray-800">Data Barang Keluar</h1>
-            <p class="text-gray-500 text-sm mt-1">Kelola barang keluar di Outfitbymeeee</p>
+            <p class="text-gray-500 text-sm mt-1">Kelola barang keluar di Outfitbyme</p>
         </div>
 
         <!-- Tombol Tambah -->
-        @if (role() !== 'kasir')
-            <div class="flex justify-end mb-4">
-                @if (role() === 'pemilik')
-                    <a href="{{ route('pemilik.barangkeluar.create') }}" class="btn-ungu">
-                    @elseif (role() === 'petugas_gudang')
-                        <a href="{{ route('gudang.barangkeluar.create') }}" class="btn-ungu">
-                @endif
-                @include('icons.add-icon')Tambah Barang Keluar
-                </a>
-            </div>
-        @endif
+        {{-- @if (role() !== 'kasir') --}}
+        <div class="flex justify-end mb-4">
+            @if (role() === 'pemilik')
+                <a href="{{ route('pemilik.barangkeluar.create') }}" class="btn-ungu">
+                @elseif (role() === 'petugas_gudang')
+                    <a href="{{ route('gudang.barangkeluar.create') }}" class="btn-ungu">
+                    @elseif (role() === 'kasir')
+                        <a href="{{ route('kasir.barangkeluar.create') }}" class="btn-ungu">
+            @endif
+            @include('icons.add-icon')Tambah Barang Keluar
+            </a>
+        </div>
+        {{-- @endif --}}
 
         <!-- Tabel Data -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden">
