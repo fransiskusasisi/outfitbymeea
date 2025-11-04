@@ -8,17 +8,26 @@ $(function () {
             searchable: false,
         },
         {
-            data: "nama",
-            name: "nama",
+            data: "barang_id",
+            name: "barang_id",
         },
-    ];
-
-    if (userRole !== "kasir") {
-        columns.push({
+        {
+            data: "jumlah",
+            data: "jumlah",
+        },
+        {
+            data: "tanggal",
+            name: "tanggal",
+        },
+        {
+            data: "user_id",
+            name: "user_id",
+        },
+        {
             data: "action",
             name: "action",
-        });
-    }
+        },
+    ];
 
     $("#my-table").DataTable({
         processing: true,
@@ -27,7 +36,7 @@ $(function () {
         columns: columns,
         language: {
             search: "_INPUT_",
-            searchPlaceholder: "Cari kategori...",
+            searchPlaceholder: "Cari barang...",
             lengthMenu: "Tampilkan _MENU_ data",
             info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
             paginate: {
@@ -38,7 +47,7 @@ $(function () {
     });
 });
 
-window.deleteKategori = function (id) {
+window.deleteBarangKeluar = function (id) {
     Swal.fire({
         text: "Apakah kamu yakin?",
         icon: "warning",

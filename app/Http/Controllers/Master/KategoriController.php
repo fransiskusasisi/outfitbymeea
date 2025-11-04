@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kategori;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class KategoriController extends Controller
@@ -15,27 +16,51 @@ class KategoriController extends Controller
     // public function index()
     // {
     //     $kategoris = Kategori::all();
-    //     return view('pemilik.kategori.index', compact('kategoris'));
+    //     return view('pages.kategori.index', compact('kategoris'));
     // }
 
     public function index(Request $request)
     {
+        $role = Auth::user()->role;
         if ($request->ajax()) {
-            return DataTables::of(Kategori::query()->orderBy('kategori_id', 'desc'))
+            $data = DataTables::of(Kategori::query()->orderBy('kategori_id', 'desc'))
                 ->addIndexColumn()
                 ->editColumn('kategori_id', function ($row) {
-                    return 'KTGR-' . $row->kategori_id;
-                })
-                ->addColumn('action', function ($row) {
-                    $btnEdit = '<a class="btn-kuning">Edit</a>';
-                    $btnHapus = '<a class="btn-merah">Hapus</a>';
-                    return  '<div class="flex space-x-2 justify-center">' .  $btnEdit . $btnHapus . '</div>';
-                })
-                ->rawColumns(['action'])
-                ->toJson();
-            // ->make(true);
+                    return $row->kategori_id;
+                });
+
+            if ($role === 'pemilik') {
+                $data->addColumn('action', function ($row) {
+                    $btnEdit = '<div><a href="' . route('pemilik.kategori.edit', $row->kategori_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+
+                    $btnHapus = '<div><form id="delete-form-' . $row->kategori_id . '" action="' . route('pemilik.kategori.destroy', $row->kategori_id) . '" method="POST" style="display:inline;">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="button" onclick="deleteKategori(' . $row->kategori_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</span>
+                    </button>
+                    </form></div>';
+                    return '<div class="flex space-x-2 justify-center">' . $btnEdit . $btnHapus . '</div>';
+                });
+                $data->rawColumns(['action']);
+            }
+
+            if ($role === 'petugas_gudang') {
+                $data->addColumn('action', function ($row) {
+                    $btnEdit = '<div><a href="' . route('gudang.kategori.edit', $row->kategori_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
+
+                    $btnHapus = '<div><form id="delete-form-' . $row->kategori_id . '" action="' . route('gudang.kategori.destroy', $row->kategori_id) . '" method="POST" style="display:inline;">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+                    <button type="button" onclick="deleteKategori(' . $row->kategori_id . ')" class="btn-merah">' . iconHapus() . 'Hapus</span>
+                    </button>
+                    </form></div>';
+                    return '<div class="flex space-x-2 justify-center">' . $btnEdit . $btnHapus . '</div>';
+                });
+                $data->rawColumns(['action']);
+            }
+            return $data->toJson();
         }
-        return view('pemilik.kategori.index');
+        return view('pages.kategori.index');
     }
 
     /**
@@ -43,7 +68,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        return view('pemilik.kategori.create');
+        return view('pages.kategori.create');
     }
 
     /**
@@ -52,50 +77,78 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_kategori' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
         ]);
 
-        Kategori::create([
-            'nama_kategori' => $request->nama_kategori,
+        $simpan = Kategori::create([
+            'nama' => $request->nama,
         ]);
 
-        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan!');
+        if ($simpan) {
+            session()->flash('berhasil', 'Kategori berhasil ditambahkan!');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.kategori.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.kategori.index');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Gagal menambahkan kategori!');
+        }
     }
 
     /**
      * Form edit kategori
      */
-    public function edit($id_kategori)
+    public function edit($id)
     {
-        $kategori = Kategori::findOrFail($id_kategori);
-        return view('pemilik.kategori.edit', compact('kategori'));
+        $kategori = Kategori::findOrFail($id);
+        return view('pages.kategori.edit', compact('kategori'));
     }
 
     /**
      * Update kategori
      */
-    public function update(Request $request, $id_kategori)
+    public function update(Request $request, $kategori_id)
     {
         $request->validate([
-            'nama_kategori' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
         ]);
 
-        $kategori = Kategori::findOrFail($id_kategori);
-        $kategori->update([
-            'nama_kategori' => $request->nama_kategori,
+        $kategori = Kategori::findOrFail($kategori_id);
+        $update = $kategori->update([
+            'nama' => $request->nama,
         ]);
 
-        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui!');
+        if ($update) {
+            session()->flash('berhasil', 'Kategori berhasil diperbarui!');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.kategori.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.kategori.index');
+            }
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
      * Hapus kategori
      */
-    public function destroy($id_kategori)
+    public function destroy($kategori_id)
     {
-        $kategori = Kategori::findOrFail($id_kategori);
-        $kategori->delete();
+        $kategori = Kategori::findOrFail($kategori_id);
+        $hapus = $kategori->delete();
 
-        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus!');
+        if ($hapus) {
+            session()->flash('berhasil', 'Kategori berhasil dihapus!');
+            if (role() === 'pemilik') {
+                return redirect()->route('pemilik.kategori.index');
+            } elseif (role() === 'petugas_gudang') {
+                return redirect()->route('gudang.kategori.index');
+            }
+        } else {
+            return redirect()->back();
+        }
     }
+    // return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus!');
 }

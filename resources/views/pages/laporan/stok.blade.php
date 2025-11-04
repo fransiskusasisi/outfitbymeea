@@ -3,21 +3,45 @@
 @section('title', 'Laporan Stok Barang')
 
 @section('content')
-<div class="ml-72 p-8 space-y-6">
-    <div class="flex justify-between items-center mb-6">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-800">Laporan Stok Barang</h1>
-            <p class="text-gray-500 text-sm mt-1">Data stok keseluruhan tanpa modifikasi</p>
+    <div class="p-8 space-y-6">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Laporan Stok Barang</h1>
+                <p class="text-gray-500 text-sm mt-1">Data stok keseluruhan tanpa modifikasi</p>
+            </div>
+
+            {{-- Tombol Cetak PDF --}}
+            <a href="{{ route('pemilik.laporan.stok.cetak') }}" target="_blank" class="btn-cetak">
+                @include('icons.print-icon')Cetak PDF
+            </a>
         </div>
-
-        {{-- Tombol Cetak PDF --}}
-        <a href="{{ route('laporan.stok.cetak') }}" target="_blank"
-           class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
-            🖨️ Cetak PDF
-        </a>
+        <!-- Tabel Data -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="p-6 overflow-x-auto">
+                <table id="my-table" class="table-main">
+                    <thead class="thead-main">
+                        <tr class="tr-main">
+                            <th class="text-center">No</th>
+                            <th>Nama Barang</th>
+                            <th>Kategori</th>
+                            <th>Stok</th>
+                            <th>Harga Jual?</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody-main"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
+@endsection
+@push('scripts')
+    <script>
+        const indexUrl = "{{ route('pemilik.laporan.stok') }}";
+    </script>
+    <script src="{{ asset('js/stok.js') }}"></script>
+@endpush
 
-    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+{{-- <div class="bg-white rounded-xl shadow-md overflow-hidden">
         <div class="p-6 overflow-x-auto">
             <table class="w-full border-collapse">
                 <thead>
@@ -42,6 +66,4 @@
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
-@endsection
+    </div> --}}
