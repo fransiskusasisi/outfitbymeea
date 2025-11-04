@@ -158,7 +158,7 @@ Route::middleware(['role:petugas_gudang'])->group(function () {
 
 // Role: Kasir
 Route::middleware(['role:kasir'])->group(function () {
-    Route::view('/kasir/dashboard', 'dashboard.kasir')->name('kasir.dashboard');
+    Route::get('/kasir/dashboard', [DashboardController::class, 'kasir'])->name('kasir.dashboard');
     Route::prefix('kasir')->name('kasir.')->group(function () {
         Route::resource('barang', BarangController::class);
         Route::resource('kategori', KategoriController::class);
