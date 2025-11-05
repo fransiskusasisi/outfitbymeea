@@ -16,6 +16,9 @@
 
         {{-- isi dashboard --}}
         <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 rounded-t-xl">
+                <h3 class="text-2xl font-bold text-white">Data Barang Keluar</h3>
+            </div>
             <div class="p-6 overflow-x-auto">
                 <table id="my-table" class="table-main">
                     <thead class="thead-main">

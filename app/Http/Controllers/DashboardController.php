@@ -18,6 +18,8 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
+        $barangMasuk = BarangMasuk::with('barang')->latest()->take(5)->get();
+        $barangKeluar = BarangKeluar::with('barang')->latest()->take(5)->get();
         $totalBarangMasuk = BarangMasuk::count();
         $totalBarangKeluar = BarangKeluar::count();
         $totalBarang = Barang::count();
@@ -25,7 +27,7 @@ class DashboardController extends Controller
         if (role() === 'pemilik') {
             return view('dashboard.pemilik', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang'));
         } elseif (role() === 'petugas_gudang') {
-            return view('dashboard.gudang', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang'));
+            return view('dashboard.gudang', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang', 'barangMasuk', 'barangKeluar'));
         } elseif (role() === 'kasir') {
             return view('dashboard.kasir', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang'));
         }
@@ -48,30 +50,6 @@ class DashboardController extends Controller
                 ->editColumn('user_id', function ($row) {
                     return $row->user->nama;
                 });
-
-            if (role() === 'pemilik') {
-                $data->addColumn('action', function ($row) {
-                    $btnEdit = '<div><a href="' . route('pemilik.barangmasuk.edit', $row->masuk_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
-                    $btnHapus = '<div><form id="delete-form-' . $row->masuk_id . '" action="' . route('pemilik.barangmasuk.destroy', $row->masuk_id) . '" method="POST" style="display:inline;">'
-                        . csrf_field() . method_field('DELETE') . '
-                    <button type="button" onclick="deleteBarangMasuk(' . $row->masuk_id . ')" class="btn-merah">'
-                        . iconHapus() . 'Hapus</button></form></div>';
-                    return '<div class="flex space-x-2 justify-center">' . $btnEdit . $btnHapus . '</div>';
-                });
-                $data->rawColumns(['action']);
-            }
-
-            if (role() === 'petugas_gudang') {
-                $data->addColumn('action', function ($row) {
-                    $btnEdit = '<div><a href="' . route('gudang.barangmasuk.edit', $row->masuk_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
-                    $btnHapus = '<div><form id="delete-form-' . $row->masuk_id . '" action="' . route('gudang.barangmasuk.destroy', $row->masuk_id) . '" method="POST" style="display:inline;">'
-                        . csrf_field() . method_field('DELETE') . '
-                    <button type="button" onclick="deleteBarangMasuk(' . $row->masuk_id . ')" class="btn-merah">'
-                        . iconHapus() . 'Hapus</button></form></div>';
-                    return '<div class="flex space-x-2 justify-center">' . $btnEdit . $btnHapus . '</div>';
-                });
-                $data->rawColumns(['action']);
-            }
 
             return $data->toJson();
         }

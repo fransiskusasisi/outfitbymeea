@@ -72,9 +72,14 @@
             <div class="p-6">
                 @foreach ($stok as $item)
                     <div class="w-full border-b py-2 flex justify-between mb-2">
-                        <div>
-                            <p class="font-semibold text-lg">{{ $item->nama_barang }}</p>
-                            <p class="text-sm text-gray-500">Kategori: {{ $item->kategori->nama ?? '-' }}</p>
+                        <div class=" flex items-center">
+                            <div class="bg-cyan-300 rounded-full p-2 flex justify-center items-center mr-4 text-white">
+                                @include('icons.stok-icon')
+                            </div>
+                            <div>
+                                <p class="font-semibold text-lg">{{ $item->nama_barang }}</p>
+                                <p class="text-sm text-gray-500">Kategori: {{ $item->kategori->nama ?? '-' }}</p>
+                            </div>
                         </div>
                         <div>
                             <p class="font-semibold text-lg">Stok: {{ $item->stok }}</p>

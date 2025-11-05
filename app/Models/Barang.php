@@ -8,7 +8,7 @@ class Barang extends Model
 {
     protected $table = 'barang';
     protected $primaryKey = 'barang_id';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'nama_barang',
@@ -19,6 +19,7 @@ class Barang extends Model
         'harga_jual',
         'stok',
         'created_at',
+        'updated_at',
     ];
 
     public function kategori()

@@ -1,13 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Pemilik')
-
-@section('page-title', 'Dashboard Pemilik')
-
+@section('title', 'Dashboard Gudang')
+@section('page-title', 'Dashboard Gudang')
 @section('page-subtitle', 'Selamat datang di dashboard Outfitbymee')
 
 @section('content')
-    <div class="p-8 space-y-6"> {{-- geser ke kanan agar tidak tertutup sidebar --}}
+    <div class="w-full p-8 space-y-6 text-gray-600">
 
         <!-- Judul Halaman -->
         <div class="mb-6">
@@ -15,58 +13,142 @@
             <p class="text-gray-500 text-sm mt-1">Selamat datang kembali, semoga harimu menyenangkan ✨</p>
         </div>
 
-        <!-- Laporan Stok -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-4">
-                <h3 class="text-lg font-bold text-white">Laporan Stok Terkini</h3>
-                <p class="text-purple-100 text-sm">Data stok barang terbaru</p>
-            </div>
-
-            <div class="p-6">
-                <!-- Filter Periode -->
-                <div class="mb-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Filter Periode</label>
-                    <div class="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0">
-                        <input type="date"
-                            class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none transition-colors">
-                        <input type="date"
-                            class="flex-1 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none transition-colors">
-                        <button
-                            class="px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors">
-                            Filter
-                        </button>
+        {{-- isi dashboard --}}
+        <div class="flex gap-4">
+            <div
+                class="w-1/3 bg-gradient-to-r from-hijautosca to-emerald-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
+                {{-- <div class="w-1/2 bg-hijautosca rounded-lg shadow-md p-6 text-white"> --}}
+                <div class="w-20 h-20 flex justify-center items-center">
+                    @include('icons.kategori-icon')
+                </div>
+                <div class="w-full flex">
+                    <div class="items-center flex-grow">
+                        <p class="font-bold mb-2">Total Barang Masuk</p>
+                        <p class="text-4xl font-bold ">{{ $totalBarangMasuk }}</p>
+                    </div>
+                    <div class="flex justify-end items-end">
+                        <p class="italic text-sm font-bold">Unit</p>
                     </div>
                 </div>
-
-                <!-- Table -->
-                <div class="overflow-x-auto">
-                    <table class="w-full border-collapse">
-                        <thead>
-                            <tr class="bg-gray-100 border-b-2 border-gray-200">
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Nama Barang</th>
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Stok</th>
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Kategori</th>
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Terakhir Diperbarui</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b hover:bg-gray-50">
-                                <td class="py-3 px-4 text-sm text-gray-600">Kemeja Linen Pria</td>
-                                <td class="py-3 px-4 text-sm text-gray-600">25</td>
-                                <td class="py-3 px-4 text-sm text-gray-600">Pakaian</td>
-                                <td class="py-3 px-4 text-sm text-gray-600">22 Okt 2025</td>
-                            </tr>
-                            <tr class="border-b hover:bg-gray-50">
-                                <td class="py-3 px-4 text-sm text-gray-600">Dress Floral</td>
-                                <td class="py-3 px-4 text-sm text-gray-600">12</td>
-                                <td class="py-3 px-4 text-sm text-gray-600">Pakaian Wanita</td>
-                                <td class="py-3 px-4 text-sm text-gray-600">21 Okt 2025</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            </div>
+            <div
+                class="w-1/3 bg-gradient-to-r from-hijautosca to-emerald-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
+                {{-- <div class="w-1/2 bg-hijautosca rounded-lg shadow-md p-6 text-white"> --}}
+                <div class="w-20 h-20 flex justify-center items-center">
+                    @include('icons.barangmasuk-icon')
+                </div>
+                <div class="w-full flex">
+                    <div class="items-center flex-grow">
+                        <p class="font-bold mb-2">Total Barang Masuk</p>
+                        <p class="text-4xl font-bold ">{{ $totalBarangMasuk }}</p>
+                    </div>
+                    <div class="flex justify-end items-end">
+                        <p class="italic text-sm font-bold">Unit</p>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="w-1/3 bg-gradient-to-r from-merahorange to-orange-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
+                {{-- <div class="w-1/2 bg-merahorange rounded-lg shadow-md p-6 text-white"> --}}
+                <div class="w-20 h-20 flex justify-center items-center">
+                    @include('icons.barangkeluar-icon')
+                </div>
+                <div class="w-full flex">
+                    <div class="items-center flex-grow">
+                        <p class="font-bold mb-2">Total Barang Keluar</p>
+                        <p class="text-4xl font-bold ">{{ $totalBarangKeluar }}</p>
+                    </div>
+                    <div class="flex justify-end items-end">
+                        <p class="italic text-sm font-bold">Unit</p>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="w-1/3 bg-gradient-to-r from-birumuda to-cyan-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
+                {{-- <div class="w-1/2 bg-merahorange rounded-lg shadow-md p-6 text-white"> --}}
+                <div class="w-20 h-20 flex justify-center items-center">
+                    @include('icons.barang-icon')
+                </div>
+                <div class="w-full flex">
+                    <div class="items-center flex-grow">
+                        <p class="font-bold mb-2">Total Barang Tersedia</p>
+                        <p class="text-4xl font-bold ">{{ $totalBarang }}</p>
+                    </div>
+                    <div class="flex justify-end items-end">
+                        <p class="italic text-sm font-bold">Unit</p>
+                    </div>
                 </div>
             </div>
         </div>
+        <hr>
+        <div class="flex gap-4">
+            <div class="w-1/2 bg-white rounded-xl shadow-md">
+                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 rounded-t-xl">
+                    <h3 class="text-xl font-bold text-white">Barang Masuk Terkini</h3>
+                </div>
+                <div class="p-6">
+                    @foreach ($barangMasuk as $item)
+                        <div class="w-full border-b py-2 flex justify-between mb-2">
+                            <div class=" flex items-center">
+                                <div
+                                    class="bg-emerald-300 rounded-full p-2 flex justify-center items-center mr-4 text-white">
+                                    @include('icons.barangmasukkecil-icon')
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-lg">{{ $item->barang->nama_barang ?? '-' }}</p>
+                                    <p class="text-sm text-gray-500">Jumlah: {{ $item->jumlah ?? '-' }}</p>
+                                </div>
+                            </div>
+                            <div class="items-center flex">
+                                <p class="text-sm italic">{{ formatTanggal($item->tanggal) }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="w-1/2 bg-white rounded-xl shadow-md">
+                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 rounded-t-xl">
+                    <h3 class="text-xl font-bold text-white">Barang Keluar Terkini</h3>
+                </div>
+                <div class="p-6">
+                    @foreach ($barangKeluar as $item)
+                        <div class="w-full border-b py-2 flex justify-between mb-2">
+                            <div class=" flex items-center">
+                                <div
+                                    class="bg-orange-300 rounded-full p-2 flex justify-center items-center mr-4 text-white">
+                                    @include('icons.barangkeluarkecil-icon')
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-lg">{{ $item->barang->nama_barang ?? '-' }}</p>
+                                    <p class="text-sm text-gray-500">Jumlah: {{ $item->jumlah ?? '-' }}</p>
+                                </div>
+                            </div>
+                            <div class="items-center flex">
+                                <p class="text-sm italic">{{ formatTanggal($item->tanggal) }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        {{-- <div class="bg-white rounded-xl shadow-md w-full">
+            <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 rounded-t-xl">
+                <h3 class="text-2xl font-bold text-white">Laporan Stok Terkini</h3>
+            </div>
+            <div class="p-6">
+                @foreach ($stok as $item)
+                    <div class="w-full border-b py-2 flex justify-between mb-2">
+                        <div>
+                            <p class="font-semibold text-lg">{{ $item->nama_barang }}</p>
+                            <p class="text-sm text-gray-500">Kategori: {{ $item->kategori->nama ?? '-' }}</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-lg">Stok: {{ $item->stok }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div> --}}
 
     </div>
 @endsection
