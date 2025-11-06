@@ -27,10 +27,10 @@
             </svg>
         </button>
         <div id="data-master" class="submenu pl-6">
-            <a href="{{ route('kasir.kategori.index') }}"
-                class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Kategori</a>
-            <a href="{{ route('kasir.barang.index') }}"
-                class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Barang</a>
+            <a href="{{ route('kasir.kategori.index') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
+                    class="fa-solid fa-tags mr-2"></i>Kategori</a>
+            <a href="{{ route('kasir.barang.index') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
+                    class="fa-solid fa-layer-group mr-2"></i>Barang</a>
             {{-- <a href="{{ route('jenisbarang.index') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Jenis
                 Barang</a> --}}
         </div>
@@ -38,7 +38,7 @@
         <!-- Stok Barang -->
         <button onclick="toggleDropdown('stok-barang')"
             class="sidebar-menu w-full text-left px-4 py-2 rounded hover:bg-purple-600 transition-colors flex justify-between items-center">
-            <span><i class="fa fa-warehouse mr-2"></i> Stok Barang</span>
+            <span><i class="fa-solid fa-boxes-stacked mr-2"></i>Stok Barang</span>
             <svg id="stok-barang-arrow" class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -46,9 +46,11 @@
         </button>
         <div id="stok-barang" class="submenu pl-6">
             <a href="{{ route('kasir.barangmasuk.index') }}"
-                class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Barang Masuk</a>
+                class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
+                    class="fa-solid fa-file-import mr-2"></i>Barang Masuk</a>
             <a href="{{ route('kasir.barangkeluar.index') }}"
-                class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Barang Keluar</a>
+                class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
+                    class="fa-solid fa-file-export mr-2"></i>Barang Keluar</a>
         </div>
 
         <!-- Laporan -->
