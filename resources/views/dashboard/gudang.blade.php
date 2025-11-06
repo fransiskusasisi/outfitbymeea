@@ -16,18 +16,18 @@
         {{-- isi dashboard --}}
         <div class="flex gap-4">
             <div
-                class="w-1/3 bg-gradient-to-r from-hijautosca to-emerald-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
+                class="w-1/3 bg-gradient-to-r from-rose-500 to-rose-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
                 {{-- <div class="w-1/2 bg-hijautosca rounded-lg shadow-md p-6 text-white"> --}}
                 <div class="w-20 h-20 flex justify-center items-center">
                     @include('icons.kategori-icon')
                 </div>
                 <div class="w-full flex">
                     <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Total Barang Masuk</p>
-                        <p class="text-4xl font-bold ">{{ $totalBarangMasuk }}</p>
+                        <p class="font-bold mb-2">Semua Kategori</p>
+                        <p class="text-4xl font-bold ">{{ $totalKategori }}</p>
                     </div>
                     <div class="flex justify-end items-end">
-                        <p class="italic text-sm font-bold">Unit</p>
+                        <p class="italic text-sm font-bold">Jenis</p>
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="w-full flex">
                     <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Total Barang Masuk</p>
+                        <p class="font-bold mb-2">Barang Masuk</p>
                         <p class="text-4xl font-bold ">{{ $totalBarangMasuk }}</p>
                     </div>
                     <div class="flex justify-end items-end">
@@ -55,7 +55,7 @@
                 </div>
                 <div class="w-full flex">
                     <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Total Barang Keluar</p>
+                        <p class="font-bold mb-2">Barang Keluar</p>
                         <p class="text-4xl font-bold ">{{ $totalBarangKeluar }}</p>
                     </div>
                     <div class="flex justify-end items-end">
@@ -71,7 +71,7 @@
                 </div>
                 <div class="w-full flex">
                     <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Total Barang Tersedia</p>
+                        <p class="font-bold mb-2">Barang Tersedia</p>
                         <p class="text-4xl font-bold ">{{ $totalBarang }}</p>
                     </div>
                     <div class="flex justify-end items-end">

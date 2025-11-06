@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\BarangKeluar;
 use App\Models\BarangMasuk;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -20,6 +21,7 @@ class DashboardController extends Controller
 
         $barangMasuk = BarangMasuk::with('barang')->latest()->take(5)->get();
         $barangKeluar = BarangKeluar::with('barang')->latest()->take(5)->get();
+        $totalKategori = Kategori::count();
         $totalBarangMasuk = BarangMasuk::count();
         $totalBarangKeluar = BarangKeluar::count();
         $totalBarang = Barang::count();
@@ -27,7 +29,7 @@ class DashboardController extends Controller
         if (role() === 'pemilik') {
             return view('dashboard.pemilik', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang'));
         } elseif (role() === 'petugas_gudang') {
-            return view('dashboard.gudang', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang', 'barangMasuk', 'barangKeluar'));
+            return view('dashboard.gudang', compact('stok', 'totalKategori',  'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang', 'barangMasuk', 'barangKeluar'));
         } elseif (role() === 'kasir') {
             return view('dashboard.kasir', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang'));
         }
