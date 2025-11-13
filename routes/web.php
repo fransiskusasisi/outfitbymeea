@@ -16,7 +16,9 @@ use App\Http\Controllers\Laporan\LaporanController;
 use App\Http\Controllers\Master\BarangController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\Pemilik\PemilikController; // ← TAMBAH INI
-
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RiwayatLoginController;
+use App\Models\Barang;
 
 // Halaman awal → redirect ke login
 Route::get('/', fn() => redirect('/login'));
@@ -28,6 +30,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Notifikasi barang menipis
 Route::get('/notifikasi-barang', [NotifikasiController::class, 'getBarangMenipis'])->name('notifikasi.barang');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', function () {
+        return view('pages.profile.index');
+    })->name('profile');
+});
+
+
 // Role: Pemilik
 Route::middleware(['role:pemilik'])->group(function () {
     Route::get('/pemilik/dashboard', [DashboardController::class, 'index'])->name('pemilik.dashboard');
@@ -36,6 +45,7 @@ Route::middleware(['role:pemilik'])->group(function () {
         Route::resource('kategori', KategoriController::class);
         Route::resource('barangmasuk', BarangMasukController::class);
         Route::resource('barangkeluar', BarangKeluarController::class);
+        Route::resource('riwayatlogin', RiwayatLoginController::class);
         Route::get('/laporan/stok', [LaporanController::class, 'stok'])->name('laporan.stok');
         Route::get('/laporan/stok/cetak', [LaporanController::class, 'cetakStok'])->name('laporan.stok.cetak');
     });

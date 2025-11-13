@@ -15,68 +15,65 @@
 
         {{-- isi dashboard --}}
         <div class="flex gap-4">
-            <div
-                class="w-1/3 bg-gradient-to-r from-rose-500 to-rose-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
-                {{-- <div class="w-1/2 bg-hijautosca rounded-lg shadow-md p-6 text-white"> --}}
-                <div class="w-20 h-20 flex justify-center items-center">
-                    @include('icons.kategori-icon')
+            <div class="w-1/3">
+                <div
+                    class="w-full bg-gradient-to-r from-rose-500 to-rose-300 rounded-t-lg shadow-md p-6 text-white flex items-center gap-4 hover:shadow-lg">
+                    <div class="w-20 h-20 flex justify-center items-center">
+                        @include('icons.kategori-icon')
+                    </div>
+                    <div class="w-full flex">
+                        <div class="items-center flex-grow">
+                            <p class="font-bold mb-2">Semua Kategori</p>
+                            <p class="text-4xl font-bold ">{{ $totalKategori }}</p>
+                        </div>
+                        <div class="flex justify-end items-end">
+                            <p class="italic text-sm font-bold">Jenis</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-full flex">
-                    <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Semua Kategori</p>
-                        <p class="text-4xl font-bold ">{{ $totalKategori }}</p>
-                    </div>
-                    <div class="flex justify-end items-end">
-                        <p class="italic text-sm font-bold">Jenis</p>
-                    </div>
-                </div>
-            </div>
-            <div
-                class="w-1/3 bg-gradient-to-r from-hijautosca to-emerald-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
-                {{-- <div class="w-1/2 bg-hijautosca rounded-lg shadow-md p-6 text-white"> --}}
-                <div class="w-20 h-20 flex justify-center items-center">
-                    @include('icons.barangmasuk-icon')
-                </div>
-                <div class="w-full flex">
-                    <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Barang Masuk</p>
-                        <p class="text-4xl font-bold ">{{ $totalBarangMasuk }}</p>
-                    </div>
-                    <div class="flex justify-end items-end">
-                        <p class="italic text-sm font-bold">Unit</p>
-                    </div>
+                <div class="w-full flex bg-white py-2 px-4 rounded-b-lg shadow-md">
+                    <a href="{{ route('gudang.kategori.index') }}" class="font-bold hover:opacity-60">Detail</a>
                 </div>
             </div>
-            <div
-                class="w-1/3 bg-gradient-to-r from-merahorange to-orange-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
-                {{-- <div class="w-1/2 bg-merahorange rounded-lg shadow-md p-6 text-white"> --}}
-                <div class="w-20 h-20 flex justify-center items-center">
-                    @include('icons.barangkeluar-icon')
+            <div class="w-1/3">
+                <div
+                    class="bg-gradient-to-r from-hijautosca to-emerald-300 rounded-t-lg shadow-md p-6 text-white flex items-center gap-4">
+                    {{-- <div class="w-1/2 bg-hijautosca rounded-lg shadow-md p-6 text-white"> --}}
+                    <div class="w-20 h-20 flex justify-center items-center">
+                        @include('icons.barangmasuk-icon')
+                    </div>
+                    <div class="w-full flex">
+                        <div class="items-center flex-grow">
+                            <p class="font-bold mb-2">Barang Masuk</p>
+                            <p class="text-4xl font-bold ">{{ $totalBarangMasuk }}</p>
+                        </div>
+                        <div class="flex justify-end items-end">
+                            <p class="italic text-sm font-bold">Unit</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-full flex">
-                    <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Barang Keluar</p>
-                        <p class="text-4xl font-bold ">{{ $totalBarangKeluar }}</p>
-                    </div>
-                    <div class="flex justify-end items-end">
-                        <p class="italic text-sm font-bold">Unit</p>
-                    </div>
+                <div class="w-full flex bg-white py-2 px-4 rounded-b-lg shadow-md">
+                    <a href="{{ route('gudang.barangmasuk.index') }}" class="font-bold hover:opacity-60">Detail</a>
                 </div>
             </div>
-            <div
-                class="w-1/3 bg-gradient-to-r from-birumuda to-cyan-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
-                {{-- <div class="w-1/2 bg-merahorange rounded-lg shadow-md p-6 text-white"> --}}
-                <div class="w-20 h-20 flex justify-center items-center">
-                    @include('icons.barang-icon')
+            <div class="w-1/3">
+                <div
+                    class="bg-gradient-to-r from-birumuda to-cyan-300 rounded-t-lg shadow-md p-6 text-white flex items-center gap-4">
+                    <div class="w-20 h-20 flex justify-center items-center">
+                        @include('icons.barang-icon')
+                    </div>
+                    <div class="w-full flex">
+                        <div class="items-center flex-grow">
+                            <p class="font-bold mb-2">Barang Tersedia</p>
+                            <p class="text-4xl font-bold ">{{ $totalBarang }}</p>
+                        </div>
+                        <div class="flex justify-end items-end">
+                            <p class="italic text-sm font-bold">Unit</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-full flex">
-                    <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Barang Tersedia</p>
-                        <p class="text-4xl font-bold ">{{ $totalBarang }}</p>
-                    </div>
-                    <div class="flex justify-end items-end">
-                        <p class="italic text-sm font-bold">Unit</p>
-                    </div>
+                <div class="w-full flex bg-white py-2 px-4 rounded-b-lg shadow-md">
+                    <a href="{{ route('gudang.barang.index') }}" class="font-bold hover:opacity-60">Detail</a>
                 </div>
             </div>
         </div>

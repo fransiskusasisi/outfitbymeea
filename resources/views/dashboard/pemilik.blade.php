@@ -15,54 +15,41 @@
 
         {{-- isi dashboard --}}
         <div class="flex gap-4">
-            <div
-                class="w-1/3 bg-gradient-to-r from-hijautosca to-emerald-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
-                {{-- <div class="w-1/2 bg-hijautosca rounded-lg shadow-md p-6 text-white"> --}}
-                <div class="w-20 h-20 flex justify-center items-center">
-                    @include('icons.barangmasuk-icon')
+            <div class="w-full">
+                <div
+                    class="bg-gradient-to-r from-hijautosca to-emerald-300 rounded-t-lg shadow-md p-6 text-white flex items-center gap-4">
+                    <div class="w-20 h-20 flex justify-center items-center">
+                        @include('icons.history-icon')
+                    </div>
+                    <div class="w-full flex">
+                        <div class="items-center flex-grow">
+                            <p class="font-bold mb-2">Riwayat Login</p>
+                            <p class="text-4xl font-bold ">{{ $riwayatLogin }}</p>
+                        </div>
+                        <div class="flex justify-end items-end">
+                            <p class="italic text-sm font-bold">Users</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-full flex">
-                    <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Total Barang Masuk</p>
-                        <p class="text-4xl font-bold ">{{ $totalBarangMasuk }}</p>
-                    </div>
-                    <div class="flex justify-end items-end">
-                        <p class="italic text-sm font-bold">Unit</p>
-                    </div>
+                <div class="w-full flex bg-white py-2 px-4 rounded-b-lg shadow-md">
+                    <a href="{{ route('pemilik.riwayatlogin.index') }}" class="font-bold hover:opacity-60">Detail</a>
                 </div>
             </div>
-            <div
-                class="w-1/3 bg-gradient-to-r from-merahorange to-orange-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
-                {{-- <div class="w-1/2 bg-merahorange rounded-lg shadow-md p-6 text-white"> --}}
+            {{-- <div
+                class="w-1/2 bg-gradient-to-r from-merahorange to-orange-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
                 <div class="w-20 h-20 flex justify-center items-center">
                     @include('icons.barangkeluar-icon')
                 </div>
                 <div class="w-full flex">
                     <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Total Barang Keluar</p>
+                        <p class="font-bold mb-2">---</p>
                         <p class="text-4xl font-bold ">{{ $totalBarangKeluar }}</p>
                     </div>
                     <div class="flex justify-end items-end">
                         <p class="italic text-sm font-bold">Unit</p>
                     </div>
                 </div>
-            </div>
-            <div
-                class="w-1/3 bg-gradient-to-r from-birumuda to-cyan-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
-                {{-- <div class="w-1/2 bg-merahorange rounded-lg shadow-md p-6 text-white"> --}}
-                <div class="w-20 h-20 flex justify-center items-center">
-                    @include('icons.barang-icon')
-                </div>
-                <div class="w-full flex">
-                    <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">Total Barang Tersedia</p>
-                        <p class="text-4xl font-bold ">{{ $totalBarang }}</p>
-                    </div>
-                    <div class="flex justify-end items-end">
-                        <p class="italic text-sm font-bold">Unit</p>
-                    </div>
-                </div>
-            </div>
+            </div> --}}
         </div>
         <hr>
         <div class="bg-white rounded-xl shadow-md w-full">
@@ -72,9 +59,11 @@
             <div class="p-6">
                 @foreach ($stok as $item)
                     <div class="w-full border-b py-2 flex justify-between mb-2">
-                        <div class=" flex items-center">
-                            <div class="bg-cyan-300 rounded-full p-2 flex justify-center items-center mr-4 text-white">
-                                @include('icons.stok-icon')
+                        <div class=" flex items-center gap-4">
+                            <div class="w-20 h-20 rounded-full overflow-hidden shadow-lg">
+                                <img class="w-full h-full object-cover"
+                                    src="{{ $item->gambar == null ? asset('/images/no-img.jpg') : asset('storage/images/barang/' . $item->gambar) }}"
+                                    alt="{{ $item->nama_barang }}">
                             </div>
                             <div>
                                 <p class="font-semibold text-lg">{{ $item->nama_barang }}</p>

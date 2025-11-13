@@ -17,6 +17,8 @@
                     <form action="{{ route('pemilik.barangkeluar.store') }}" method="POST">
                     @elseif(Auth::user()->role === 'petugas_gudang')
                         <form action="{{ route('gudang.barangkeluar.store') }}" method="POST">
+                        @elseif(Auth::user()->role === 'kasir')
+                            <form action="{{ route('kasir.barangkeluar.store') }}" method="POST">
                 @endif
                 @csrf
                 <div class="mb-4">

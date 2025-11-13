@@ -26,4 +26,9 @@ class User extends Authenticatable
 
     protected $guarded = [];
     protected $rememberTokenName = null;
+
+    public function riwayatLogin()
+    {
+        return $this->hasMany(RiwayatLogin::class, 'user_id', 'user_id');
+    }
 }

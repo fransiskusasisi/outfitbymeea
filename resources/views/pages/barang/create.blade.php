@@ -9,17 +9,23 @@
             <h1 class="text-3xl font-bold text-gray-800">Tambah Barang</h1>
             <p class="text-gray-500 text-sm mt-1">Tambah barang di Outfitbymee</p>
         </div>
-
-
         <!-- Tabel Data -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="w-1/2 mx-auto p-6 overflow-x-auto">
-                @if (Auth::user()->role === 'pemilik')
-                    <form action="{{ route('pemilik.barang.store') }}" method="POST">
-                    @elseif(Auth::user()->role === 'petugas_gudang')
-                        <form action="{{ route('gudang.barang.store') }}" method="POST">
-                @endif
-                @csrf
+        @if (Auth::user()->role === 'pemilik')
+            <form action="{{ route('pemilik.barang.store') }}" method="POST" enctype="multipart/form-data">
+            @elseif(Auth::user()->role === 'petugas_gudang')
+                <form action="{{ route('gudang.barang.store') }}" method="POST" enctype="multipart/form-data">
+        @endif
+        @csrf
+        <div class="bg-white rounded-xl shadow-md overflow-hidden flex justify-center gap-2">
+            <div class="w-1/3 p-6 ">
+                <div class="w-2/3 mx-auto">
+                    <label for="gambar" class="block text-gray-700 font-semibold mb-2">Gambar</label>
+                    <img src="{{ asset('images/no-img.jpg') }}" alt="Gambar Barang"
+                        class="w-full mx-auto object-cover rounded-xl mb-4 shadow-md">
+                    <input type="file" name="gambar" id="gambar" class="form-input">
+                </div>
+            </div>
+            <div class="w-1/2 p-6 overflow-x-auto">
                 <div class="mb-4">
                     <label for="nama_barang" class="block text-gray-700 font-semibold mb-2">Nama Barang</label>
                     <input type="text" name="nama_barang" id="nama_barang" required class="form-input"
@@ -49,13 +55,6 @@
                     </select>
                 </div>
                 <div class="mb-4">
-                    <label for="harga_beli" class="block text-gray-700 font-semibold mb-2">Harga Beli</label>
-                    <div class="flex items-center">
-                        <p class="form-rupiah">Rp.</p>
-                        <input type="number" id="harga_beli" name="harga_beli" class="form-input-harga" required />
-                    </div>
-                </div>
-                <div class="mb-4">
                     <label for="harga_jual" class="block text-gray-700 font-semibold mb-2">Harga Jual</label>
                     <div class="flex items-center">
                         <p class="form-rupiah">Rp.</p>
@@ -72,10 +71,9 @@
                         @include('icons.save-icon')Simpan Barang
                     </button>
                 </div>
-                </form>
             </div>
         </div>
-
+        </form>
     </div>
 @endsection
 

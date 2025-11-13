@@ -17,11 +17,11 @@
 
             <!-- Dropdown Notifikasi -->
             <div id="notif_dropdown"
-                class="hidden absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                class="hidden absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50 ">
                 <div class="px-4 py-2 border-b border-gray-100 flex justify-between items-center">
                     <h2 class="text-sm font-semibold text-gray-700">Notifikasi</h2>
                     <button id="close_notif"
-                        class="text-gray-400 hover:text-gray-600 text-xs">@include('icons.silang-icon')</button>
+                        class="text-gray-400 hover:text-gray-600 text-xs ">@include('icons.silang-icon')</button>
                 </div>
 
                 <ul class="max-h-96 overflow-y-auto">
@@ -47,19 +47,19 @@
         </div>
 
         <!-- Profil User -->
-        <div class="flex items-center space-x-2">
-            {{-- <img src="https://ui-avatars.com/api/?name={{ Auth::user()->nama }}" class="w-10 h-10 rounded-full"
-                alt="User Avatar"> --}}
-            <div class="bg-gray-300 p-2 rounded-full text-white">
-                @include('icons.user-icon')
+        <a href="{{ route('profile') }}" class="hover:opacity-60 transition-all">
+            <div class="flex items-center space-x-2">
+                <div class="bg-gray-300 p-2 rounded-full text-white">
+                    @include('icons.user-icon')
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-gray-700 font-medium">{{ Auth::user()->nama }}</span>
+                    <span class="text-xs text-gray-500 capitalize">
+                        {{ str_replace('_', ' ', Auth::user()->role) }}
+                    </span>
+                </div>
             </div>
-            <div class="flex flex-col">
-                <span class="text-gray-700 font-medium">{{ Auth::user()->nama }}</span>
-                <span class="text-xs text-gray-500 capitalize">
-                    {{ str_replace('_', ' ', Auth::user()->role) }}
-                </span>
-            </div>
-        </div>
+        </a>
 
         <!-- Tombol Logout -->
         <form action="{{ route('logout') }}" method="POST">

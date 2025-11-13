@@ -18,7 +18,7 @@
         </a>
 
         <!-- Data Master -->
-        <button onclick="toggleDropdown('data-master')"
+        {{-- <button onclick="toggleDropdown('data-master')"
             class="sidebar-menu w-full text-left px-4 py-2 rounded hover:bg-purple-600 transition-colors flex justify-between items-center">
             <span><i class="fa fa-box mr-2"></i> Data Master</span>
             <svg id="data-master-arrow" class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor"
@@ -31,9 +31,7 @@
                     class="fa-solid fa-tags mr-2"></i>Kategori</a>
             <a href="{{ route('kasir.barang.index') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
                     class="fa-solid fa-layer-group mr-2"></i>Barang</a>
-            {{-- <a href="{{ route('jenisbarang.index') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Jenis
-                Barang</a> --}}
-        </div>
+        </div> --}}
 
         <!-- Stok Barang -->
         <button onclick="toggleDropdown('stok-barang')"
@@ -45,9 +43,9 @@
             </svg>
         </button>
         <div id="stok-barang" class="submenu pl-6">
-            <a href="{{ route('kasir.barangmasuk.index') }}"
+            {{-- <a href="{{ route('kasir.barangmasuk.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
-                    class="fa-solid fa-file-import mr-2"></i>Barang Masuk</a>
+                    class="fa-solid fa-file-import mr-2"></i>Barang Masuk</a> --}}
             <a href="{{ route('kasir.barangkeluar.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
                     class="fa-solid fa-file-export mr-2"></i>Barang Keluar</a>

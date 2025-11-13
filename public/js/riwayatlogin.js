@@ -8,41 +8,26 @@ $(function () {
             searchable: false,
         },
         {
-            data: "gambar",
-            name: "gambar",
+            data: "user_id",
+            name: "user_id",
         },
         {
-            data: "nama_barang",
-            name: "nama_barang",
+            data: "role",
+            name: "role",
         },
         {
-            data: "kategori_id",
-            data: "kategori_id",
+            data: "login_at",
+            name: "login_at",
         },
         {
-            data: "ukuran",
-            name: "ukuran",
+            data: "logout_at",
+            name: "logout_at",
         },
         {
-            data: "kondisi",
-            name: "kondisi",
-        },
-        {
-            data: "harga_jual",
-            name: "harga_jual",
-        },
-        {
-            data: "stok",
-            name: "stok",
+            data: "ip_address",
+            name: "ip_address",
         },
     ];
-
-    if (userRole !== "kasir") {
-        columns.push({
-            data: "action",
-            name: "action",
-        });
-    }
 
     $("#my-table").DataTable({
         processing: true,
@@ -51,7 +36,7 @@ $(function () {
         columns: columns,
         language: {
             search: "_INPUT_",
-            searchPlaceholder: "Cari barang...",
+            searchPlaceholder: "Cari user...",
             lengthMenu: "Tampilkan _MENU_ data",
             info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
             paginate: {
