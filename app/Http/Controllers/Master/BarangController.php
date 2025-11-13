@@ -101,7 +101,8 @@ class BarangController extends Controller
             'nama_barang' => 'required|string|max:255',
             'kategori_id' => 'required|exists:kategori,kategori_id',
             'ukuran' => 'required|string|max:50',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'kondisi' => 'required|in:baru,bekas bagus,bekas sedang',
             'harga_jual' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
         ]);
@@ -110,17 +111,20 @@ class BarangController extends Controller
             'nama_barang' => $request->nama_barang,
             'kategori_id' => $request->kategori_id,
             'ukuran' => $request->ukuran,
+            'kondisi' => $request->kondisi,
             'harga_jual' => $request->harga_jual,
             'stok' => $request->stok,
         ]);
 
-        $gambar = $request->file('gambar');
-        $namaGambar = $simpan->barang_id . '-' . $request->nama_barang . '-' . time() . '.' . $gambar->getClientOriginalExtension();
-        $gambar->storeAs('public/images/barang', $namaGambar);
+        if ($request->file('gambar')) {
+            $gambar = $request->file('gambar');
+            $namaGambar = $simpan->barang_id . '-' . $request->nama_barang . '-' . time() . '.' . $gambar->getClientOriginalExtension();
+            $gambar->storeAs('public/images/barang', $namaGambar);
 
-        $simpanGambar = Barang::findOrFail($simpan->barang_id);
-        $simpanGambar->gambar = $namaGambar;
-        $simpanGambar->save();
+            $simpanGambar = Barang::findOrFail($simpan->barang_id);
+            $simpanGambar->gambar = $namaGambar;
+            $simpanGambar->save();
+        }
 
         if ($simpan) {
             session()->flash('berhasil', 'Barang berhasil ditambahkan!');
@@ -174,6 +178,7 @@ class BarangController extends Controller
             'kategori_id' => 'required|exists:kategori,kategori_id',
             'ukuran' => 'required|string|max:50',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'kondisi' => 'required|in:baru,bekas bagus,bekas sedang',
             'harga_jual' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
         ]);
@@ -183,6 +188,7 @@ class BarangController extends Controller
             'nama_barang' => $request->nama_barang,
             'kategori_id' => $request->kategori_id,
             'ukuran' => $request->ukuran,
+            'kondisi' => $request->kondisi,
             'harga_jual' => $request->harga_jual,
             'stok' => $request->stok,
         ]);
