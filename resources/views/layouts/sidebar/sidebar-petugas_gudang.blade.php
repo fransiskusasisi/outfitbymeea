@@ -47,9 +47,9 @@
             <a href="{{ route('gudang.barangmasuk.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
                     class="fa-solid fa-file-import mr-2"></i>Barang Masuk</a>
-            <a href="{{ route('gudang.barangkeluar.index') }}"
+            {{-- <a href="{{ route('gudang.barangkeluar.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
-                    class="fa-solid fa-file-export mr-2"></i>Barang Keluar</a>
+                    class="fa-solid fa-file-export mr-2"></i>Barang Keluar</a> --}}
         </div>
 
         <!-- Laporan -->

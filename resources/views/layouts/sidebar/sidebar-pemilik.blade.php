@@ -19,7 +19,7 @@
         </a>
 
         <!-- Data Master -->
-        <button onclick="toggleDropdown('data-master')"
+        {{-- <button onclick="toggleDropdown('data-master')"
             class="sidebar-menu w-full text-left px-4 py-2 rounded hover:bg-purple-600 transition-colors flex justify-between items-center">
             <span><i class="fa fa-box mr-2"></i> Data Master</span>
             <svg id="data-master-arrow" class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor"
@@ -33,10 +33,10 @@
                     class="fa-solid fa-tags mr-2"></i>Kategori</a>
             <a href="{{ route('pemilik.barang.index') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
                     class="fa-solid fa-layer-group mr-2"></i>Barang</a>
-        </div>
+        </div> --}}
 
         <!-- Stok Barang -->
-        <button onclick="toggleDropdown('stok-barang')"
+        {{-- <button onclick="toggleDropdown('stok-barang')"
             class="sidebar-menu w-full text-left px-4 py-2 rounded hover:bg-purple-600 transition-colors flex justify-between items-center">
             <span><i class="fa-solid fa-boxes-stacked mr-2"></i>Stok Barang</span>
             <svg id="stok-barang-arrow" class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor"
@@ -51,10 +51,10 @@
             <a href="{{ route('pemilik.barangkeluar.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
                     class="fa-solid fa-file-export mr-2"></i>Barang Keluar</a>
-        </div>
+        </div> --}}
 
         <!-- Laporan -->
-        <button onclick="toggleDropdown('laporan')"
+        {{-- <button onclick="toggleDropdown('laporan')"
             class="sidebar-menu w-full text-left px-4 py-2 rounded hover:bg-purple-600 transition-colors flex justify-between items-center">
             <span><i class="fa fa-file-alt mr-2"></i> Laporan</span>
             <svg id="laporan-arrow" class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor"
@@ -66,7 +66,15 @@
             <a href="{{ route('pemilik.laporan.stok') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
                     class="fa-solid fa-file mr-2"></i>Laporan
                 Stok</a>
-        </div>
+        </div> --}}
+        <a href="{{ route('pemilik.laporan.stok') }}"
+            class="sidebar-menu block px-4 py-2 rounded hover:bg-purple-600 transition-colors">
+            <i class="fa-solid fa-file mr-2"></i>Laporan Stok
+        </a>
+        <a href="{{ route('pemilik.riwayatlogin.index') }}"
+            class="sidebar-menu block px-4 py-2 rounded hover:bg-purple-600 transition-colors">
+            <i class="fa-solid fa-clock-rotate-left mr-2"></i>Riwayat Login
+        </a>
     </nav>
 
     <!-- Logout -->

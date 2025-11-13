@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\RiwayatLogin;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -21,15 +23,22 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // Cari user berdasarkan username dan password plain
         $user = User::where('username', $request->username)
             ->where('password', $request->password)
             ->first();
 
+        $riwayat = RiwayatLogin::create([
+            'user_id'     => $user->user_id,
+            'ip_address'  => $request->ip(),
+            'user_agent'  => $request->userAgent(),
+            'login_at'    => Carbon::now(),
+        ]);
+
+        $request->session()->put('riwayat_login_id', $riwayat->id);
+
         if ($user) {
             Auth::login($user);
 
-            // Redirect sesuai role
             if ($user->role === 'pemilik') {
                 return redirect()->route('pemilik.dashboard');
             } elseif ($user->role === 'kasir') {
@@ -44,9 +53,22 @@ class AuthController extends Controller
         return back()->withErrors(['login' => 'Username atau password salah']);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
+        $riwayatId = $request->session()->get('riwayat_login_id');
+
+        if ($riwayatId) {
+            $riwayat = RiwayatLogin::find($riwayatId);
+            if ($riwayat) {
+                $riwayat->update([
+                    'logout_at' => Carbon::now(),
+                ]);
+            }
+            $request->session()->forget('riwayat_login_id');
+        }
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('login');
     }
 }
