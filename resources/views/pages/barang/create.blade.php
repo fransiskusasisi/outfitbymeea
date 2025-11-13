@@ -49,7 +49,6 @@
                     <label for="kondisi" class="block text-gray-700 font-semibold mb-2">Kondisi</label>
                     <select name="kondisi" id="kondisi" required class="form-input ">
                         <option value="" disabled selected>-- Pilih Kondisi --</option>
-                        <option value="baru">Baru</option>
                         <option value="bekas bagus">Bekas Bagus</option>
                         <option value="bekas sedang">Bekas Sedang</option>
                     </select>
