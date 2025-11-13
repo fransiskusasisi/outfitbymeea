@@ -58,7 +58,6 @@
                 <div class="mb-4">
                     <label for="kondisi" class="block text-gray-700 font-semibold mb-2">Kondisi</label>
                     <select name="kondisi" id="kondisi" required class="form-input ">
-                        <option {{ $barang->kondisi == 'baru' ? 'selected' : '' }} value="baru">Baru</option>
                         <option {{ $barang->kondisi == 'bekas bagus' ? 'selected' : '' }} value="bekas bagus">
                             Bekas
                             Bagus</option>

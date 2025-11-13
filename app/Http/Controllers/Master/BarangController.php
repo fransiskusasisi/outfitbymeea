@@ -102,7 +102,7 @@ class BarangController extends Controller
             'kategori_id' => 'required|exists:kategori,kategori_id',
             'ukuran' => 'required|string|max:50',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
-            'kondisi' => 'required|in:baru,bekas bagus,bekas sedang',
+            'kondisi' => 'required|in:bekas bagus,bekas sedang',
             'harga_jual' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
         ]);
@@ -178,7 +178,7 @@ class BarangController extends Controller
             'kategori_id' => 'required|exists:kategori,kategori_id',
             'ukuran' => 'required|string|max:50',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
-            'kondisi' => 'required|in:baru,bekas bagus,bekas sedang',
+            'kondisi' => 'required|in:bekas bagus,bekas sedang',
             'harga_jual' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
         ]);
