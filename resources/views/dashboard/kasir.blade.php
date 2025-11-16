@@ -17,20 +17,22 @@
         {{-- isi dashboard --}}
         <div class="bg-white rounded-xl shadow-md overflow-hidden">
             <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 rounded-t-xl">
-                <h3 class="text-2xl font-bold text-white">Data Barang Keluar</h3>
+                <h3 class="text-2xl font-bold text-white">Data Barang Tersedia</h3>
             </div>
             <div class="p-6 overflow-x-auto">
                 <table id="my-table" class="table-main">
                     <thead class="thead-main">
                         <tr class="tr-main">
                             <th class="text-center">No</th>
+                            <th>Gambar</th>
                             <th>Nama Barang</th>
+                            <th>Kode Barang</th>
+                            <th>Harga Jual</th>
+                            <th>Ukuran</th>
+                            <th>Kondisi</th>
                             <th>Jumlah</th>
                             <th>Tanggal</th>
                             <th>Nama User</th>
-                            @if (role() !== 'kasir')
-                                <th class="text-center">Aksi</th>
-                            @endif
                         </tr>
                     </thead>
                     <tbody class="tbody-main"></tbody>
@@ -47,7 +49,8 @@
         @elseif (role() === 'petugas_gudang')
             const indexUrl = "{{ route('gudang.barangmasuk.index') }}";
         @elseif (role() === 'kasir')
-            const indexUrl = "{{ route('kasir.barangmasuk.index') }}";
+            // GUNAKAN ROUTE BARU YANG DIBUAT UNTUK DATA AJAX
+            const indexUrl = "{{ route('kasir.dashboard.data') }}";
         @endif
         const userRole = "{{ Auth::user()->role }}"
         const iconOke = `{!! view('icons.centang-icon')->render() !!}`;

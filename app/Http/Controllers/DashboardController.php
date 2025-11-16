@@ -8,6 +8,7 @@ use App\Models\BarangMasuk;
 use App\Models\Kategori;
 use App\Models\RiwayatLogin;
 use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString; // paling atas file controller
 use Yajra\DataTables\Facades\DataTables;
 
 class DashboardController extends Controller
@@ -37,28 +38,58 @@ class DashboardController extends Controller
         }
     }
 
+    // Di DashboardController.php
+
     public function kasir(Request $request)
     {
         if ($request->ajax()) {
-            $data = DataTables::of(BarangMasuk::query()->orderBy('masuk_id', 'desc'))
-                ->addIndexColumn()
-                ->editColumn('masuk_id', function ($row) {
-                    return $row->barang_id;
-                })
-                ->editColumn('barang_id', function ($row) {
-                    return $row->barang->nama_barang;
-                })
-                ->editColumn('tanggal', function ($row) {
-                    return formatTanggal($row->tanggal);
-                })
-                ->editColumn('user_id', function ($row) {
-                    return $row->user->nama;
-                });
-
-            return $data->toJson();
+            // Gunakan method baru untuk data
+            return $this->kasirData($request);
         }
-
-        // ini penting: kalau bukan request AJAX
         return view('dashboard.kasir');
+    }
+
+    // Method baru untuk AJAX DataTables
+    public function kasirData(Request $request)
+    {
+        $data = DataTables::of(BarangMasuk::with(['barang', 'user'])->orderBy('masuk_id', 'desc')) // Optimalkan relasi
+            ->addIndexColumn()
+            ->editColumn('gambar', function ($row) {
+                $imgSrc = $row->gambar
+                    ? asset('storage/images/barang/' . $row->gambar)
+                    : asset('images/no-img.jpg');
+
+                return '<div class="w-12 h-12">
+                <img class="w-full h-full object-cover shadow-md rounded-md" src="' . $imgSrc . '" alt="' . e($row->barang->nama_barang) . '">
+                </div>';
+            })
+            ->editColumn('barang_id', function ($row) {
+                return $row->barang->nama_barang;
+            })
+            ->editColumn('kode_barang', function ($row) {
+                return $row->barang->kode_barang ?? '-';
+            })
+            ->editColumn('ukuran', function ($row) {
+                return $row->barang->ukuran ?? '-';
+            })
+            ->editColumn('kondisi', function ($row) {
+                return ucwords($row->barang->kondisi) ?? '-';
+            })
+            ->editColumn('jumlah', function ($row) {
+                return $row->jumlah;
+            })
+            ->editColumn('tanggal', function ($row) {
+                return formatTanggal($row->tanggal);
+            })
+            ->editColumn('user_id', function ($row) {
+                return $row->user->nama;
+            })
+            ->editColumn('harga_jual', function ($row) {
+                return formatRupiah($row->harga_jual);
+            })
+            ->rawColumns(['gambar'])
+            ->make(true);
+
+        return $data; // Tidak perlu ->toJson(), make() sudah mengembalikan JsonResponse
     }
 }

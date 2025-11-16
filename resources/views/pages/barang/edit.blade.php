@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data Kategori')
+@section('title', 'Edit Barang')
 
 @section('content')
     <div class="p-8 space-y-6 ">
@@ -21,7 +21,7 @@
         @method('PUT')
         @csrf
         <div class="bg-white rounded-xl shadow-md overflow-hidden flex justify-center gap-2">
-            <div class="w-1/3 p-6 ">
+            {{-- <div class="w-1/3 p-6 ">
                 <div class="w-2/3 mx-auto">
                     <label for="gambar" class="block text-gray-700 font-semibold mb-2">Gambar</label>
                     @if ($barang->gambar == null)
@@ -33,12 +33,17 @@
                     @endif
                     <input type="file" name="gambar" id="gambar" class="form-input">
                 </div>
-            </div>
+            </div> --}}
             <div class="w-1/2 p-6 overflow-x-auto">
                 <div class="mb-4">
                     <label for="nama_barang" class="block text-gray-700 font-semibold mb-2">Nama Barang</label>
                     <input type="text" name="nama_barang" id="nama_barang" required class="form-input"
                         value="{{ $barang->nama_barang }}">
+                </div>
+                <div class="mb-4">
+                    <label for="kode_barang" class="block text-gray-700 font-semibold mb-2">Kode Barang</label>
+                    <input type="text" name="kode_barang" id="kode_barang" required class="form-input"
+                        value="{{ $barang->kode_barang }}">
                 </div>
                 <div class="mb-4">
                     <label for="kategori_id" class="block text-gray-700 font-semibold mb-2">Kategori</label>
@@ -52,8 +57,16 @@
                 </div>
                 <div class="mb-4">
                     <label for="ukuran" class="block text-gray-700 font-semibold mb-2">Ukuran</label>
-                    <input type="text" name="ukuran" id="ukuran" required class="form-input"
-                        value="{{ $barang->ukuran }}">
+                    <select name="ukuran" id="ukuran" required class="form-input ">
+                        <option {{ $barang->ukuran == 'S' ? 'selected' : '' }} value="S">
+                            S</option>
+                        <option {{ $barang->ukuran == 'M' ? 'selected' : '' }} value="M">
+                            M</option>
+                        <option {{ $barang->ukuran == 'L' ? 'selected' : '' }} value="L">
+                            L</option>
+                        <option {{ $barang->ukuran == 'XL' ? 'selected' : '' }} value="XL">
+                            XL</option>
+                    </select>
                 </div>
                 <div class="mb-4">
                     <label for="kondisi" class="block text-gray-700 font-semibold mb-2">Kondisi</label>
@@ -66,14 +79,14 @@
                             Sedang</option>
                     </select>
                 </div>
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                     <label for="harga_jual" class="block text-gray-700 font-semibold mb-2">Harga Jual</label>
                     <div class="flex items-center">
                         <p class="form-rupiah">Rp.</p>
                         <input type="number" id="harga_jual" name="harga_jual" class="form-input-harga" required
                             value="{{ $barang->harga_jual }}" />
                     </div>
-                </div>
+                </div> --}}
                 <div class="mb-4">
                     <label for="stok" class="block text-gray-700 font-semibold mb-2">Jumlah Stok</label>
                     <input type="number" name="stok" id="stok" required class="form-input"

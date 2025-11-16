@@ -8,12 +8,40 @@ $(function () {
             searchable: false,
         },
         {
+            data: "gambar",
+            name: "gambar",
+            render: function (data, type, row, meta) {
+                if (type === "display" || type === "filter") {
+                    return data; // Kembalikan string HTML yang dihasilkan oleh controller
+                }
+                return ""; // atau nilai lain untuk sorting/filtering
+            },
+            orderable: false,
+            searchable: false,
+        },
+        {
             data: "barang_id",
             name: "barang_id",
         },
         {
+            data: "kode_barang",
+            name: "kode_barang",
+        },
+        {
+            data: "harga_jual",
+            name: "harga_jual",
+        },
+        {
+            data: "ukuran",
+            name: "ukuran",
+        },
+        {
+            data: "kondisi",
+            name: "kondisi",
+        },
+        {
             data: "jumlah",
-            data: "jumlah",
+            name: "jumlah",
         },
         {
             data: "tanggal",

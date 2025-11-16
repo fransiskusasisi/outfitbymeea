@@ -11,17 +11,33 @@
         </div>
 
         <!-- Tabel Data -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="w-1/2 mx-auto p-6 overflow-x-auto">
-                @if (role() === 'pemilik')
-                    <form action="{{ route('pemilik.barangmasuk.update', $barangmasuk->masuk_id) }}" method="POST">
-                    @elseif(role() === 'petugas_gudang')
-                        <form action="{{ route('gudang.barangmasuk.update', $barangmasuk->masuk_id) }}" method="POST">
-                        @elseif(role() === 'kasir')
-                            <form action="{{ route('kasir.barangmasuk.update', $barangmasuk->masuk_id) }}" method="POST">
-                @endif
-                @method('PUT')
-                @csrf
+        @if (role() === 'pemilik')
+            <form action="{{ route('pemilik.barangmasuk.update', $barangmasuk->masuk_id) }}" method="POST"
+                enctype="multipart/form-data">
+            @elseif(role() === 'petugas_gudang')
+                <form action="{{ route('gudang.barangmasuk.update', $barangmasuk->masuk_id) }}" method="POST"
+                    enctype="multipart/form-data">
+                @elseif(role() === 'kasir')
+                    <form action="{{ route('kasir.barangmasuk.update', $barangmasuk->masuk_id) }}" method="POST"
+                        enctype="multipart/form-data">
+        @endif
+        @method('PUT')
+        @csrf
+        <div class="bg-white rounded-xl shadow-md overflow-hidden flex justify-center gap-2">
+            <div class="w-1/3 p-6 ">
+                <div class="w-2/3 mx-auto">
+                    <label for="gambar" class="block text-gray-700 font-semibold mb-2">Gambar</label>
+                    @if ($barangmasuk->gambar == null)
+                        <img src="{{ asset('images/no-img.jpg') }}" alt="Gambar Barang"
+                            class="w-full mx-auto shadow-md object-cover rounded-xl mb-4">
+                    @else
+                        <img src="{{ asset('storage/images/barang/' . $barangmasuk->gambar) }}" alt="Gambar Barang"
+                            class="w-full mx-auto shadow-md object-cover rounded-xl mb-4">
+                    @endif
+                    <input type="file" name="gambar" id="gambar" class="form-input">
+                </div>
+            </div>
+            <div class="w-1/2 p-6 overflow-x-auto">
                 <div class="mb-4">
                     <label for="barang_id" class="block text-gray-700 font-semibold mb-2">Nama Barang</label>
                     <select name="barang_id" id="barang_id" required class="form-input">
@@ -38,6 +54,14 @@
                         value="{{ $barangmasuk->jumlah }}">
                 </div>
                 <div class="mb-4">
+                    <label for="harga_jual" class="block text-gray-700 font-semibold mb-2">Harga Jual</label>
+                    <div class="flex items-center">
+                        <p class="form-rupiah">Rp.</p>
+                        <input type="number" id="harga_jual" name="harga_jual" class="form-input-harga" required
+                            value="{{ $barangmasuk->harga_jual }}" />
+                    </div>
+                </div>
+                <div class="mb-4">
                     <label for="tanggal" class="block text-gray-700 font-semibold mb-2">Tanggal</label>
                     <input type="date" name="tanggal" id="tanggal" required class="form-input"
                         value="{{ $barangmasuk->tanggal }}">
@@ -47,9 +71,9 @@
                         @include('icons.update-icon')Update Barang Masuk
                     </button>
                 </div>
-                </form>
             </div>
         </div>
+        </form>
 
     </div>
 @endsection
