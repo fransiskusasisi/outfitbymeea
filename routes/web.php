@@ -49,6 +49,10 @@ Route::middleware(['role:pemilik'])->group(function () {
         Route::resource('riwayatlogin', RiwayatLoginController::class);
         Route::get('/laporan/stok', [LaporanController::class, 'stok'])->name('laporan.stok');
         Route::get('/laporan/stok/cetak', [LaporanController::class, 'cetakStok'])->name('laporan.stok.cetak');
+        Route::get('/laporan/transaksi', [LaporanController::class, 'transaksi'])->name('laporan.transaksi');
+        Route::get('/laporan/transaksi/barang-masuk', [LaporanController::class, 'transaksiBarangMasuk'])->name('laporan.transaksi.barang-masuk');
+        Route::get('/laporan/transaksi/barang-keluar', [LaporanController::class, 'transaksiBarangKeluar'])->name('laporan.transaksi.barang-keluar');
+        Route::get('/laporan/transaksi/cetak', [LaporanController::class, 'cetakTransaksi'])->name('laporan.transaksi.cetak');
     });
 });
 

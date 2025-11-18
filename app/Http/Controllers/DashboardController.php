@@ -43,7 +43,6 @@ class DashboardController extends Controller
     public function kasir(Request $request)
     {
         if ($request->ajax()) {
-            // Gunakan method baru untuk data
             return $this->kasirData($request);
         }
         return view('dashboard.kasir');
@@ -76,7 +75,7 @@ class DashboardController extends Controller
                 return ucwords($row->barang->kondisi) ?? '-';
             })
             ->editColumn('jumlah', function ($row) {
-                return $row->jumlah;
+                return $row->barang->stok;
             })
             ->editColumn('tanggal', function ($row) {
                 return formatTanggal($row->tanggal);
@@ -90,6 +89,6 @@ class DashboardController extends Controller
             ->rawColumns(['gambar'])
             ->make(true);
 
-        return $data; // Tidak perlu ->toJson(), make() sudah mengembalikan JsonResponse
+        return $data;
     }
 }

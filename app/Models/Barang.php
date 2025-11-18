@@ -25,4 +25,9 @@ class Barang extends Model
     {
         return $this->belongsTo(Kategori::class, 'kategori_id', 'kategori_id');
     }
+
+    public function latestMasuk()
+    {
+        return $this->hasOne(BarangMasuk::class, 'barang_id', 'barang_id')->latestOfMany('masuk_id');
+    }
 }
