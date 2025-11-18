@@ -29,6 +29,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Notifikasi barang menipis
 Route::get('/notifikasi-barang', [NotifikasiController::class, 'getBarangMenipis'])->name('notifikasi.barang');
+Route::get('/barang/{id}/stok', [BarangController::class, 'getStok'])->name('barang.getStok');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', function () {
@@ -48,6 +49,10 @@ Route::middleware(['role:pemilik'])->group(function () {
         Route::resource('riwayatlogin', RiwayatLoginController::class);
         Route::get('/laporan/stok', [LaporanController::class, 'stok'])->name('laporan.stok');
         Route::get('/laporan/stok/cetak', [LaporanController::class, 'cetakStok'])->name('laporan.stok.cetak');
+        Route::get('/laporan/transaksi', [LaporanController::class, 'transaksi'])->name('laporan.transaksi');
+        Route::get('/laporan/transaksi/barang-masuk', [LaporanController::class, 'transaksiBarangMasuk'])->name('laporan.transaksi.barang-masuk');
+        Route::get('/laporan/transaksi/barang-keluar', [LaporanController::class, 'transaksiBarangKeluar'])->name('laporan.transaksi.barang-keluar');
+        Route::get('/laporan/transaksi/cetak', [LaporanController::class, 'cetakTransaksi'])->name('laporan.transaksi.cetak');
     });
 });
 
@@ -65,7 +70,10 @@ Route::middleware(['role:petugas_gudang'])->group(function () {
 
 // Role: Kasir
 Route::middleware(['role:kasir'])->group(function () {
+    // Route::get('/kasir/dashboard', [DashboardController::class, 'kasir'])->name('kasir.dashboard');
     Route::get('/kasir/dashboard', [DashboardController::class, 'kasir'])->name('kasir.dashboard');
+    Route::get('/kasir/dashboard/data', [DashboardController::class, 'kasirData'])->name('kasir.dashboard.data'); // <-- Tambahkan ini
+
     Route::prefix('kasir')->name('kasir.')->group(function () {
         Route::resource('barang', BarangController::class);
         Route::resource('kategori', KategoriController::class);

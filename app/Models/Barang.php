@@ -12,11 +12,10 @@ class Barang extends Model
 
     protected $fillable = [
         'nama_barang',
+        'kode_barang',
         'kategori_id',
         'ukuran',
         'kondisi',
-        'gambar',
-        'harga_jual',
         'stok',
         'created_at',
         'updated_at',
@@ -25,5 +24,10 @@ class Barang extends Model
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'kategori_id', 'kategori_id');
+    }
+
+    public function latestMasuk()
+    {
+        return $this->hasOne(BarangMasuk::class, 'barang_id', 'barang_id')->latestOfMany('masuk_id');
     }
 }

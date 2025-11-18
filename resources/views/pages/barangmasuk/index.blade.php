@@ -28,7 +28,12 @@
                     <thead class="thead-main">
                         <tr class="tr-main">
                             <th class="text-center">No</th>
+                            <th>Gambar</th>
                             <th>Nama Barang</th>
+                            <th>Kode Barang</th>
+                            <th>Harga Jual</th>
+                            <th>Ukuran</th>
+                            <th>Kondisi</th>
                             <th>Jumlah</th>
                             <th>Tanggal</th>
                             <th>Nama User</th>

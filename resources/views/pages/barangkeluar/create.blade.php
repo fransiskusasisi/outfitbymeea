@@ -34,10 +34,13 @@
                     <label for="jumlah" class="block text-gray-700 font-semibold mb-2">Jumlah</label>
                     <input type="number" name="jumlah" id="jumlah" required class="form-input"
                         placeholder="Masukkan jumlah barang">
+                    <p class="text-sm mt-2 italic text-gray-600 mr-2">Jumlah Stok tersedia: <span id="stok_tersedia"></span>
+                    </p>
                 </div>
                 <div class="mb-4">
                     <label for="tanggal" class="block text-gray-700 font-semibold mb-2">Tanggal</label>
-                    <input type="date" name="tanggal" id="tanggal" required class="form-input">
+                    <input type="date" name="tanggal" id="tanggal" required class="form-input-disabled"
+                        value="{{ now()->format('Y-m-d') }}" readonly>
                 </div>
                 <div class="flex justify-end mt-8">
                     <button type="submit" class="btn-ungu">
@@ -83,4 +86,99 @@
         @endif
     </script>
     <script src="{{ asset('js/kategori.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectBarang = document.getElementById('barang_id');
+            const stokTersedia = document.getElementById('stok_tersedia');
+            const inputJumlah = document.getElementById('jumlah');
+            const submitButton = document.querySelector('button[type="submit"]');
+
+            if (!selectBarang) return;
+
+            // Helper untuk men-set UI ketika stok diketahui
+            function setStokUI(stok) {
+                if (stok === null || stok === undefined || stok === '') {
+                    stokTersedia.textContent = '';
+                    inputJumlah.removeAttribute('max');
+                    inputJumlah.disabled = false;
+                    if (submitButton) submitButton.disabled = false;
+                    return;
+                }
+
+                // pastikan stok sebagai number
+                const stokNum = parseInt(stok, 10);
+                stokTersedia.textContent = isNaN(stokNum) ? '-' : stokNum;
+
+                if (!isNaN(stokNum)) {
+                    inputJumlah.max = stokNum;
+                    // jika stok 0 -> disable input & tombol submit
+                    if (stokNum <= 0) {
+                        inputJumlah.value = '';
+                        inputJumlah.disabled = true;
+                        if (submitButton) submitButton.disabled = true;
+                    } else {
+                        inputJumlah.disabled = false;
+                        if (submitButton) submitButton.disabled = false;
+                    }
+                } else {
+                    inputJumlah.removeAttribute('max');
+                    inputJumlah.disabled = false;
+                    if (submitButton) submitButton.disabled = false;
+                }
+            }
+
+            selectBarang.addEventListener('change', function() {
+                const barangId = this.value;
+                if (!barangId) {
+                    setStokUI(null);
+                    return;
+                }
+
+                // Bangun URL stok dengan base url blade untuk menghindari masalah path
+                const baseUrl = "{{ url('barang') }}"; // menghasilkan /barang
+                const url = `${baseUrl}/${barangId}/stok`;
+
+                // fetch
+                fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                        },
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Gagal mengambil data stok');
+                        return response.json();
+                    })
+                    .then(data => {
+                        // asumsi struktur: { success: true, stok: 10 } atau { success: false, message: '...' }
+                        if (data === null) {
+                            setStokUI(null);
+                            return;
+                        }
+
+                        if (data.success === false) {
+                            // jika API mengembalikan gagal
+                            setStokUI(null);
+                            stokTersedia.textContent = data.stok ?? '';
+                            alert(data.message || 'Barang tidak ditemukan');
+                            return;
+                        }
+
+                        // jika berhasil
+                        const stok = data.stok ?? null;
+                        setStokUI(stok);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        setStokUI(null);
+                        alert('Terjadi kesalahan saat mengambil data stok.');
+                    });
+            });
+
+            // Inisialisasi awal jika ada value default terpilih
+            if (selectBarang.value) {
+                selectBarang.dispatchEvent(new Event('change'));
+            }
+        });
+    </script>
 @endpush
