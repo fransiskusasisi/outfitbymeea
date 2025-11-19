@@ -62,7 +62,7 @@
                         <div class=" flex items-center gap-4">
                             <div class="w-20 h-20 rounded-full overflow-hidden shadow-lg">
                                 <img class="w-full h-full object-cover"
-                                    src="{{ $item->gambar == null ? asset('/images/no-img.jpg') : asset('storage/images/barang/' . $item->gambar) }}"
+                                    src="{{ optional($item->latestMasuk)->gambar ? asset('storage/images/barang/' . optional($item->latestMasuk)->gambar) : asset('/images/no-img.jpg') }}"
                                     alt="{{ $item->nama_barang }}">
                             </div>
                             <div>
