@@ -116,6 +116,9 @@ class LaporanController extends Controller
             ->editColumn('kode_barang', function ($row) {
                 return $row->barang->kode_barang ?? '-';
             })
+            ->editColumn('harga_jual', function ($row) {
+                return $row->barang->latestMasuk ? formatRupiah($row->barang->latestMasuk->harga_jual) : '-';
+            })
             ->editColumn('ukuran', function ($row) {
                 return $row->barang->ukuran ?? '-';
             })
@@ -130,9 +133,6 @@ class LaporanController extends Controller
             })
             ->editColumn('user_id', function ($row) {
                 return $row->user->nama;
-            })
-            ->editColumn('harga_jual', function ($row) {
-                return formatRupiah($row->harga_jual);
             })
             ->rawColumns(['gambar'])
             ->make(true);

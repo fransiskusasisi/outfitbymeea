@@ -51,7 +51,7 @@ class DashboardController extends Controller
     // Method baru untuk AJAX DataTables
     public function kasirData(Request $request)
     {
-        $data = DataTables::of(BarangMasuk::with(['barang', 'user'])->orderBy('masuk_id', 'desc')) // Optimalkan relasi
+        $data = DataTables::of(BarangMasuk::with(['barang', 'user'])->orderBy('masuk_id', 'desc')) 
             ->addIndexColumn()
             ->editColumn('gambar', function ($row) {
                 $imgSrc = $row->gambar

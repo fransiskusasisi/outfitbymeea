@@ -15,7 +15,11 @@ class BarangMasukController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = DataTables::of(BarangMasuk::query()->orderBy('masuk_id', 'desc'))
+            $query = BarangMasuk::query()
+                ->join('barang', 'barang_masuk.barang_id', '=', 'barang.barang_id')
+                ->orderBy('barang.nama_barang', 'asc')
+                ->select('barang_masuk.*');
+            $data = DataTables::of($query)
                 ->addIndexColumn()
                 ->editColumn('masuk_id', function ($row) {
                     return $row->barang_id;
