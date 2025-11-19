@@ -11,46 +11,20 @@ $(function () {
             data: "gambar",
             name: "gambar",
             render: function (data, type, row, meta) {
-                if (type === "display" || type === "filter") {
-                    return data; // Kembalikan string HTML yang dihasilkan oleh controller
-                }
-                return ""; // atau nilai lain untuk sorting/filtering
+                if (type === "display" || type === "filter") return data;
+                return "";
             },
             orderable: false,
             searchable: false,
         },
-        {
-            data: "barang_id",
-            name: "barang_id",
-        },
-        {
-            data: "kode_barang",
-            name: "kode_barang",
-        },
-        {
-            data: "harga_jual",
-            name: "harga_jual",
-        },
-        {
-            data: "ukuran",
-            name: "ukuran",
-        },
-        {
-            data: "kondisi",
-            name: "kondisi",
-        },
-        {
-            data: "jumlah",
-            name: "jumlah",
-        },
-        {
-            data: "tanggal",
-            name: "tanggal",
-        },
-        {
-            data: "user_id",
-            name: "user_id",
-        },
+        { data: "barang_id", name: "barang.nama_barang" }, // jika ingin sort by nama barang
+        { data: "kode_barang", name: "barang.kode_barang" },
+        { data: "harga_jual", name: "barang_masuk.harga_jual" },
+        { data: "ukuran", name: "barang.ukuran" },
+        { data: "kondisi", name: "barang.kondisi" },
+        { data: "jumlah", name: "barang_masuk.jumlah", orderable: true }, // <-- penting
+        { data: "tanggal", name: "barang_masuk.tanggal" },
+        { data: "user_id", name: "users.nama" }, // jika ingin sort by user name
     ];
 
     if (userRole !== "kasir") {
@@ -65,6 +39,7 @@ $(function () {
         serverSide: true,
         ajax: indexUrl,
         columns: columns,
+        order: [[2, "asc"]],
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Cari barang...",
