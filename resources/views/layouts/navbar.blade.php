@@ -10,7 +10,7 @@
             <button id="notif_btn" class="focus:outline-none relative flex justify-center">
                 @include('icons.notif-icon')
                 <!-- Titik merah -->
-                <span
+                <span id="notif_dot"
                     class="absolute top-0 right-0 block w-2 h-2 bg-red-500 rounded-full transform translate-x-1 -translate-y-1">
                 </span>
             </button>
@@ -78,7 +78,9 @@
     const notifDropdown = document.getElementById('notif_dropdown');
     const notifList = notifDropdown.querySelector('ul');
     const closeNotif = document.getElementById('close_notif');
+    const notifDot = document.getElementById('notif_dot');
 
+    // Fungsi bantu: format time ago (tetap gunakan ini)
     function timeAgo(date) {
         const now = new Date();
         const seconds = Math.floor((now - date) / 1000);
@@ -99,12 +101,12 @@
                 return `${interval} ${key}${interval > 1 ? '' : ''} yang lalu`;
             }
         }
-
         return "Baru saja";
     }
 
+    // Ambil URL berdasarkan role
     const role = "{{ Auth::user()->role }}";
-    let barangUrl = "#"; // default
+    let barangUrl = "#";
     if (role === 'pemilik') {
         barangUrl = "{{ route('pemilik.barang.index') }}";
     } else if (role === 'petugas_gudang') {
@@ -113,13 +115,67 @@
         barangUrl = "{{ route('kasir.barang.index') }}";
     }
 
+    // ===== FUNGSI UTAMA =====
 
+    // Periksa apakah perlu tampilkan titik merah
+    function updateNotifDot() {
+        const lastReadAtStr = localStorage.getItem('last_notif_read_at');
+        const lastReadAt = lastReadAtStr ? new Date(lastReadAtStr) : null;
+
+        // Ambil notifikasi dari localStorage cache (opsional) atau fetch baru?
+        // Kita akan fetch sekali saat halaman dimuat untuk cek titik
+        fetch(`{{ url('/notifikasi-barang') }}`)
+            .then(response => response.json())
+            .then(notifs => {
+                let hasNew = false;
+
+                if (notifs.length > 0) {
+                    // Cek apakah ada notifikasi yang updated_at > lastReadAt
+                    for (const item of notifs) {
+                        const updatedAt = new Date(item.updated_at);
+                        if (!lastReadAt || updatedAt > lastReadAt) {
+                            hasNew = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (hasNew) {
+                    notifDot.classList.remove('hidden');
+                } else {
+                    notifDot.classList.add('hidden');
+                }
+            })
+            .catch(err => {
+                console.error("Gagal cek notifikasi untuk titik:", err);
+                // Jika error, aman: sembunyikan titik
+                notifDot.classList.add('hidden');
+            });
+    }
+
+    // Tandai notifikasi sudah dibaca (simpan waktu sekarang)
+    function markNotifAsRead() {
+        const now = new Date().toISOString(); // format ISO: "2025-11-28T12:00:00.000Z"
+        localStorage.setItem('last_notif_read_at', now);
+        notifDot.classList.add('hidden');
+    }
+
+    // Muat status titik saat halaman pertama kali dimuat
+    document.addEventListener("DOMContentLoaded", () => {
+        updateNotifDot();
+    });
+
+    // Event klik notifikasi
     notifBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
+        const willOpen = notifDropdown.classList.contains('hidden');
         notifDropdown.classList.toggle('hidden');
 
-        if (!notifDropdown.classList.contains('hidden')) {
-            // Tampilkan loading sementara
+        if (willOpen) {
+            // Tandai sebagai sudah dibaca → update localStorage & sembunyikan titik
+            markNotifAsRead();
+
+            // Tampilkan loading
             notifList.innerHTML = `<li class="px-4 py-3 text-gray-500 text-sm">Memuat notifikasi...</li>`;
 
             try {
@@ -142,7 +198,6 @@
                     </a>
                     `).join('');
                 }
-
             } catch (error) {
                 notifList.innerHTML =
                     `<li class="px-4 py-3 text-red-500 text-sm">Gagal memuat data notifikasi.</li>`;
@@ -151,10 +206,12 @@
         }
     });
 
+    // Tutup dropdown
     closeNotif.addEventListener('click', () => {
         notifDropdown.classList.add('hidden');
     });
 
+    // Klik di luar → tutup
     document.addEventListener('click', (e) => {
         if (!notifDropdown.contains(e.target) && !notifBtn.contains(e.target)) {
             notifDropdown.classList.add('hidden');

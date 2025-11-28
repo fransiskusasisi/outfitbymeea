@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         // Tetap buat tabel dengan nama 'barang' sesuai skema yang Anda berikan
-        Schema::create('barang', function (Blueprint $table) {
-            
+        Schema::create('barangs', function (Blueprint $table) {
+
             // Kolom Primary Key (bigint(20) UNSIGNED AUTO_INCREMENT)
-            $table->bigIncrements('barang_id'); 
-            
+            $table->bigIncrements('barang_id');
+
             // Kolom Data
             $table->string('nama_barang', 150)->nullable(false);
             $table->bigInteger('kategori_id')->unsigned()->nullable(); // Nullable
@@ -25,12 +25,12 @@ return new class extends Migration
             $table->decimal('harga_beli', 12, 2)->nullable(false);
             $table->decimal('harga_jual', 12, 2)->nullable(false);
             $table->integer('stok')->default(0);
-            
+
             // Kolom created_at dan updated_at
             // Karena created_at Anda memiliki default Current_timestamp(), kita bisa eksplisit:
             $table->timestamp('created_at')->useCurrent();
             // Tambahkan updated_at
-            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate(); 
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

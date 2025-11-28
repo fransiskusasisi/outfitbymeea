@@ -30,4 +30,9 @@ class Barang extends Model
     {
         return $this->hasOne(BarangMasuk::class, 'barang_id', 'barang_id')->latestOfMany('masuk_id');
     }
+
+    public function latestKeluar()
+    {
+        return $this->hasOne(barangKeluar::class, 'barang_id', 'barang_id')->latestOfMany('keluar_id');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Transaksi;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\BarangKeluar;
+use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -14,7 +15,7 @@ class BarangKeluarController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = DataTables::of(BarangKeluar::query()->orderBy('keluar_id', 'desc'))
+            $data = DataTables::of(BarangKeluar::query())
                 ->addIndexColumn()
                 ->editColumn('keluar_id', function ($row) {
                     return $row->barang_id;
@@ -80,7 +81,10 @@ class BarangKeluarController extends Controller
 
     public function create()
     {
-        $barang = Barang::orderBy('nama_barang', 'asc')->get();
+        $barangMasukIds = BarangMasuk::pluck('barang_id');
+        $barang = Barang::whereIn('barang_id', $barangMasukIds)
+            ->orderBy('nama_barang', 'asc')
+            ->get();
         return view('pages.barangkeluar.create', compact('barang'));
     }
 
@@ -137,6 +141,16 @@ class BarangKeluarController extends Controller
             'jumlah' => 'required|integer|min:1',
             'tanggal' => 'required|date',
         ]);
+
+        $updateBarang = Barang::find($request->barang_id);
+        $stokBarang = $updateBarang->stok;
+        $barangkeluarLama = BarangKeluar::findOrFail($id);
+        if ($stokBarang - ($request->jumlah - $barangkeluarLama->jumlah) < 0) {
+            session()->flash('gagal', 'Stok barang tidak cukup!, Sisa stok: ' . $stokBarang);
+            return redirect()->back();
+        }
+        $updateBarang->stok -= ($request->jumlah - $barangkeluarLama->jumlah);
+        $updateBarang->save();
 
         $barangkeluar = BarangKeluar::findOrFail($id);
         $update = $barangkeluar->update([

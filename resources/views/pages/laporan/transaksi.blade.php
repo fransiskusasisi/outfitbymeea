@@ -9,9 +9,16 @@
                 <h1 class="text-3xl font-bold text-gray-800">Laporan Transaksi Barang</h1>
                 <p class="text-gray-500 text-sm mt-1">Data transaksi keseluruhan</p>
             </div>
-            <a href="{{ route('pemilik.laporan.transaksi.cetak') }}" target="_blank" class="btn-cetak">
-                @include('icons.print-icon')Cetak PDF
-            </a>
+            <div class="flex gap-2">
+                <a href="{{ route('pemilik.laporan.transaksi.cetak', ['tipe' => 'masuk']) }}" target="_blank"
+                    class="btn-cetak">
+                    @include('icons.print-icon')Cetak Transaksi Masuk
+                </a>
+                <a href="{{ route('pemilik.laporan.transaksi.cetak', ['tipe' => 'keluar']) }}" target="_blank"
+                    class="btn-cetak">
+                    @include('icons.print-icon')Cetak Transaksi Keluar
+                </a>
+            </div>
         </div>
         <div x-data="{ activeTab: 'masuk' }" class="relative">
             <div class="flex gap-4 justify-start mb-6">

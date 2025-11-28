@@ -53,6 +53,9 @@ Route::middleware(['role:pemilik'])->group(function () {
         Route::get('/laporan/transaksi/barang-masuk', [LaporanController::class, 'transaksiBarangMasuk'])->name('laporan.transaksi.barang-masuk');
         Route::get('/laporan/transaksi/barang-keluar', [LaporanController::class, 'transaksiBarangKeluar'])->name('laporan.transaksi.barang-keluar');
         Route::get('/laporan/transaksi/cetak', [LaporanController::class, 'cetakTransaksi'])->name('laporan.transaksi.cetak');
+        Route::get('/laporan/lengkap/cetak', [LaporanController::class, 'cetakLaporanLengkap'])->name('laporan.lengkap.cetak');
+        Route::get('/laporan/lengkap', [LaporanController::class, 'laporanLengkap'])->name('laporan.lengkap');
+        Route::get('/laporan/lengkap/data', [LaporanController::class, 'laporanLengkapData'])->name('laporan.lengkap.data');
     });
 });
 

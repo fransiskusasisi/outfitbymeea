@@ -53,6 +53,7 @@ $(function () {
         serverSide: true,
         ajax: indexUrl,
         columns: columns,
+        order: [[2, "asc"]],
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Cari barang...",
