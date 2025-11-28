@@ -17,7 +17,7 @@
             class="sidebar-menu block px-4 py-2 rounded hover:bg-purple-600 transition-colors">
             <i class="fa-solid fa-house mr-2"></i>Dashboard
         </a>
-        <a href="{{ route('pemilik.laporan.lengkap.cetak') }}"
+        <a href="{{ route('pemilik.laporan.lengkap') }}"
             class="sidebar-menu block px-4 py-2 rounded hover:bg-purple-600 transition-colors">
             <i class="fa fa-file-alt mr-2"></i> Laporan
         </a>

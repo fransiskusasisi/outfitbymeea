@@ -1,5 +1,3 @@
-const { orderBy } = require("lodash");
-
 $(function () {
     const columns = [
         {

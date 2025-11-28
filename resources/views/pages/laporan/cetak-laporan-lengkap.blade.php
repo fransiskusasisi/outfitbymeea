@@ -286,17 +286,11 @@
                     </td>
                 </tr>
             @endforeach
-            {{-- <tr>
-                <td style="text-align: center;">1</td>
-                <td>Jaket Harian</td>
-                <td style="text-align: center;">2</td>
-                <td>Rp 250.000</td>
-                <td></td>
-                <td></td>
-            </tr> --}}
         </tbody>
     </table>
-
+    <p style="text-align: right; margin-top: 30px;">
+        Dicetak pada: {{ \Carbon\Carbon::now()->translatedFormat('d F Y, H:i') }}
+    </p>
 </body>
 
 </html>
