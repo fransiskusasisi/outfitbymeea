@@ -54,7 +54,8 @@
                     <td>{{ $barang->nama_barang }}</td>
                     <td>{{ $barang->kategori->nama ?? '-' }}</td>
                     <td style="text-align: center;">{{ $barang->stok }}</td>
-                    <td>{{ formatRupiah($barang->harga_jual) }}</td>
+                    <td>{{ $barang->latestMasuk ? formatRupiah($barang->latestMasuk->harga_jual) : '-' }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>

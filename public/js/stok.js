@@ -17,7 +17,7 @@ $(function () {
             },
             {
                 data: "kategori_id",
-                data: "kategori_id",
+                name: "kategori_id",
             },
             {
                 data: "stok",
@@ -28,6 +28,7 @@ $(function () {
                 name: "harga_jual",
             },
         ],
+        order: [[1, "asc"]],
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Cari barang...",

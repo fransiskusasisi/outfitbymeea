@@ -25,7 +25,7 @@
                             <th>Nama Barang</th>
                             <th>Kategori</th>
                             <th>Stok</th>
-                            <th>Harga Jual?</th>
+                            <th>Harga Jual</th>
                         </tr>
                     </thead>
                     <tbody class="tbody-main"></tbody>

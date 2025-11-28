@@ -14,7 +14,7 @@ class BarangKeluarController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = DataTables::of(BarangKeluar::query()->orderBy('keluar_id', 'desc'))
+            $data = DataTables::of(BarangKeluar::query())
                 ->addIndexColumn()
                 ->editColumn('keluar_id', function ($row) {
                     return $row->barang_id;

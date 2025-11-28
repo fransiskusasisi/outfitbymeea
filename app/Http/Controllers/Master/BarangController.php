@@ -20,7 +20,7 @@ class BarangController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = DataTables::of(Barang::query()->orderBy('barang_id', 'desc'))
+            $data = DataTables::of(Barang::query())
                 ->addIndexColumn()
                 // ->editColumn('gambar', function ($row) {
                 //     $imgSrc = $row->gambar

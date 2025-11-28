@@ -20,22 +20,30 @@ class LaporanController extends Controller
     public function stok(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Barang::query()->orderBy('barang_id', 'desc'))
+            $query = Barang::with('kategori'); // eager-load
+
+            return DataTables::of($query)
                 ->addIndexColumn()
                 ->editColumn('barang_id', function ($row) {
                     return 'BRG-' . $row->barang_id;
                 })
+                ->editColumn('nama_barang', function ($row) {
+                    return $row->nama_barang;
+                })
                 ->editColumn('kategori_id', function ($row) {
-                    return $row->kategori->nama;
+                    return optional($row->kategori)->nama;
                 })
                 ->editColumn('harga_jual', function ($row) {
-                    return formatRupiah($row->harga_jual);
+                    return $row->latestMasuk ? formatRupiah($row->latestMasuk->harga_jual) : '-';
+                })
+                ->editColumn('stok', function ($row) {
+                    return $row->stok;
                 })
                 ->toJson();
-            // ->make(true);
         }
         return view('pages.laporan.stok');
     }
+
 
     public function cetakStok()
     {
@@ -149,5 +157,33 @@ class LaporanController extends Controller
             ->setPaper('a4', 'portrait');
 
         return $pdf->stream('laporan-transaksi.pdf');
+    }
+
+    public function cetakLaporanLengkap()
+    {
+        $jmlTransaksiMasuk = BarangMasuk::count();
+        $jmlTransaksiKeluar = BarangKeluar::count();
+        $totalTransaksi = $jmlTransaksiMasuk + $jmlTransaksiKeluar;
+        $totalNilaiMasuk = BarangMasuk::get()->map(function ($item) {
+            return $item->harga_jual * $item->jumlah;
+        })->sum();
+
+        $barangIds = BarangKeluar::pluck('barang_id')->toArray();
+        $totalNilaiKeluar = BarangMasuk::whereIn('barang_id', $barangIds)->get()->map(function ($item) {
+            return $item->harga_jual * $item->jumlah;
+        })->sum();
+
+        $barang = Barang::with(['latestMasuk', 'latestKeluar'])->get();
+        $pdf = Pdf::loadView('pages.laporan.cetak-laporan-lengkap', compact(
+            'jmlTransaksiMasuk',
+            'jmlTransaksiKeluar',
+            'totalTransaksi',
+            'totalNilaiMasuk',
+            'totalNilaiKeluar',
+            'barang'
+        ))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('laporan-lengkap.pdf');
     }
 }
