@@ -9,7 +9,7 @@ $(function () {
         },
         {
             data: "nama_barang",
-            name: "nama_barang",
+            name: "barang.nama_barang",
         },
         {
             data: "jumlah",

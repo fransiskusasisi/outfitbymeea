@@ -21,7 +21,7 @@ $(function () {
         },
         {
             data: "kategori_nama",
-            data: "kategori_nama",
+            data: "kategori.nama",
         },
         {
             data: "ukuran",
