@@ -20,18 +20,12 @@ class BarangController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = DataTables::of(Barang::query())
+            $query = Barang::with('kategori')
+                ->join('kategori', 'barang.kategori_id', '=', 'kategori.kategori_id')
+                ->select('barang.*', 'kategori.nama as kategori_nama');
+            $data = DataTables::of($query)
                 ->addIndexColumn()
-                // ->editColumn('gambar', function ($row) {
-                //     $imgSrc = $row->gambar
-                //         ? asset('storage/images/barang/' . $row->gambar)
-                //         : asset('images/no-img.jpg');
-
-                //     return '<div class="w-12 h-12">
-                //         <img class="w-full h-full object-cover shadow-md rounded-md" src="' . $imgSrc . '" alt="' . $row->nama_barang . '">
-                //         </div>';
-                // })
-
+                ->orderColumn('kategori_nama', 'kategori.nama $1')
                 ->editColumn('kode_barang', function ($row) {
                     return $row->kode_barang ?? '-';
                 })
@@ -39,11 +33,8 @@ class BarangController extends Controller
                     return $row->kategori->nama;
                 })
                 ->editColumn('kondisi', function ($row) {
-                    return ucfirst($row->kondisi);
+                    return ucwords($row->kondisi);
                 });
-            // ->editColumn('harga_jual', function ($row) {
-            //     return formatRupiah($row->harga_jual);
-            // });
 
 
             if (role() === 'pemilik') {

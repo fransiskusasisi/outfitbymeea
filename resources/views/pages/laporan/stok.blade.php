@@ -7,12 +7,11 @@
         <div class="flex justify-between items-center mb-6">
             <div>
                 <h1 class="text-3xl font-bold text-gray-800">Laporan Stok Barang</h1>
-                <p class="text-gray-500 text-sm mt-1">Data stok keseluruhan tanpa modifikasi</p>
             </div>
 
             {{-- Tombol Cetak PDF --}}
             <a href="{{ route('pemilik.laporan.stok.cetak') }}" target="_blank" class="btn-cetak">
-                @include('icons.print-icon')Cetak PDF
+                @include('icons.print-icon')Cetak Stok Barang
             </a>
         </div>
         <!-- Tabel Data -->

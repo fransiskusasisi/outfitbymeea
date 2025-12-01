@@ -12,15 +12,23 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LaporanController extends Controller
 {
-    // public function stok()
-    // {
-    //     $barangs = Barang::with('kategori')->get();
-    //     return view('pages.laporan.stok', compact('barangs'));
-    // }
     public function stok(Request $request)
     {
         if ($request->ajax()) {
-            $query = Barang::with('kategori'); // eager-load
+            $sub = BarangMasuk::selectRaw('barang_id, MAX(masuk_id) as max_masuk_id')
+                ->groupBy('barang_id');
+
+            $query = Barang::query()
+                ->leftJoin('kategori', 'barang.kategori_id', '=', 'kategori.kategori_id')
+                ->leftJoinSub($sub, 'bm_latest', function ($join) {
+                    $join->on('barang.barang_id', '=', 'bm_latest.barang_id');
+                })
+                ->leftJoin('barang_masuk as bm', 'bm.masuk_id', '=', 'bm_latest.max_masuk_id')
+                ->select(
+                    'barang.*',
+                    'kategori.nama as kategori_nama',
+                    'bm.harga_jual as harga_jual_latest'
+                );
 
             return DataTables::of($query)
                 ->addIndexColumn()
@@ -31,14 +39,15 @@ class LaporanController extends Controller
                     return $row->nama_barang;
                 })
                 ->editColumn('kategori_id', function ($row) {
-                    return optional($row->kategori)->nama;
+                    return $row->kategori_nama ?? '-';
                 })
                 ->editColumn('harga_jual', function ($row) {
-                    return $row->latestMasuk ? formatRupiah($row->latestMasuk->harga_jual) : '-';
+                    return $row->harga_jual_latest ? formatRupiah($row->harga_jual_latest) : '-';
                 })
                 ->editColumn('stok', function ($row) {
                     return $row->stok;
                 })
+                ->orderColumn('harga_jual', 'bm.harga_jual $1')
                 ->toJson();
         }
         return view('pages.laporan.stok');
@@ -65,19 +74,37 @@ class LaporanController extends Controller
 
     public function transaksiBarangMasuk(Request $request)
     {
-        $data = DataTables::of(BarangMasuk::with(['barang', 'user'])->orderBy('masuk_id', 'desc')) // Optimalkan relasi
+        $query = BarangMasuk::with('user', 'barang')
+            ->join('users', 'barang_masuk.user_id', '=', 'users.user_id')
+            ->join('barang', 'barang_masuk.barang_id', '=', 'barang.barang_id')
+            ->select('barang_masuk.*', 'users.nama as user_nama', 'barang.nama_barang as nama_barang');
+
+        $data = DataTables::of($query)
             ->addIndexColumn()
+            ->orderColumn('jumlah', 'barang_masuk.jumlah $1')
+            ->orderColumn('nama_barang', 'barang.nama_barang $1')
+            ->orderColumn('user_nama', 'users.nama $1')
+
+            ->filterColumn('nama_barang', function ($query, $keyword) {
+                $keyword = str_replace("'", "", $keyword); // sanitasi sederhana
+                $query->whereRaw("barang.nama_barang like ?", ["%{$keyword}%"]);
+            })
+            ->filterColumn('user_nama', function ($query, $keyword) {
+                $keyword = str_replace("'", "", $keyword);
+                $query->whereRaw("users.nama like ?", ["%{$keyword}%"]);
+            })
+
             ->editColumn('gambar', function ($row) {
                 $imgSrc = $row->gambar
                     ? asset('storage/images/barang/' . $row->gambar)
                     : asset('images/no-img.jpg');
 
                 return '<div class="w-12 h-12">
-                <img class="w-full h-full object-cover shadow-md rounded-md" src="' . $imgSrc . '" alt="' . e($row->barang->nama_barang) . '">
+                <img class="w-full h-full object-cover shadow-md rounded-md" src="' . $imgSrc . '" alt="' . e($row->nama_barang ?? '-') . '">
                 </div>';
             })
             ->editColumn('barang_id', function ($row) {
-                return $row->barang->nama_barang;
+                return $row->nama_barang ?? ($row->barang->nama_barang ?? '-');
             })
             ->editColumn('kode_barang', function ($row) {
                 return $row->barang->kode_barang ?? '-';
@@ -95,7 +122,7 @@ class LaporanController extends Controller
                 return formatTanggal($row->tanggal);
             })
             ->editColumn('user_id', function ($row) {
-                return $row->user->nama;
+                return $row->user_nama ?? ($row->user->nama ?? '-');
             })
             ->editColumn('harga_jual', function ($row) {
                 return formatRupiah($row->harga_jual);
@@ -106,26 +133,58 @@ class LaporanController extends Controller
         return $data;
     }
 
+
     public function transaksiBarangKeluar(Request $request)
     {
-        $data = DataTables::of(BarangKeluar::query()->orderBy('keluar_id', 'desc'))
+        $sub = BarangMasuk::selectRaw('barang_id, MAX(masuk_id) as max_masuk_id')
+            ->groupBy('barang_id');
+
+        $query = BarangKeluar::with('user', 'barang')
+            ->join('users', 'barang_keluar.user_id', '=', 'users.user_id')
+            ->join('barang', 'barang_keluar.barang_id', '=', 'barang.barang_id')
+            ->leftJoinSub($sub, 'bm_latest', function ($join) {
+                $join->on('barang.barang_id', '=', 'bm_latest.barang_id');
+            })
+            ->leftJoin('barang_masuk as bm', 'bm.masuk_id', '=', 'bm_latest.max_masuk_id')
+            ->select(
+                'barang_keluar.*',
+                'users.nama as user_nama',
+                'barang.nama_barang as nama_barang',
+                'bm.harga_jual as harga_jual_latest'
+            );
+
+        $data = DataTables::of($query)
             ->addIndexColumn()
+            ->orderColumn('jumlah', 'barang_keluar.jumlah $1')
+            ->orderColumn('nama_barang', 'barang.nama_barang $1')
+            ->orderColumn('harga_jual', 'bm.harga_jual $1')
+            ->orderColumn('user_nama', 'users.nama $1')
+
+            ->filterColumn('nama_barang', function ($q, $keyword) {
+                $keyword = str_replace("'", "", $keyword);
+                $q->whereRaw("barang.nama_barang like ?", ["%{$keyword}%"]);
+            })
+            ->filterColumn('user_nama', function ($q, $keyword) {
+                $keyword = str_replace("'", "", $keyword);
+                $q->whereRaw("users.nama like ?", ["%{$keyword}%"]);
+            })
+
             ->editColumn('gambar', function ($row) {
                 $gambar = optional($row->barang->latestMasuk)->gambar;
                 $imgSrc = $gambar ? asset('storage/images/barang/' . $gambar) : asset('images/no-img.jpg');
 
                 return '<div class="w-12 h-12">
-                <img class="w-full h-full object-cover shadow-md rounded-md" src="' . $imgSrc . '" alt="' . e(optional($row->barang)->nama_barang) . '">
+                <img class="w-full h-full object-cover shadow-md rounded-md" src="' . $imgSrc . '" alt="' . e($row->nama_barang ?? '-') . '">
                 </div>';
             })
             ->editColumn('barang_id', function ($row) {
-                return $row->barang->nama_barang;
+                return $row->nama_barang ?? ($row->barang->nama_barang ?? '-');
             })
             ->editColumn('kode_barang', function ($row) {
                 return $row->barang->kode_barang ?? '-';
             })
             ->editColumn('harga_jual', function ($row) {
-                return $row->barang->latestMasuk ? formatRupiah($row->barang->latestMasuk->harga_jual) : '-';
+                return $row->harga_jual_latest ? formatRupiah($row->harga_jual_latest) : '-';
             })
             ->editColumn('ukuran', function ($row) {
                 return $row->barang->ukuran ?? '-';
@@ -140,7 +199,7 @@ class LaporanController extends Controller
                 return formatTanggal($row->tanggal);
             })
             ->editColumn('user_id', function ($row) {
-                return $row->user->nama;
+                return $row->user_nama ?? ($row->user->nama ?? '-');
             })
             ->rawColumns(['gambar'])
             ->make(true);
@@ -189,7 +248,6 @@ class LaporanController extends Controller
 
     public function laporanLengkapData(Request $request)
     {
-        // gunakan builder (tanpa ->get())
         $query = Barang::with('latestMasuk', 'latestKeluar');
 
         return DataTables::eloquent($query)
@@ -202,7 +260,6 @@ class LaporanController extends Controller
                 return $row->latestMasuk ? (int) $row->latestMasuk->jumlah : 0;
             })
             ->addColumn('total_nilai_brg_masuk', function ($row) {
-                // total nilai masuk = harga_jual * jumlah (dari latestMasuk)
                 if (! $row->latestMasuk) {
                     return 'Rp 0';
                 }
@@ -212,23 +269,18 @@ class LaporanController extends Controller
                 return 'Rp ' . number_format($total, 0, ',', '.');
             })
             ->addColumn('jml_trans_brg_keluar', function ($row) {
-                // jumlah transaksi barang keluar (dari relasi latestKeluar)
                 return $row->latestKeluar ? (int) $row->latestKeluar->jumlah : 0;
             })
             ->addColumn('total_nilai_brg_keluar', function ($row) {
-                // untuk total nilai keluar: ambil jumlah dari latestKeluar
-                // lalu ambil harga_jual dari latestMasuk (atau dari BarangMasuk terakhir jika ingin jaminan)
                 $jumlahKeluar = $row->latestKeluar ? ($row->latestKeluar->jumlah ?? 0) : 0;
                 if ($jumlahKeluar == 0) {
                     return 'Rp 0';
                 }
 
-                // Prioritas: pakai latestMasuk yang sudah eager loaded.
                 $hargaJual = 0;
                 if ($row->latestMasuk && isset($row->latestMasuk->harga_jual)) {
                     $hargaJual = $row->latestMasuk->harga_jual;
                 } else {
-                    // fallback: cari record BarangMasuk terakhir (mirip dengan kode blade)
                     $masukRecord = BarangMasuk::where('barang_id', $row->barang_id)
                         ->orderBy('created_at', 'desc')
                         ->first();
@@ -238,7 +290,6 @@ class LaporanController extends Controller
                 $totalKeluar = $hargaJual * $jumlahKeluar;
                 return 'Rp ' . number_format($totalKeluar, 0, ',', '.');
             })
-            // jika mau menampilkan kolom raw HTML, gunakan ->rawColumns(['kolom1','kolom2'])
             ->toJson();
     }
 

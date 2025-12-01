@@ -88,7 +88,7 @@
         }
 
         #th-data-table {
-            background-color: #f3f3f3;
+            background-color: #dbead5;
         }
     </style>
 </head>

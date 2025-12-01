@@ -13,19 +13,19 @@ $(function () {
             },
             {
                 data: "nama_barang",
-                name: "nama_barang",
+                name: "barang.nama_barang",
             },
             {
                 data: "kategori_id",
-                name: "kategori_id",
+                name: "kategori.nama",
             },
             {
                 data: "stok",
-                name: "stok",
+                name: "barang.stok",
             },
             {
                 data: "harga_jual",
-                name: "harga_jual",
+                name: "bm.harga_jual",
             },
         ],
         order: [[1, "asc"]],

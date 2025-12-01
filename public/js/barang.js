@@ -20,8 +20,8 @@ $(function () {
             name: "kode_barang",
         },
         {
-            data: "kategori_id",
-            data: "kategori_id",
+            data: "kategori_nama",
+            data: "kategori_nama",
         },
         {
             data: "ukuran",

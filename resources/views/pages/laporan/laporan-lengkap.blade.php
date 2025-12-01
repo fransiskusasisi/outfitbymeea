@@ -1,18 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Stok Barang')
+@section('title', 'Laporan Lengkap Barang')
 
 @section('content')
     <div class="p-8 space-y-6">
         <div class="flex justify-between items-center mb-6">
             <div>
                 <h1 class="text-3xl font-bold text-gray-800">Detail Lengkap Laporan</h1>
-                {{-- <p class="text-gray-500 text-sm mt-1">Data stok keseluruhan tanpa modifikasi</p> --}}
             </div>
 
-            {{-- Tombol Cetak PDF --}}
             <a href="{{ route('pemilik.laporan.lengkap.cetak') }}" target="_blank" class="btn-cetak">
-                @include('icons.print-icon')Cetak PDF
+                @include('icons.print-icon')Cetak Laporan
             </a>
         </div>
         <div class="flex w-full gap-2 mb-4 text-sm text-gray-600">

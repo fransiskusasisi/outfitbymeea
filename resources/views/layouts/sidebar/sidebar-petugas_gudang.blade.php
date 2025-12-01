@@ -4,7 +4,7 @@
     <!-- Header Sidebar -->
     <div class="flex flex-col items-center justify-center mb-6">
         <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo Outfitbymee" class="object-cover w-full h-full">
+            <img src="{{ asset('images/logo-compressed.png') }}" alt="Logo Outfitbymee" class="object-cover w-full h-full">
         </div>
         <h2 class="text-xl font-semibold mt-3">Gudang</h2>
     </div>
