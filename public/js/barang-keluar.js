@@ -8,8 +8,8 @@ $(function () {
             searchable: false,
         },
         {
-            data: "barang_id",
-            name: "barang_id",
+            data: "nama_barang",
+            name: "nama_barang",
         },
         {
             data: "jumlah",
@@ -20,8 +20,10 @@ $(function () {
             name: "tanggal",
         },
         {
-            data: "user_id",
-            name: "user_id",
+            data: "user_nama",
+            name: "users.nama",
+            orderable: true,
+            searchable: true,
         },
         {
             data: "action",

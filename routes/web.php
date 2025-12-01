@@ -30,6 +30,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Notifikasi barang menipis
 Route::get('/notifikasi-barang', [NotifikasiController::class, 'getBarangMenipis'])->name('notifikasi.barang');
 Route::get('/barang/{id}/stok', [BarangController::class, 'getStok'])->name('barang.getStok');
+Route::get('/get-chart-bar', [DashboardController::class, 'getChartData'])->name('get.chart.bar');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', function () {

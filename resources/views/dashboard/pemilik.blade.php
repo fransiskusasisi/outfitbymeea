@@ -51,7 +51,32 @@
                 </div>
             </div> --}}
         </div>
-        <hr>
+        <div class="flex gap-4 my-4">
+            <div class="w-full rounded-xl shadow-md flex gap-4 text-gray-600 ">
+                <div class=" w-full bg-white rounded-lg shadow-sm md:p-6">
+                    <div class="flex justify-between">
+                        <div class="mb-6">
+                            <h5 class="text-xl font-bold dark:text-light1 leading-none text-gray-900  pe-1">
+                                Analisis
+                                Barang</h5>
+                            <p class="text-sm text-gray-500 ">Data diambil berdasarkan tahun yang
+                                dipilih</p>
+                        </div>
+                        <form action="">
+                            <select name="filter_tahun" id="filter_tahun" class="mr-6 select-no-border cursor-pointer">
+                                @foreach ($listTahun as $tahun)
+                                    <option value="{{ $tahun }}" {{ $tahun == date('Y') ? 'selected' : '' }}>
+                                        {{ $tahun }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </div>
+                    <hr>
+                    <div id="column-chart"></div>
+                </div>
+            </div>
+        </div>
         <div class="bg-white rounded-xl shadow-md w-full">
             <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 rounded-t-xl">
                 <h3 class="text-2xl font-bold text-white">Laporan Stok Terkini</h3>
@@ -136,3 +161,126 @@
 
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        let chart; // instance
+
+        async function loadChart(tahun) {
+            try {
+                const response = await fetch(`{{ route('get.chart.bar') }}?tahun=${tahun}`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+
+                // Jika data datang sebagai array objek {x,y}, kita ubah jadi categories + series numeric
+                const categories = data.barangMasuk.map(item => item.x); // Jan, Feb, ...
+                const seriesMasuk = data.barangMasuk.map(item => item.y);
+                const seriesKeluar = data.barangKeluar.map(item => item.y);
+
+                const options = {
+                    colors: ["#8b5cf6", "#38bdf8"],
+                    series: [{
+                            name: "Barang Masuk",
+                            data: seriesMasuk
+                        },
+                        {
+                            name: "Barang Keluar",
+                            data: seriesKeluar
+                        }
+                    ],
+                    chart: {
+                        type: "bar",
+                        height: 320, // gunakan number
+                        fontFamily: "Inter, sans-serif",
+                        toolbar: {
+                            show: false
+                        },
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: "70%",
+                            borderRadiusApplication: "end",
+                            borderRadius: 8,
+                        },
+                    },
+                    tooltip: {
+                        shared: true,
+                        intersect: false
+                    },
+                    states: {
+                        hover: {
+                            filter: {
+                                type: "darken",
+                                value: 1
+                            }
+                        }
+                    },
+                    stroke: {
+                        show: true,
+                        width: 0,
+                        colors: ["transparent"]
+                    },
+                    grid: {
+                        show: false,
+                        strokeDashArray: 4,
+                        padding: {
+                            left: 2,
+                            right: 2,
+                            top: -14
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    legend: {
+                        show: true,
+                        position: 'bottom',
+                        fontFamily: 'Poppins, sans-serif'
+                    },
+                    xaxis: {
+                        categories: categories,
+                        type: 'category',
+                        labels: {
+                            show: true,
+                            style: {
+                                fontFamily: "Inter, sans-serif",
+                                cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+                            }
+                        },
+                        axisBorder: {
+                            show: true
+                        },
+                        axisTicks: {
+                            show: true
+                        },
+                    },
+                    yaxis: {
+                        show: true
+                    },
+                    fill: {
+                        opacity: 1
+                    },
+                };
+
+                if (chart) {
+                    chart.destroy();
+                    chart = null;
+                }
+                chart = new ApexCharts(document.querySelector("#column-chart"), options);
+                chart.render();
+            } catch (error) {
+                console.error("Error loading chart barang:", error);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const tahunBarang = document.querySelector("#filter_tahun")?.value || new Date().getFullYear();
+            loadChart(tahunBarang);
+        });
+
+        document.querySelector("#filter_tahun")?.addEventListener("change", function() {
+            loadChart(this.value);
+        });
+    </script>
+@endpush

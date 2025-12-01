@@ -19,38 +19,14 @@ $(function () {
             orderable: false,
             searchable: false,
         },
-        {
-            data: "barang_id",
-            name: "barang_id",
-        },
-        {
-            data: "kode_barang",
-            name: "kode_barang",
-        },
-        {
-            data: "harga_jual",
-            name: "harga_jual",
-        },
-        {
-            data: "ukuran",
-            name: "ukuran",
-        },
-        {
-            data: "kondisi",
-            name: "kondisi",
-        },
-        {
-            data: "jumlah",
-            name: "jumlah",
-        },
-        {
-            data: "tanggal",
-            name: "tanggal",
-        },
-        {
-            data: "user_id",
-            name: "user_id",
-        },
+        { data: "nama_barang", name: "barang.nama_barang" },
+        { data: "kode_barang", name: "barang.kode_barang" },
+        { data: "harga_jual", name: "barang_masuk.harga_jual" }, // searching -> DB kolom barang_masuk.harga_jual
+        { data: "ukuran", name: "barang.ukuran" },
+        { data: "kondisi", name: "barang.kondisi" },
+        { data: "jumlah", name: "barang_masuk.jumlah" },
+        { data: "tanggal", name: "barang_masuk.tanggal" },
+        { data: "user_nama", name: "users.nama" }, // data: user_nama (alias), name: users.nama -> untuk searching/order
     ];
 
     $("#barang-masuk-table").DataTable({
@@ -93,37 +69,18 @@ $(function () {
             searchable: false,
         },
         {
-            data: "barang_id",
-            name: "barang_id",
+            data: "nama_barang",
+            name: "barang.nama_barang",
+            orderable: true,
+            searchable: true,
         },
-        {
-            data: "kode_barang",
-            name: "kode_barang",
-        },
-        {
-            data: "harga_jual",
-            name: "harga_jual",
-        },
-        {
-            data: "ukuran",
-            name: "ukuran",
-        },
-        {
-            data: "kondisi",
-            name: "kondisi",
-        },
-        {
-            data: "jumlah",
-            name: "jumlah",
-        },
-        {
-            data: "tanggal",
-            name: "tanggal",
-        },
-        {
-            data: "user_id",
-            name: "user_id",
-        },
+        { data: "kode_barang", name: "barang.kode_barang" },
+        { data: "harga_jual", name: "bm.harga_jual" }, // atau if derived, map ke proper DB column
+        { data: "ukuran", name: "barang.ukuran" },
+        { data: "kondisi", name: "barang.kondisi" },
+        { data: "jumlah", name: "barang_keluar.jumlah" },
+        { data: "tanggal", name: "barang_keluar.tanggal" },
+        { data: "user_nama", name: "users.nama" },
     ];
 
     $("#barang-keluar-table").DataTable({

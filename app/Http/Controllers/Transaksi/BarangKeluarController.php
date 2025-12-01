@@ -15,8 +15,16 @@ class BarangKeluarController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = DataTables::of(BarangKeluar::query())
+            $query = BarangKeluar::with('user', 'barang')
+                ->join('users', 'barang_keluar.user_id', '=', 'users.user_id')
+                ->join('barang', 'barang_keluar.barang_id', '=', 'barang.barang_id')
+                ->select('barang_keluar.*', 'users.nama as user_nama', 'barang.nama_barang as nama_barang');
+
+            $data = DataTables::of($query)
                 ->addIndexColumn()
+                ->orderColumn('jumlah', 'barang_keluar.jumlah $1')
+                ->orderColumn('nama_barang', 'barang.nama_barang $1')
+                ->orderColumn('user_nama', 'users.nama $1')
                 ->editColumn('keluar_id', function ($row) {
                     return $row->barang_id;
                 })
@@ -111,6 +119,8 @@ class BarangKeluarController extends Controller
             'jumlah' => $request->jumlah,
             'tanggal' => $request->tanggal,
             'user_id' => $user,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         if ($simpan) {
@@ -157,6 +167,7 @@ class BarangKeluarController extends Controller
             'barang_id' => $request->barang_id,
             'jumlah' => $request->jumlah,
             'tanggal' => $request->tanggal,
+            'updated_at' => now(),
         ]);
 
         if ($update) {

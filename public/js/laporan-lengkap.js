@@ -10,22 +10,32 @@ $(function () {
         {
             data: "nama_barang",
             name: "nama_barang",
+            orderable: true,
+            searchable: true,
         },
         {
             data: "jml_trans_brg_masuk",
             name: "jml_trans_brg_masuk",
+            orderable: false,
+            searchable: false,
         },
         {
             data: "total_nilai_brg_masuk",
             name: "total_nilai_brg_masuk",
+            orderable: false,
+            searchable: false,
         },
         {
             data: "jml_trans_brg_keluar",
             name: "jml_trans_brg_keluar",
+            orderable: false,
+            searchable: false,
         },
         {
             data: "total_nilai_brg_keluar",
             name: "total_nilai_brg_keluar",
+            orderable: false,
+            searchable: false,
         },
     ];
 

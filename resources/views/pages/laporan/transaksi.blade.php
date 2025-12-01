@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Stok Barang')
+@section('title', 'Laporan Transaksi Barang')
 
 @section('content')
     <div class="p-8 space-y-6">
         <div class="flex justify-between items-center mb-6">
             <div>
                 <h1 class="text-3xl font-bold text-gray-800">Laporan Transaksi Barang</h1>
-                <p class="text-gray-500 text-sm mt-1">Data transaksi keseluruhan</p>
             </div>
             <div class="flex gap-2">
                 <a href="{{ route('pemilik.laporan.transaksi.cetak', ['tipe' => 'masuk']) }}" target="_blank"
@@ -34,7 +33,7 @@
                 </button>
             </div>
 
-            <div class="text-center text-lg text-gray-700">
+            <div class="text-center text-base text-gray-700">
                 <div x-show="activeTab === 'masuk'" x-cloak class="bg-white rounded-xl shadow-md overflow-hidden">
                     <div class="p-6 overflow-x-auto">
                         <table id="barang-masuk-table" class="table-main">

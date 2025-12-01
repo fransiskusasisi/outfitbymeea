@@ -28,9 +28,10 @@ class DashboardController extends Controller
         $totalBarangKeluar = BarangKeluar::count();
         $totalBarang = Barang::count();
         $riwayatLogin = RiwayatLogin::count();
+        $listTahun = range(now()->format('Y'), now()->subYear(4)->format('Y'));
 
         if (role() === 'pemilik') {
-            return view('dashboard.pemilik', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang', 'riwayatLogin'));
+            return view('dashboard.pemilik', compact('stok', 'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang', 'riwayatLogin', 'listTahun'));
         } elseif (role() === 'petugas_gudang') {
             return view('dashboard.gudang', compact('stok', 'totalKategori',  'totalBarangMasuk', 'totalBarangKeluar', 'totalBarang', 'barangMasuk', 'barangKeluar'));
         } elseif (role() === 'kasir') {
@@ -51,8 +52,20 @@ class DashboardController extends Controller
     // Method baru untuk AJAX DataTables
     public function kasirData(Request $request)
     {
-        $data = DataTables::of(BarangMasuk::with(['barang', 'user']))
+        $query = BarangMasuk::with('user', 'barang')
+            ->join('users', 'barang_masuk.user_id', '=', 'users.user_id')
+            ->join('barang', 'barang_masuk.barang_id', '=', 'barang.barang_id')
+            ->select('barang_masuk.*', 'users.nama as user_nama', 'barang.nama_barang as nama_barang');
+        $data = DataTables::of($query)
             ->addIndexColumn()
+            // mapping order for jumlah & barang.nama_barang
+            ->orderColumn('jumlah', 'barang_masuk.jumlah $1')
+            ->orderColumn('nama_barang', 'barang.nama_barang $1')
+            // tambahkan mapping order untuk user_nama
+            ->orderColumn('user_nama', 'users.nama $1')
+            ->editColumn('masuk_id', function ($row) {
+                return $row->barang_id;
+            })
             ->editColumn('gambar', function ($row) {
                 $imgSrc = $row->gambar
                     ? asset('storage/images/barang/' . $row->gambar)
@@ -63,7 +76,7 @@ class DashboardController extends Controller
                 </div>';
             })
             ->editColumn('barang_id', function ($row) {
-                return $row->barang->nama_barang;
+                return $row->nama_barang ?? ($row->barang->nama_barang ?? '-');
             })
             ->editColumn('kode_barang', function ($row) {
                 return $row->barang->kode_barang ?? '-';
@@ -81,7 +94,7 @@ class DashboardController extends Controller
                 return formatTanggal($row->tanggal);
             })
             ->editColumn('user_id', function ($row) {
-                return $row->user->nama;
+                return $row->user_nama ?? ($row->user->nama ?? '-');
             })
             ->editColumn('harga_jual', function ($row) {
                 return formatRupiah($row->harga_jual);
@@ -90,5 +103,56 @@ class DashboardController extends Controller
             ->make(true);
 
         return $data;
+    }
+
+    public function getChartData(Request $request)
+    {
+        $tahun = $request->query('tahun', now()->format('Y'));
+
+        $dataBarangMasuk = BarangMasuk::selectRaw('MONTH(tanggal) as bulan, COUNT(masuk_id) as total')
+            ->whereYear('tanggal', $tahun)
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->pluck('total', 'bulan');
+
+        $dataBarangKeluar = BarangKeluar::selectRaw('MONTH(tanggal) as bulan, COUNT(keluar_id) as total')
+            ->whereYear('tanggal', $tahun)
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->pluck('total', 'bulan');
+
+        $bulanLabels = [
+            1 => 'Jan',
+            2 => 'Feb',
+            3 => 'Mar',
+            4 => 'Apr',
+            5 => 'Mei',
+            6 => 'Jun',
+            7 => 'Jul',
+            8 => 'Agu',
+            9 => 'Sep',
+            10 => 'Okt',
+            11 => 'Nov',
+            12 => 'Des'
+        ];
+
+        $barangMasuk = [];
+        $barangKeluar = [];
+
+        foreach (range(1, 12) as $bulan) {
+            $barangMasuk[] = [
+                'x' => $bulanLabels[$bulan],
+                'y' => $dataBarangMasuk->get($bulan, 0)
+            ];
+            $barangKeluar[] = [
+                'x' => $bulanLabels[$bulan],
+                'y' => $dataBarangKeluar->get($bulan, 0)
+            ];
+        }
+
+        return response()->json([
+            'barangMasuk' => $barangMasuk,
+            'barangKeluar' => $barangKeluar,
+        ]);
     }
 }

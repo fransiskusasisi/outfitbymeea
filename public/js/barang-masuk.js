@@ -24,7 +24,12 @@ $(function () {
         { data: "kondisi", name: "barang.kondisi" },
         { data: "jumlah", name: "barang_masuk.jumlah", orderable: true }, // <-- penting
         { data: "tanggal", name: "barang_masuk.tanggal" },
-        { data: "user_id", name: "users.nama" }, // jika ingin sort by user name
+        {
+            data: "user_nama",
+            name: "users.nama",
+            orderable: true,
+            searchable: true,
+        },
     ];
 
     if (userRole !== "kasir") {
