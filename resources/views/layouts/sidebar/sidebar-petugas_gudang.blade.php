@@ -71,7 +71,6 @@
     <div class="absolute bottom-6 left-0 w-full px-4">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-
         </form>
     </div>
 </aside>

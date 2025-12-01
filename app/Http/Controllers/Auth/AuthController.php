@@ -27,18 +27,28 @@ class AuthController extends Controller
             ->where('password', $request->password)
             ->first();
 
-        $riwayat = RiwayatLogin::create([
-            'user_id'     => $user->user_id,
-            'ip_address'  => $request->ip(),
-            'user_agent'  => $request->userAgent(),
-            'login_at'    => Carbon::now(),
-        ]);
+        Auth::login($user);
+
+        // cari riwayat hari ini untuk user ini
+        $today = Carbon::today(); // sesuai timezone aplikasi
+        $riwayat = RiwayatLogin::where('user_id', $user->user_id)
+            ->whereDate('login_at', $today)
+            ->first();
+
+        if (! $riwayat) {
+            // belum ada riwayat hari ini -> buat baru
+            $riwayat = RiwayatLogin::create([
+                'user_id'    => $user->user_id,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'login_at'   => Carbon::now(),
+            ]);
+        }
 
         $request->session()->put('riwayat_login_id', $riwayat->id);
 
         if ($user) {
-            Auth::login($user);
-
+            // Auth::login($user);
             if ($user->role === 'pemilik') {
                 return redirect()->route('pemilik.dashboard');
             } elseif ($user->role === 'kasir') {

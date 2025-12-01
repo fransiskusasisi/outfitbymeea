@@ -16,14 +16,12 @@ class RiwayatLoginController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            // 1) Buat query yang menyertakan kolom user (join)
             $query = \App\Models\RiwayatLogin::select('riwayat_login.*', 'users.nama as user_name', 'users.role as user_role')
                 ->leftJoin('users', 'users.user_id', '=', 'riwayat_login.user_id')
                 ->orderBy('riwayat_login.id', 'desc');
 
             $data = DataTables::of($query)
                 ->addIndexColumn()
-                // ambil dari alias yang kita select di query
                 ->addColumn('user_id', function ($row) {
                     return $row->user->nama;
                 })
@@ -39,14 +37,12 @@ class RiwayatLoginController extends Controller
                 ->editColumn('logout_at', function ($row) {
                     return $row->logout_at == null ? 'Belum Logout' : formatTanggalDanWaktu($row->logout_at);
                 })
-                // 2) Tangani global search agar mencari juga di kolom user_name & user_role
                 ->filter(function ($query) use ($request) {
                     if ($search = $request->get('search')['value'] ?? null) {
                         $query->where(function ($q) use ($search) {
                             $q->where('users.nama', 'like', "%{$search}%")
                                 ->orWhere('users.role', 'like', "%{$search}%")
                                 ->orWhere('riwayat_login.ip_address', 'like', "%{$search}%")
-                                // jika mau juga mencari di kolom waktu (opsional, hati2 format)
                                 ->orWhere('riwayat_login.login_at', 'like', "%{$search}%");
                         });
                     }
