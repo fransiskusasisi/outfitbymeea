@@ -12,14 +12,8 @@
             padding: 30px;
         }
 
-        /* Mengatur margin halaman PDF langsung via CSS */
-        /* @page {
-            padding: 40px;
-        } */
-
         table {
             border-collapse: collapse;
-            /* KUNCI PERBAIKAN: Semua tabel harus collapse */
         }
 
         .header-table {
@@ -70,7 +64,6 @@
             margin-bottom: 20px;
         }
 
-        /* --- Statistics Box Styles --- */
         .section-title {
             background-color: #dbead5;
             border: 1px solid #000;
@@ -80,7 +73,6 @@
             margin-bottom: 15px;
         }
 
-        /* Container untuk statistik agar lurus */
         .stats-wrapper {
             width: 100%;
             margin-bottom: 15px;
@@ -90,12 +82,9 @@
         .stats-wrapper td {
             vertical-align: top;
             padding: 0;
-            /* Penting agar tidak ada padding extra */
             border: none;
-            /* Hilangkan border container */
         }
 
-        /* Kotak statistik individual */
         .stat-box {
             width: 100%;
             border: 1px solid #000;
@@ -116,7 +105,6 @@
             background-color: #fff;
         }
 
-        /* Warna Header Box */
         .bg-green {
             background-color: #dbead5;
         }
@@ -129,7 +117,6 @@
             background-color: #daeef3;
         }
 
-        /* Main Data Table */
         .data-table {
             width: 100%;
             margin-top: 10px;

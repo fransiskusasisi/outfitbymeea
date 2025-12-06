@@ -9,7 +9,6 @@
         </div>
 
         <!-- Tombol Tambah -->
-        {{-- @if (role() !== 'kasir') --}}
         <div class="flex justify-end mb-4">
             @if (role() === 'pemilik')
                 <a href="{{ route('pemilik.barangkeluar.create') }}" class="btn-ungu">
@@ -21,7 +20,6 @@
             @include('icons.add-icon')Tambah Barang Keluar
             </a>
         </div>
-        {{-- @endif --}}
 
         <!-- Tabel Data -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden">

@@ -8,14 +8,13 @@ use App\Models\BarangMasuk;
 use App\Models\Kategori;
 use App\Models\RiwayatLogin;
 use Illuminate\Http\Request;
-use Illuminate\Support\HtmlString; // paling atas file controller
+use Illuminate\Support\HtmlString;
 use Yajra\DataTables\Facades\DataTables;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Ambil hanya 5 data barang beserta kategori
         $stok = Barang::with('kategori')
             ->latest('created_at')
             ->take(5)
@@ -39,8 +38,6 @@ class DashboardController extends Controller
         }
     }
 
-    // Di DashboardController.php
-
     public function kasir(Request $request)
     {
         if ($request->ajax()) {
@@ -49,7 +46,6 @@ class DashboardController extends Controller
         return view('dashboard.kasir');
     }
 
-    // Method baru untuk AJAX DataTables
     public function kasirData(Request $request)
     {
         $query = BarangMasuk::with('user', 'barang')
@@ -58,10 +54,8 @@ class DashboardController extends Controller
             ->select('barang_masuk.*', 'users.nama as user_nama', 'barang.nama_barang as nama_barang');
         $data = DataTables::of($query)
             ->addIndexColumn()
-            // mapping order for jumlah & barang.nama_barang
             ->orderColumn('jumlah', 'barang_masuk.jumlah $1')
             ->orderColumn('nama_barang', 'barang.nama_barang $1')
-            // tambahkan mapping order untuk user_nama
             ->orderColumn('user_nama', 'users.nama $1')
             ->editColumn('masuk_id', function ($row) {
                 return $row->barang_id;

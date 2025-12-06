@@ -38,7 +38,6 @@
             <div class="w-1/3">
                 <div
                     class="bg-gradient-to-r from-hijautosca to-emerald-300 rounded-t-lg shadow-md p-6 text-white flex items-center gap-4">
-                    {{-- <div class="w-1/2 bg-hijautosca rounded-lg shadow-md p-6 text-white"> --}}
                     <div class="w-20 h-20 flex justify-center items-center">
                         @include('icons.barangmasuk-icon')
                     </div>
@@ -128,24 +127,5 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="bg-white rounded-xl shadow-md w-full">
-            <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 rounded-t-xl">
-                <h3 class="text-2xl font-bold text-white">Laporan Stok Terkini</h3>
-            </div>
-            <div class="p-6">
-                @foreach ($stok as $item)
-                    <div class="w-full border-b py-2 flex justify-between mb-2">
-                        <div>
-                            <p class="font-semibold text-lg">{{ $item->nama_barang }}</p>
-                            <p class="text-sm text-gray-500">Kategori: {{ $item->kategori->nama ?? '-' }}</p>
-                        </div>
-                        <div>
-                            <p class="font-semibold text-lg">Stok: {{ $item->stok }}</p>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div> --}}
-
     </div>
 @endsection

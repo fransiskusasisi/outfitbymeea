@@ -30,27 +30,6 @@
             <i class="fa fa-file-alt mr-2"></i> Laporan Transaksi
         </a>
 
-        <!-- Laporan -->
-        {{-- <button onclick="toggleDropdown('laporan')"
-            class="sidebar-menu w-full text-left px-4 py-2 rounded hover:bg-purple-600 transition-colors flex justify-between items-center">
-            <span><i class="fa fa-file-alt mr-2"></i> Laporan</span>
-            <svg id="laporan-arrow" class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-        </button>
-        <div id="laporan" class="submenu pl-6">
-            <a href="{{ route('pemilik.laporan.stok') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
-                    class="fa-solid fa-file mr-2"></i>Laporan
-                Stok</a>
-            <a href="{{ route('pemilik.laporan.transaksi') }}"
-                class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i class="fa-solid fa-file mr-2"></i>Laporan
-                Transaksi</a>
-        </div> --}}
-        {{-- <a href="{{ Transaksi('pemilik.laporan.stok') }}"
-            class="sidebar-menu block px-4 py-2 rounded hover:bg-purple-600 transition-colors">
-            <i class="fa-solid fa-file mr-2"></i>Laporan Stok
-        </a> --}}
         <a href="{{ route('pemilik.riwayatlogin.index') }}"
             class="sidebar-menu block px-4 py-2 rounded hover:bg-purple-600 transition-colors">
             <i class="fa-solid fa-clock-rotate-left mr-2"></i>Riwayat Login

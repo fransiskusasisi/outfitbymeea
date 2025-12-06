@@ -35,21 +35,6 @@
                     <a href="{{ route('pemilik.riwayatlogin.index') }}" class="font-bold hover:opacity-60">Detail</a>
                 </div>
             </div>
-            {{-- <div
-                class="w-1/2 bg-gradient-to-r from-merahorange to-orange-300 rounded-lg shadow-md p-6 text-white flex items-center gap-4">
-                <div class="w-20 h-20 flex justify-center items-center">
-                    @include('icons.barangkeluar-icon')
-                </div>
-                <div class="w-full flex">
-                    <div class="items-center flex-grow">
-                        <p class="font-bold mb-2">---</p>
-                        <p class="text-4xl font-bold ">{{ $totalBarangKeluar }}</p>
-                    </div>
-                    <div class="flex justify-end items-end">
-                        <p class="italic text-sm font-bold">Unit</p>
-                    </div>
-                </div>
-            </div> --}}
         </div>
         <div class="flex gap-4 my-4">
             <div class="w-full rounded-xl shadow-md flex gap-4 text-gray-600 ">
@@ -102,78 +87,18 @@
                 @endforeach
             </div>
         </div>
-
-        <!-- Laporan Stok -->
-        {{-- <div class="bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-4">
-                <h3 class="text-lg font-bold text-white">Laporan Stok Terkini</h3>
-                <p class="text-purple-100 text-sm">Data stok barang terbaru</p>
-            </div>
-
-            <div class="p-6">
-                <!-- Table -->
-                <div class="overflow-x-auto">
-                    <table class="w-full border-collapse">
-                        <thead>
-                            <tr class="bg-gray-100 border-b-2 border-gray-200">
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">No</th>
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Gambar</th>
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Nama Barang</th>
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Kategori</th>
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Stok</th>
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Harga Beli</th>
-                                <th class="text-left py-3 px-4 text-sm font-semibold text-gray-700">Harga Jual</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($barangs as $key => $barang)
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="py-3 px-4 text-sm text-gray-600">{{ $key + 1 }}</td>
-                                    <td class="py-3 px-4">
-                                        @if ($barang->gambar)
-                                            <img src="{{ asset('storage/' . $barang->gambar) }}"
-                                                alt="{{ $barang->nama_barang }}" class="w-16 h-16 object-cover rounded-lg">
-                                        @else
-                                            <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
-                                                <span class="text-gray-400 text-xs">No Image</span>
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td class="py-3 px-4 text-sm text-gray-600">{{ $barang->nama_barang }}</td>
-                                    <td class="py-3 px-4 text-sm text-gray-600">
-                                        {{ $barang->kategori->nama ?? '-' }}</td>
-                                    <td class="py-3 px-4 text-sm text-gray-600">{{ $barang->stok }}</td>
-                                    <td class="py-3 px-4 text-sm text-gray-600">Rp
-                                        {{ number_format($barang->harga_beli, 0, ',', '.') }}</td>
-                                    <td class="py-3 px-4 text-sm text-gray-600">Rp
-                                        {{ number_format($barang->harga_jual, 0, ',', '.') }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7" class="text-center py-4 text-gray-500">Tidak ada data stok.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div> --}}
-
     </div>
 @endsection
 
 @push('scripts')
     <script>
-        let chart; // instance
-
+        let chart;
         async function loadChart(tahun) {
             try {
                 const response = await fetch(`{{ route('get.chart.bar') }}?tahun=${tahun}`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const data = await response.json();
-
-                // Jika data datang sebagai array objek {x,y}, kita ubah jadi categories + series numeric
-                const categories = data.barangMasuk.map(item => item.x); // Jan, Feb, ...
+                const categories = data.barangMasuk.map(item => item.x);
                 const seriesMasuk = data.barangMasuk.map(item => item.y);
                 const seriesKeluar = data.barangKeluar.map(item => item.y);
 
@@ -190,7 +115,7 @@
                     ],
                     chart: {
                         type: "bar",
-                        height: 320, // gunakan number
+                        height: 320,
                         fontFamily: "Inter, sans-serif",
                         toolbar: {
                             show: false

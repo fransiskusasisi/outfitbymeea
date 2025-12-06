@@ -21,19 +21,6 @@
         @method('PUT')
         @csrf
         <div class="bg-white rounded-xl shadow-md overflow-hidden flex justify-center gap-2">
-            {{-- <div class="w-1/3 p-6 ">
-                <div class="w-2/3 mx-auto">
-                    <label for="gambar" class="block text-gray-700 font-semibold mb-2">Gambar</label>
-                    @if ($barang->gambar == null)
-                        <img src="{{ asset('images/no-img.jpg') }}" alt="Gambar Barang"
-                            class="w-full mx-auto shadow-md object-cover rounded-xl mb-4">
-                    @else
-                        <img src="{{ asset('storage/images/barang/' . $barang->gambar) }}" alt="Gambar Barang"
-                            class="w-full mx-auto shadow-md object-cover rounded-xl mb-4">
-                    @endif
-                    <input type="file" name="gambar" id="gambar" class="form-input">
-                </div>
-            </div> --}}
             <div class="w-1/2 p-6 overflow-x-auto">
                 <div class="mb-4">
                     <label for="nama_barang" class="block text-gray-700 font-semibold mb-2">Nama Barang</label>
@@ -79,14 +66,6 @@
                             Sedang</option>
                     </select>
                 </div>
-                {{-- <div class="mb-4">
-                    <label for="harga_jual" class="block text-gray-700 font-semibold mb-2">Harga Jual</label>
-                    <div class="flex items-center">
-                        <p class="form-rupiah">Rp.</p>
-                        <input type="number" id="harga_jual" name="harga_jual" class="form-input-harga" required
-                            value="{{ $barang->harga_jual }}" />
-                    </div>
-                </div> --}}
                 <div class="mb-4">
                     <label for="stok" class="block text-gray-700 font-semibold mb-2">Jumlah Stok</label>
                     <input type="number" name="stok" id="stok" required class="form-input"

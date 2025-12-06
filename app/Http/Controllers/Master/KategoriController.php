@@ -10,15 +10,6 @@ use Yajra\DataTables\Facades\DataTables;
 
 class KategoriController extends Controller
 {
-    /**
-     * Tampilkan semua kategori
-     */
-    // public function index()
-    // {
-    //     $kategoris = Kategori::all();
-    //     return view('pages.kategori.index', compact('kategoris'));
-    // }
-
     public function index(Request $request)
     {
         $role = Auth::user()->role;
@@ -63,17 +54,11 @@ class KategoriController extends Controller
         return view('pages.kategori.index');
     }
 
-    /**
-     * Form tambah kategori
-     */
     public function create()
     {
         return view('pages.kategori.create');
     }
 
-    /**
-     * Simpan kategori baru
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -96,18 +81,12 @@ class KategoriController extends Controller
         }
     }
 
-    /**
-     * Form edit kategori
-     */
     public function edit($id)
     {
         $kategori = Kategori::findOrFail($id);
         return view('pages.kategori.edit', compact('kategori'));
     }
 
-    /**
-     * Update kategori
-     */
     public function update(Request $request, $kategori_id)
     {
         $request->validate([
@@ -131,9 +110,6 @@ class KategoriController extends Controller
         }
     }
 
-    /**
-     * Hapus kategori
-     */
     public function destroy($kategori_id)
     {
         $kategori = Kategori::findOrFail($kategori_id);
@@ -150,5 +126,4 @@ class KategoriController extends Controller
             return redirect()->back();
         }
     }
-    // return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus!');
 }

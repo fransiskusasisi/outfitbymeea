@@ -57,29 +57,3 @@ $(function () {
         },
     });
 });
-
-// window.deleteBarang = function (id) {
-//     Swal.fire({
-//         text: "Apakah kamu yakin?",
-//         icon: "warning",
-//         showCancelButton: true,
-//         confirmButtonColor: "#d33",
-//         cancelButtonColor: "#f59e0b",
-//         confirmButtonText: `<div class="flex items-center">
-//             <span class="inline-block">${iconOke}</span>
-//             <span>Hapus</span>
-//         </div>`,
-//         cancelButtonText: `<div class="flex items-center">
-//             <span class="inline-block">${iconBatal}</span>
-//             <span>Batal</span>
-//         </div>`,
-//         customClass: {
-//             confirmButton: "btn-merah",
-//             cancelButton: "btn-ungu",
-//         },
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             document.getElementById("delete-form-" + id).submit();
-//         }
-//     });
-// };

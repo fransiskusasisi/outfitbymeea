@@ -53,7 +53,6 @@ class LaporanController extends Controller
         return view('pages.laporan.stok');
     }
 
-
     public function cetakStok()
     {
         $barangs = Barang::with('kategori')->get();
@@ -129,7 +128,6 @@ class LaporanController extends Controller
             })
             ->rawColumns(['gambar'])
             ->make(true);
-
         return $data;
     }
 
@@ -256,7 +254,6 @@ class LaporanController extends Controller
                 return $row->nama_barang;
             })
             ->addColumn('jml_trans_brg_masuk', function ($row) {
-                // jumlah transaksi barang masuk (dari relasi latestMasuk)
                 return $row->latestMasuk ? (int) $row->latestMasuk->jumlah : 0;
             })
             ->addColumn('total_nilai_brg_masuk', function ($row) {
@@ -276,7 +273,6 @@ class LaporanController extends Controller
                 if ($jumlahKeluar == 0) {
                     return 'Rp 0';
                 }
-
                 $hargaJual = 0;
                 if ($row->latestMasuk && isset($row->latestMasuk->harga_jual)) {
                     $hargaJual = $row->latestMasuk->harga_jual;
@@ -286,7 +282,6 @@ class LaporanController extends Controller
                         ->first();
                     $hargaJual = $masukRecord ? ($masukRecord->harga_jual ?? 0) : 0;
                 }
-
                 $totalKeluar = $hargaJual * $jumlahKeluar;
                 return 'Rp ' . number_format($totalKeluar, 0, ',', '.');
             })

@@ -116,5 +116,4 @@
             });
         });
     </script>
-    {{-- <script src="{{ asset('js/kategori.js') }}"></script> --}}
 @endpush
