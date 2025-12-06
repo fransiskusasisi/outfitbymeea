@@ -49,7 +49,6 @@
         @elseif (role() === 'petugas_gudang')
             const indexUrl = "{{ route('gudang.barangmasuk.index') }}";
         @elseif (role() === 'kasir')
-            // GUNAKAN ROUTE BARU YANG DIBUAT UNTUK DATA AJAX
             const indexUrl = "{{ route('kasir.dashboard.data') }}";
         @endif
         const userRole = "{{ Auth::user()->role }}"

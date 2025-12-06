@@ -16,23 +16,6 @@
             class="sidebar-menu block px-4 py-2 rounded hover:bg-purple-600 transition-colors">
             <i class="fa fa-home mr-2"></i> Dashboard
         </a>
-
-        <!-- Data Master -->
-        {{-- <button onclick="toggleDropdown('data-master')"
-            class="sidebar-menu w-full text-left px-4 py-2 rounded hover:bg-purple-600 transition-colors flex justify-between items-center">
-            <span><i class="fa fa-box mr-2"></i> Data Master</span>
-            <svg id="data-master-arrow" class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-        </button>
-        <div id="data-master" class="submenu pl-6">
-            <a href="{{ route('kasir.kategori.index') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
-                    class="fa-solid fa-tags mr-2"></i>Kategori</a>
-            <a href="{{ route('kasir.barang.index') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
-                    class="fa-solid fa-layer-group mr-2"></i>Barang</a>
-        </div> --}}
-
         <!-- Stok Barang -->
         <button onclick="toggleDropdown('stok-barang')"
             class="sidebar-menu w-full text-left px-4 py-2 rounded hover:bg-purple-600 transition-colors flex justify-between items-center">
@@ -43,32 +26,16 @@
             </svg>
         </button>
         <div id="stok-barang" class="submenu pl-6">
-            {{-- <a href="{{ route('kasir.barangmasuk.index') }}"
-                class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
-                    class="fa-solid fa-file-import mr-2"></i>Barang Masuk</a> --}}
             <a href="{{ route('kasir.barangkeluar.index') }}"
                 class="block px-2 py-2 text-sm hover:bg-purple-600 rounded"><i
                     class="fa-solid fa-file-export mr-2"></i>Barang Keluar</a>
         </div>
-
-        <!-- Laporan -->
-        {{-- <button onclick="toggleDropdown('laporan')" 
-                class="sidebar-menu w-full text-left px-4 py-2 rounded hover:bg-purple-600 transition-colors flex justify-between items-center">
-            <span><i class="fa fa-file-alt mr-2"></i> Laporan</span>
-            <svg id="laporan-arrow" class="dropdown-arrow w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-            </svg>
-        </button>
-        <div id="laporan" class="submenu pl-6">
-            <a href="{{ route('laporan.stok') }}" class="block px-2 py-2 text-sm hover:bg-purple-600 rounded">Laporan Stok</a>
-        </div> --}}
     </nav>
 
     <!-- Logout -->
     <div class="absolute bottom-6 left-0 w-full px-4">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-
         </form>
     </div>
 </aside>

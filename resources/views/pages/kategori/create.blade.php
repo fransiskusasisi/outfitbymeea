@@ -32,16 +32,6 @@
                     </button>
                 </div>
                 </form>
-                {{-- <table id="my-table" class="table-main">
-                    <thead class="thead-main">
-                        <tr class="tr-main">
-                            <th class="text-center">No</th>
-                            <th>Nama Kategori</th>
-                            <th class="text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody-main"></tbody>
-                </table> --}}
             </div>
         </div>
 

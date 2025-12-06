@@ -39,10 +39,6 @@
                         <span class="text-xs text-gray-400">Kemarin</span>
                     </li>
                 </ul>
-
-                {{-- <div class="text-center py-2 border-t border-gray-100">
-                    <a href="#" class="text-sm text-indigo-600 hover:underline">Lihat semua</a>
-                </div> --}}
             </div>
         </div>
 
@@ -122,15 +118,12 @@
         const lastReadAtStr = localStorage.getItem('last_notif_read_at');
         const lastReadAt = lastReadAtStr ? new Date(lastReadAtStr) : null;
 
-        // Ambil notifikasi dari localStorage cache (opsional) atau fetch baru?
-        // Kita akan fetch sekali saat halaman dimuat untuk cek titik
         fetch(`{{ url('/notifikasi-barang') }}`)
             .then(response => response.json())
             .then(notifs => {
                 let hasNew = false;
 
                 if (notifs.length > 0) {
-                    // Cek apakah ada notifikasi yang updated_at > lastReadAt
                     for (const item of notifs) {
                         const updatedAt = new Date(item.updated_at);
                         if (!lastReadAt || updatedAt > lastReadAt) {
@@ -148,12 +141,10 @@
             })
             .catch(err => {
                 console.error("Gagal cek notifikasi untuk titik:", err);
-                // Jika error, aman: sembunyikan titik
                 notifDot.classList.add('hidden');
             });
     }
 
-    // Tandai notifikasi sudah dibaca (simpan waktu sekarang)
     function markNotifAsRead() {
         const now = new Date().toISOString(); // format ISO: "2025-11-28T12:00:00.000Z"
         localStorage.setItem('last_notif_read_at', now);
@@ -172,10 +163,7 @@
         notifDropdown.classList.toggle('hidden');
 
         if (willOpen) {
-            // Tandai sebagai sudah dibaca → update localStorage & sembunyikan titik
             markNotifAsRead();
-
-            // Tampilkan loading
             notifList.innerHTML = `<li class="px-4 py-3 text-gray-500 text-sm">Memuat notifikasi...</li>`;
 
             try {

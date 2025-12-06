@@ -22,10 +22,8 @@ class BarangMasukController extends Controller
 
             $data = DataTables::of($query)
                 ->addIndexColumn()
-                // mapping order for jumlah & barang.nama_barang
                 ->orderColumn('jumlah', 'barang_masuk.jumlah $1')
                 ->orderColumn('nama_barang', 'barang.nama_barang $1')
-                // tambahkan mapping order untuk user_nama
                 ->orderColumn('user_nama', 'users.nama $1')
                 ->editColumn('masuk_id', function ($row) {
                     return $row->barang_id;
@@ -39,7 +37,6 @@ class BarangMasukController extends Controller
                     <img class="w-full h-full object-cover shadow-md rounded-md" src="' . $imgSrc . '" alt="' . ($row->nama_barang ?? '-') . '">
                     </div>';
                 })
-                // sekarang kita bisa tampilkan nama barang dari select alias
                 ->editColumn('barang_id', function ($row) {
                     return $row->nama_barang ?? ($row->barang->nama_barang ?? '-');
                 })
@@ -58,16 +55,13 @@ class BarangMasukController extends Controller
                 ->editColumn('tanggal', function ($row) {
                     return formatTanggal($row->tanggal);
                 })
-                // tampilkan kolom user dari alias user_nama
                 ->editColumn('user_id', function ($row) {
-                    // jika mau menampilkan nama user, gunakan alias user_nama (lebih aman untuk server-side)
                     return $row->user_nama ?? ($row->user->nama ?? '-');
                 })
                 ->editColumn('harga_jual', function ($row) {
                     return formatRupiah($row->harga_jual);
                 });
 
-            // ... bagian role & action tetap sama seperti sebelumnya ...
             if (role() === 'pemilik') {
                 $data->addColumn('action', function ($row) {
                     $btnEdit = '<div><a href="' . route('pemilik.barangmasuk.edit', $row->masuk_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
@@ -117,10 +111,6 @@ class BarangMasukController extends Controller
             'jumlah' => 'required|integer|min:1',
             'tanggal' => 'required|date',
         ]);
-
-        // $updateBarang = Barang::find($request->barang_id);
-        // $updateBarang->stok += $request->jumlah;
-        // $updateBarang->save();
 
         $user = Auth::user()->user_id;
         $simpan = BarangMasuk::create([

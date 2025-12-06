@@ -17,14 +17,6 @@
         @endif
         @csrf
         <div class="bg-white rounded-xl shadow-md overflow-hidden flex justify-center gap-2">
-            {{-- <div class="w-1/3 p-6 ">
-                <div class="w-2/3 mx-auto">
-                    <label for="gambar" class="block text-gray-700 font-semibold mb-2">Gambar</label>
-                    <img src="{{ asset('images/no-img.jpg') }}" alt="Gambar Barang"
-                        class="w-full mx-auto object-cover rounded-xl mb-4 shadow-md">
-                    <input type="file" name="gambar" id="gambar" class="form-input">
-                </div>
-            </div> --}}
             <div class="w-1/2 p-6 overflow-x-auto">
                 <div class="mb-4">
                     <label for="nama_barang" class="block text-gray-700 font-semibold mb-2">Nama Barang</label>
@@ -63,13 +55,6 @@
                         <option value="bekas sedang">Bekas Sedang</option>
                     </select>
                 </div>
-                {{-- <div class="mb-4">
-                    <label for="harga_jual" class="block text-gray-700 font-semibold mb-2">Harga Jual</label>
-                    <div class="flex items-center">
-                        <p class="form-rupiah">Rp.</p>
-                        <input type="number" id="harga_jual" name="harga_jual" class="form-input-harga" required />
-                    </div>
-                </div> --}}
                 <div class="mb-4">
                     <label for="stok" class="block text-gray-700 font-semibold mb-2">Jumlah Stok</label>
                     <input type="number" name="stok" id="stok" required class="form-input"

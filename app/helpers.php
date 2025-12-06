@@ -21,8 +21,6 @@ if (!function_exists('formatTanggalDanWaktu')) {
   }
 }
 
-
-
 if (!function_exists('formatRupiah')) {
   function formatRupiah($angka)
   {

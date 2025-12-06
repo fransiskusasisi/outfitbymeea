@@ -79,12 +79,3 @@
     </script>
     <script src="{{ asset('js/barang-masuk.js') }}"></script>
 @endpush
-
-{{-- Sembunyikan icon di halaman, tapi bisa diakses via JS --}}
-{{-- <div id="ok-icon-template" style="display: none;">
-    @include('icons.ok-icon')
-</div>
-
-<div id="batal-icon-template" style="display: none;">
-    @include('icons.batal-icon')
-</div> --}}

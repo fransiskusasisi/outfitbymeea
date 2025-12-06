@@ -28,13 +28,11 @@
                     <thead class="thead-main">
                         <tr class="tr-main">
                             <th class="text-center">No</th>
-                            {{-- <th>Gambar</th> --}}
                             <th>Nama Barang</th>
                             <th>Kode Barang</th>
                             <th>Kategori</th>
                             <th>Ukuran</th>
                             <th>Kondisi</th>
-                            {{-- <th>Harga Jual</th> --}}
                             <th>Stok</th>
                             @if (role() !== 'kasir')
                                 <th class="text-center">Aksi</th>

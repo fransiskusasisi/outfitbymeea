@@ -17,12 +17,12 @@ $(function () {
             orderable: false,
             searchable: false,
         },
-        { data: "barang_id", name: "barang.nama_barang" }, // jika ingin sort by nama barang
+        { data: "barang_id", name: "barang.nama_barang" }, 
         { data: "kode_barang", name: "barang.kode_barang" },
         { data: "harga_jual", name: "barang_masuk.harga_jual" },
         { data: "ukuran", name: "barang.ukuran" },
         { data: "kondisi", name: "barang.kondisi" },
-        { data: "jumlah", name: "barang_masuk.jumlah", orderable: true }, // <-- penting
+        { data: "jumlah", name: "barang_masuk.jumlah", orderable: true }, 
         { data: "tanggal", name: "barang_masuk.tanggal" },
         {
             data: "user_nama",

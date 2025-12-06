@@ -7,10 +7,6 @@ $(function () {
             orderable: false,
             searchable: false,
         },
-        // {
-        //     data: "gambar",
-        //     name: "gambar",
-        // },
         {
             data: "nama_barang",
             name: "nama_barang",
@@ -31,10 +27,6 @@ $(function () {
             data: "kondisi",
             name: "kondisi",
         },
-        // {
-        //     data: "harga_jual",
-        //     name: "harga_jual",
-        // },
         {
             data: "stok",
             name: "stok",

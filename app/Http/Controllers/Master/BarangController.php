@@ -36,7 +36,6 @@ class BarangController extends Controller
                     return ucwords($row->kondisi);
                 });
 
-
             if (role() === 'pemilik') {
                 $data->addColumn('action', function ($row) {
                     $btnEdit = '<div><a href="' . route('pemilik.barang.edit', $row->barang_id) . '" class="btn-kuning">' . iconEdit() . 'Edit</a></div>';
@@ -93,9 +92,7 @@ class BarangController extends Controller
             'kode_barang' => 'required|string|max:255',
             'kategori_id' => 'required|exists:kategori,kategori_id',
             'ukuran' => 'required|string|in:S,M,L,XL',
-            // 'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'kondisi' => 'required|in:bekas bagus,bekas sedang',
-            // 'harga_jual' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
         ]);
 
@@ -105,19 +102,8 @@ class BarangController extends Controller
             'kategori_id' => $request->kategori_id,
             'ukuran' => $request->ukuran,
             'kondisi' => $request->kondisi,
-            // 'harga_jual' => $request->harga_jual,
             'stok' => $request->stok,
         ]);
-
-        // if ($request->file('gambar')) {
-        //     $gambar = $request->file('gambar');
-        //     $namaGambar = $simpan->barang_id . '-' . $request->nama_barang . '-' . time() . '.' . $gambar->getClientOriginalExtension();
-        //     $gambar->storeAs('public/images/barang', $namaGambar);
-
-        //     $simpanGambar = Barang::findOrFail($simpan->barang_id);
-        //     $simpanGambar->gambar = $namaGambar;
-        //     $simpanGambar->save();
-        // }
 
         if ($simpan) {
             session()->flash('berhasil', 'Barang berhasil ditambahkan!');
@@ -130,7 +116,6 @@ class BarangController extends Controller
             return redirect()->back()->with('error', 'Gagal menambahkan barang!');
         }
     }
-
 
     /**
      * Display the specified resource.
@@ -165,15 +150,12 @@ class BarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         $request->validate([
             'nama_barang' => 'required|string|max:255',
             'kode_barang' => 'required|string|max:255',
             'kategori_id' => 'required|exists:kategori,kategori_id',
             'ukuran' => 'required|string|max:50',
-            // 'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'kondisi' => 'required|in:bekas bagus,bekas sedang',
-            // 'harga_jual' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
         ]);
 
@@ -184,20 +166,8 @@ class BarangController extends Controller
             'kategori_id' => $request->kategori_id,
             'ukuran' => $request->ukuran,
             'kondisi' => $request->kondisi,
-            // 'harga_jual' => $request->harga_jual,
             'stok' => $request->stok,
         ]);
-
-        // if ($request->hasFile('gambar')) {
-        //     if ($barang->gambar) {
-        //         Storage::delete('public/images/barang/' . $barang->gambar);
-        //     }
-        //     $gambar = $request->file('gambar');
-        //     $namaGambar = $barang->barang_id . '-' . $request->nama_barang . '-' . time() . '.' . $gambar->getClientOriginalExtension();
-        //     $gambar->storeAs('public/images/barang', $namaGambar);
-        //     $barang->gambar = $namaGambar;
-        //     $barang->save();
-        // }
 
         if ($update) {
             session()->flash('berhasil', 'Barang berhasil diperbarui!');
@@ -220,12 +190,7 @@ class BarangController extends Controller
     public function destroy($id)
     {
         $barang = Barang::findOrFail($id);
-
-        // if ($barang->gambar) {
-        //     Storage::delete('public/images/barang/' . $barang->gambar);
-        // }
         $hapus = $barang->delete();
-
         if ($hapus) {
             session()->flash('berhasil', 'Barang berhasil dihapus!');
             if (role() === 'pemilik') {
