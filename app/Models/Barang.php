@@ -33,6 +33,6 @@ class Barang extends Model
 
     public function latestKeluar()
     {
-        return $this->hasOne(barangKeluar::class, 'barang_id', 'barang_id')->latestOfMany('keluar_id');
+        return $this->hasOne(BarangKeluar::class, 'barang_id', 'barang_id')->latestOfMany('keluar_id');
     }
 }
