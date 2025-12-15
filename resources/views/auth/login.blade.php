@@ -42,7 +42,7 @@
         <!-- Logo -->
         <div class="flex justify-center mb-8">
             <div class="w-24 h-24 border-4 border-purple-600 flex items-center justify-center rounded-2xl shadow-lg bg-white overflow-hidden">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo Outfitbymee" class="object-contain w-full h-full">
+                <img src="{{ asset('images/Logo.png') }}" alt="Logo Outfitbymee" class="object-contain w-full h-full">
             </div>
         </div>
 
