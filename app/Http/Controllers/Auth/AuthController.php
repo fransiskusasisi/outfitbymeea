@@ -27,6 +27,12 @@ class AuthController extends Controller
             ->where('password', $request->password)
             ->first();
 
+        if (! $user) {
+            return back()->withErrors([
+                'login' => 'Username atau password salah'
+            ])->withInput();
+        }
+
         Auth::login($user);
 
         $today = Carbon::today();
